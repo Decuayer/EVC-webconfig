@@ -1,0 +1,27 @@
+{
+    "type": "interfacesSettings",
+    "data": {
+        "Cellular": {
+            "type": "Cellular",
+            "enable": false
+        },
+        "Ethernet": {
+            "type": "Ethernet",
+            "enable": true,
+            "IPSetting": "Static",
+            "IPAddress": "192.168.0.10",
+            "NetworkMask": "255.255.255.0",
+            "Gateway": "192.168.0.1",
+            "PrimaryDNS": "8.8.8.8",
+            "SecondaryDNS": "8.8.8.8"
+        },
+        "Wifi": {
+            "type": "Wifi",
+            "enable": false
+        },
+        "Vpn": {
+            "type": "Vpn",
+            "enable": false
+        }
+    }
+}

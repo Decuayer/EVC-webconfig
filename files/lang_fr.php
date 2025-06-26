@@ -1,0 +1,531 @@
+<?php
+include_once "access_control.php";
+define("_LOGIN", "SE CONNECTER");
+define("_USERNAME", "Nom d&#39utilisateur:");
+define("_PASSWORD", "Mot de passe:");
+define("_CHANGEPASSWORD", "Changer de Mot de Passe");
+define("_CURRENTPASSWORD", "Mot de passe actuel :");
+define("_NEWPASSWORD", "Nouveau mot de passe:");
+define("_CONFIRMNEWPASSWORD", "Confirmer le nouveau mot de passe:");
+define("_SUBMIT", "Soumettre");
+define("_CURRENTPASSWORDREQUIRED", "Votre mot de passe est obligatoire.");
+define("_PASSWORDREQUIRED", "Mot de passe requis");
+define("_USERNAMEREQUIRED", "Le nom d&#39utilisateur est nécessaire");
+define("_USERAUTHFAILED", "L&#39authentification d&#39utilisateur a échoué !");
+define("_USERNAMEORCURRENTPASSWORDWRONG", "Le nom d&#39utilisateur ou le mot de passe actuel est erroné !");
+define("_DBACCESSFAILURE", "Impossibilité d&#39accéder à la base de données !");
+define("_CHANGEPASSWORDERROR", "Vous devez d&#39abord changer votre mot de passe !");
+define("_SAMEPASSWORDERROR", "Le mot de passe actuel et le nouveau mot de passe doivent être différents l&#39un de l&#39autre !");
+define("_PASSWORDMATCHERROR", "Les mots de passe ne correspondent pas !");
+define("_CURRENTPASSWORDWRONG", "Le mot de passe actuel est incorrect !");
+define("_PASSWORDERRORLEVEL2", "Le mot de passe n&#39est pas valide, la longueur des caractères doit être de 20 et contenir au moins deux lettres [A-Za-z], deux chiffres [0-9] et deux caractères spéciaux [!%&/()=?*#+-_]");
+define("_PASSWORDERRORLEVEL3", "Le mot de passe n&#39est pas valide, la longueur des caractères doit être d&#39au moins 12, maximum 32 caractères et contenir au moins deux minuscules [a-z] et deux lettres majuscules [A-Z], deux chiffres [0-9] et au moins deux caractères spéciaux [!%&/()=?*#+-_].");
+define("_MAINPAGE", "Page d&#39accueil");
+define("_GENERAL", "Paramètres Généraux");
+define("_OCPPSETTINGS", "Paramètres OCPP");
+define("_NETWORKINTERFACES", "Interface Réseau");
+define("_LOGINLOCKOUT", "Trop de tentatives échouées. Veuillez essayer après 1800 secondes.");
+
+define("_OCPPCONNINTERFACE", "Interface de connexion OCPP : ");
+define("_CONNECTIONSTATE", "État de la Connexion : ");
+define("_DISCONNECTED", "Déconnecté");
+define("_NEEDTOLOGINFIRST", "Vous devez vous connecter !");
+define("_CONNECTED", "Connecté");
+define("_CPSERIALNUMBER", "Numéro de série CP  : ");
+define("_HMISOFTWAREVERSION", "Version du logiciel HMI : ");
+define("_OCPPSOFTWAREVERSION", "Version du logiciel OCPP : ");
+define("_POWERBOARDSOFTWAREVERSION", "Version du logiciel de la carte d&#39alimentation  : ");
+define("_OCPPDEVICEID", "ID de l&#39appareil OCPP  : ");
+define("_DURATIONAFTERPOWERON", "Durée après mise sous tension  : ");
+define("_LOGOUT", "Déconnecter");
+define("_PRESET", "Préréglages:");
+
+define("_OCPPCONNECTION", "Connexion OCPP");
+define("_ENABLED", "Activé");
+define("_DISABLED", "Désactivé");
+define("_CONNECTIONSETTINGS", "Paramètres de connexion");
+define("_CENTRALSYSTEMADDRESS", "Adresse du système central ");
+define("_CHARGEPOINTID", "Point de charge ID ");
+define("_OCPPVERSION", "Version OCPP");
+define("_SAVE", "Enregistrer");
+define("_SAVESUCCESSFUL", "Paramètres sauvegardés avec succès.");
+define("_CENTRALSYSTEMADDRESSERROR", "L&#39adresse du système central est requise!");
+define("_CHARGEPOINTIDERROR", "L&#39identifiant du point de charge est requis!");
+define("_SECONDS", "Secondes :");
+define("_ADD", "Ajouter");
+define("_REMOVE", "Supprimer");
+define("_SAVECAPITAL", "ENREGISTRER");
+define("_CANCEL", "Annuler");
+
+define("_CELLULAR", "Cellulaire");
+define("_INTERFACEIPADDRESS", "Adresse IP de l&#39interface: ");
+define("_ICCID", "ICCID: ");
+define("_IMSI", "IMSI: ");
+define("_IMEI", "IMEI: ");
+define("_APNNAME", "Nom de l&#39APN: ");
+define("_APNUSERNAME", "L’utilisateur de l’APN: ");
+define("_APNPASSWORD", "Mot de passe de l’APN: ");
+define("_IPSETTING", "Réglage IP: ");
+define("_IPADDRESS", "Adresse IP: ");
+define("_NETWORKMASK", "Masque réseau: ");
+define("_DEFAULTGATEWAY", "Passerelle par défaut: ");
+define("_PRIMARYDNS", "DNS primaire: ");
+define("_SECONDARYDNS", "DNS secondaire: ");
+define("_WIFI", "WLAN");
+define("_SECURITY", "Sécurité: ");
+define("_SECURITYTYPE", "Sélectionnez le type de sécurité");
+define("_NONE", "Aucun");
+define("_SELECTMODE", "Veuillez sélectionner le mode!");
+define("_RFIDLOCALLIST", "Liste locale RFID");
+define("_ACCEPTALLRFIDS", "Acceptez tous les RFID");
+define("_MANAGERFIDLOCALLIST", "Gérez la liste locale RFID:");
+define("_AUTOSTART", "Démarrage Automatique");
+define("_PROCESSING", "Traitement en cours... Veuillez patienter...");
+define("_MACADDRESS", "Adresse MAC: ");
+define("_WIFIHOTSPOT", "Borne wifi");
+define("_TURNONDURINGBOOT", "Allumez pendant le démarrage: ");
+define("_AUTOTURNOFFTIMEOUT", "Délai d&#39extinction automatique: ");
+define("_AUTOTURNOFF", "Arrêt automatique: ");
+define("_HOTSPOTALERTMESSAGE", "Les modifications apportées aux paramètres du point d&#39accès prendront effet à la prochaine mise sous tension de l&#39appareil. ");
+define("_HOTSPOTREBOOTMESSAGE", "Voulez-vous redémarrer maintenant ? ");
+
+define("_DOWNLOADACLOGS", "Téléchargez les journaux AC");
+define("_DOWNLOADCELLULARLOGS", "Téléchargez les journaux du module cellulaire");
+define("_DOWNLOADPOWERBOARDLOGS", "Téléchargez les journaux de la carte d&#39alimentation");
+define("_PASSWORDRESETSUCCESSFUL", "Votre mot de passe a été réinitialisé avec succès.");
+define("_DBOPENEDSUCCESSFULLY", "Base de données ouverte avec succès\n");
+define("_WSSCERTSSETTINGS", "Paramètres des Certificats WSS ");
+define("_CONFKEYS", "Clés de configuration");
+define("_KEY", "Cle");
+define("_STATIC", "Statique");
+define("_TIMEZONE", "Fuseau horaire");
+define("_PLEASESELECTTIMEZONE", "Veuillez sélectionner un fuseau horaire");
+define("_DISPLAYSETTINGS", "Paramètres d&#39affichage");
+define("_DISPLAYLANGUAGE", "Langue d&#39affichage");
+define("_BACKLIGHTDIMMING", "Graduation du rétro éclairage : ");
+define("_PLEASESELECT", "Veuillez sélectionner");
+define("_TIMEBASED", "Basé sur le temps");
+define("_SENSORBASED", "Basé sur un capteur");
+define("_BACKLIGHTDIMMINGLEVEL", "Niveau de graduation du rétro éclairage : ");
+define("_BACKLIGHTTHRESHOLD", "Seuil de rétro-éclairage  : ");
+define("_SETMIDTHRESHOLD", "SetMidThreshold");
+define("_SETHIGHTHRESHOLD", "SetHighThresold");
+define("_LOCALLOADMANAGEMENT", "Gestion de la Charge Locale");
+define("_MINIMUMCURRENT", "Courant minimum: ");
+define("_FIFOPERCENTAGE", "Pourcentage FIFO : ");
+define("_GRIDMAXCURRENT", "Courant maximal du réseau : ");
+define("_MASTERIPADDRESS", "Adresse IP du Maitre : ");
+define("_BACKLIGHTTIMESETTINGS", "Paramètres de l&#39heure du rétro éclairage: ");
+define("_SHOULDSELECTTIMEZONE", "* Vous devez sélectionner le fuseau horaire !");
+define("_MINIMUMCURRENTREQUIRED", "* Un courant minimum est requis !");
+define("_CURRENTMUSTBENUMERIC", "* Le courant doit être numérique !");
+define("_FIFOPERCREQUIRED", "* Le pourcentage FIFO est requis !");
+define("_FIFOPERCSHOULDBETWEEN", "* Le pourcentage de FIFO doit être compris entre 0 et 100 !");
+define("_PERCMUSTBENUMERIC", "* Le pourcentage doit être numérique !");
+define("_GRIDMAXCURRENTREQUIRED", "* Un courant maximum du réseau est requis !");
+define("_GRIDCURRENTMUSTBENUMERIC", "* Le courant du réseau doit être numérique !");
+define("_IPADDRESSOFMASTERREQUIRED", "* L&#39adresse IP du maître est requise !");
+define("_INVALIDIPADDRESS", "* Vous avez entré une adresse IP invalide !");
+define("_SAMENETWORKLAN", "* Vous avez entré une adresse IP dans le même réseau avec LAN !");
+define("_SAMENETWORKWLAN", "* Vous avez entré une adresse IP dans le même réseau avec WLAN !");
+define("_APNISREQUIRED", "L&#39APN est nécessaire !");
+define("_IPADDRESSREQUIRED", "Adresse IP requise !");
+define("_NETWORKMASKREQUIRED", "Un masque de réseau est requis !");
+define("_INVALIDNETWORKMASK", "* Vous avez entré un masque de réseau invalide !");
+define("_DEFAULTGATEWAYREQUIRED", "La passerelle par défaut est requise !");
+define("_INVALIDGATEWAY", "Vous avez entré une passerelle par défaut non valide !");
+define("_PRIMARYDNSREQUIRED", "Le DNS primaire est requis !");
+define("_INVALIDDNS", "Vous avez saisi une DNS non valide !");
+define("_SELECTIPSETTING", "Sélectionnez le paramètre IP");
+define("_SSIDREQUIRED", "Le SSID est nécessaire !");
+define("_PASSWORDISREQUIRED", "Mot de passe requis !");
+define("_SELECTSECURITYTYPE", "Veuillez sélectionner le type de sécurité");
+define("_WIFIPASSWORDERROR", "Le mot de passe n&#39est pas valide, la longueur des caractères doit être un minimum de 8 et un maximum de 63 <br> caractères valides a..z A..Z 0..9 .,:;!#^+$%&/(){[]}=*?-_@<>|");
+define("_WIFIHOTSPOTPASSWORDERRORLEVEL2", "&#8226; Le mot de passe n&#39est pas valide, la longueur des caractères doit être de 20,<br>&#8226; Le mot de passe doit contenir au moins deux lettres [A-Za-z],<br>&#8226; Le mot de passe doit contenir au moins deux chiffres [0-9],<br>&#8226; Le mot de passe doit contenir au moins deux caractères spéciaux [!%&/()=?*#+-_]");
+define("_WIFIHOTSPOTPASSWORDERRORLEVEL3", "&#8226; Le mot de passe n&#39est pas valide, la longueur des caractères doit être d&#39au moins 12, maximum 32,<br>&#8226; Le mot de passe doit contenir au moins deux lettres minuscules [a-z], <br>&#8226; Le mot de passe doit contenir au moins deux lettres majuscules [A-Z], <br>&#8226; Le mot de passe doit contenir au moins deux chiffres [0-9],<br>&#8226; Le mot de passe doit contenir au moins deux caractères spéciaux [!%&/()=?*#+-_]");
+
+define("_WIFISSIDERROR", "SSID est invalide, caractères valides a..z A..Z 0..9 .,:;!#^+$%&/(){[]}=*?-_@<>|");
+define("_HOSTIPREQUIRED", "* L&#39adresse IP de l&#39hôte est requise !");
+define("_CERTMANREQUIRED", "* La gestion de la certification est requise !");
+define("_OCPPENABLEALERT", "Si vous souhaitez utiliser votre station de recharge en mode autonome, <br>vous devez d&#39abord désactiver la connexion OCPP<br> dans le menu des paramètres OCPP.");
+define("_NOTSAVEDALERT", "La page n&#39a pas été enregistrée.");
+define("_SAVEQUESTION", "Souhaitez-vous enregistrer les changements ?");
+define("_OKBUTTON", "OK");
+define("_LTECONNECTIONCONFIRM", "La connexion cellulaire sera désactivée. Confirmez-vous?");
+define("_WIFICONNECTIONCONFIRM", "La connexion Wi-Fi sera désactivée. Confirmez-vous?");
+define("_DHCPSERVERCONNECTIONCONFIRM", "Si vous souhaitez activer le serveur DHCP LAN,<br>vous devez d&#39abord désactiver le point d&#39accès Wi-Fi<br>à partir de point d&#39accès Wi-Fi.");
+define("_WIFIHOTSPOTCONNECTIONCONFIRM", "Si vous souhaitez activer le point d&#39accès Wi-Fi,<br>vous devez d&#39abord désactiver le serveur DHCP LAN<br>à partir de Paramètre IP LAN.");
+
+define("_DYNAMIC", "Dynamique");
+define("_DIAGNOSTICS", "Diagnostic");
+define("_LOCALLOAD", "Gestion de la Charge Locale");
+define("_DOWNLOAD", "Télécharger");
+define("_STARTDATE", "Date de Début");
+define("_ENDDATE", "Date de Fin");
+define("_CLEAREVENTLOGS", "Effacer tous les journaux d&#39événements");
+define("_CLEAREVENTLOGSINFO", "Cela effacera tous les journaux d&#39événements !");
+define("_DOWNLOADEVENTLOGSINFO", "Téléchargez les journaux d&#39événements des appareils pour une période maximale de 5 jours");
+define("_DEVICEEVENTLOGS", "Journaux d&#39événements des appareils");
+define("_DEVICECHANGELOGS", "Journaux des changements des appareils");
+define("_LOGSDATEERROR", "Veuillez sélectionner des dates pour une période maximale de 5 jours.");
+define("_DOWNLOACHANGELOGS", "Télécharger les journaux des changements des appareils");
+define("_VPNFUNCTIONALITY", "Fonctionnalité VPN : ");
+define("_CERTMANAGEMENT", "Gestion de la Certification: ");
+define("_NAME", "Nom: ");
+define("_CONNECTIONINTERFACE", "Interface de connexion");
+define("_ANY", "Pas de restriction de");
+define("_OCPPCONNPARAMETERS", "Paramètres de configuration de l&#39OCPP");
+define("_SETDEFAULT", "Rétablir les valeurs par défaut ");
+define("_STANDALONEMODE", "Mode Autonome");
+define("_STANDALONEMODETITLE", "Mode Autonome");
+define("_STANDALONEMODENOTSELECTED", "* Le mode autonome ne peut pas être sélectionné car l&#39OCPP est activé.");
+define("_CHARGERWEBUI", "Interface utilisateur Web du chargeur");
+define("_SYSTEMMAINTENANCE", "Entretien du Système");
+define("_HOSTIP", "IP hôte: ");
+define("_PASSWORDERRORLEVEL1", "Le mot de passe n&#39est pas valide, la longueur des caractères doit être d&#39au moins 6 caractères et contenir au moins 1 lettre minuscule, 1 lettre majuscule et 1 caractère numérique !");
+define("_SELECTBACKLIGHTDIMMING", "* Vous devez sélectionner la gradation du rétro éclairage !");
+define("_ISREQUIRED", "est requis(e) !");
+define("_ISNOTVALID", "n&#39est pas valide !");
+define("_ISDUPLICATED", "est dupliqué!");
+define("_MUSTBENUMERIC", "doit être numérique !");
+define("_VPNFUNCTIONALITYREQUIRED", "* La fonctionnalité VPN est requise !");
+define("_VPNNAMEREQUIRED", "* Le nom Vpn est obligatoire !");
+define("_VPNPASSWORDREQUIRED", "* Le mot de passe Vpn est obligatoire !");
+define("_EXPLANATION", "Indiquez les champs requis.");
+define("_FIRMWAREUPDATE", "Mises à jour du micrologiciel");
+define("_BACKUPRESTORE", "Sauvegarde et restauration de la configuration");
+define("_SYSTEMRESET", "Réinitialisation du système");
+define("_CHANGEADMINPASSWORD", "Mot de passe administrateur");
+define("_FACTORYRESET", "Restaurer les paramètres d&#39usine");
+define("_FACTORYRESETBUTTON", "Réinitialisation aux paramètres d’usine");
+define("_FACTORYDEFAULTCONFIGURATION", "Configuration d&#39usine par défaut");
+define("_LOGFILES", "Fichiers journaux");
+define("_BACKUPFILE", "Fichier de Sauvegarde");
+define("_RESTOREFILE", "Restaurer le fichier de configuration");
+define("_FREEMODEMAXCHARACTER", "doit comporter au maximum 32 caractères");
+define("_RESTOREMESSAGE", "Confirmez-vous d&#39appliquer les modifications et de redémarrer maintenant ?");
+
+define("_TURKISH", "Türkçe");
+define("_ROMANIAN", "Română");
+define("_ENGLISH", "English");
+define("_GERMAN", "Deutsch");
+define("_FRENCH", "Français");
+define("_SPANISH", "Español");
+define("_ITALIAN", "Italiano");
+define("_FINNISH", "Suomi");
+define("_NORWEGIAN", "Norsk");
+define("_SWEDISH", "Svenska");
+define("_DUTCH", "Nederlands");
+define("_HEBREW", "עב&#39ת");
+define("_DANISH", "Dansk");
+define("_CZECH", "Čeština");
+define("_POLISH", "Polski");
+define("_HUNGARIAN", "Magyar");
+define("_SLOVAK", "Slovák");
+define("_BULGARIAN", "български");
+define("_GREEK", "Ελληνικά");
+define("_MONTENEGRIN", "црногорски");
+define("_BOSNIAN", "босански");
+define("_SERBIAN", "Srpski Jezik");
+define("_CROATIAN", "Hrvatski");
+
+define("_PASSWORDTYPEEXPLANATION", "Votre mot de passe doit comporter 6 caractères et contenir au moins
+une lettre majuscule, une lettre minuscule, un chiffre.");
+define("_PASSWORDTYPEEXPLANATIONLEVEL2", "Votre mot de passe doit comporter 20 caractères et contenir au moins deux lettres,
+deux chiffres et deux caractères spéciaux.");
+define("_PASSWORDTYPEEXPLANATIONLEVEL3", "Votre mot de passe doit comporter au minimum 12 caractères et au maximum 32 caractères
+et il doit contenir au moins deux lettres majuscules, deux lettres minuscules, deux chiffres et deux caractères spéciaux.");
+
+define("_BACKTOLOGIN", "Revenir à la connexion");
+define("_CHANGE", "Changer");
+define("_SYSTEMADMINISTRATION", "Gestion du système");
+define("_UPDATE", "Actualiser");
+define("_CONFIRM", "Confirmer");
+define("_FACTORYDEFAULTCONFIRM", "Êtes-vous sûr de rétablir les paramètres d&#39usine par défaut ?");
+define("_FILENAME", "Nom de fichier");
+define("_UPLOAD", "Télécharger");
+define("_SELECTFIRMWARE", "Sélectionnez le fichier de mise à jour du micrologiciel à partir du PC");
+define("_FIRMWAREFILESIZE", "Veuillez vérifier la taille du fichier du micrologiciel.");
+define("_FIRMWAREFILETYPE", "Veuillez vérifier le type de fichier du micrologiciel.");
+
+define("_LESSTHANOREQUAL4", "doit être compris entre 1 et 4");
+define("_LESSTHANOREQUAL20", "doit être inférieure ou égale à 20");
+define("_LESSTHANOREQUAL65000", "doit être inférieure ou égale à 65000");
+define("_LESSTHANOREQUAL300", "doit être inférieure ou égale à 300");
+define("_LESSTHANOREQUAL86500", "doit être inférieure ou égale à 86500");
+define("_LESSTHANOREQUAL10000", "doit être inférieure ou égale à 10000");
+define("_LESSTHANOREQUAL22", "doit être inférieure ou égale à 22");
+define("_LESSTHANOREQUAL10", "doit être inférieure ou égale à 10");
+define("_LESSTHANOREQUAL600", "doit être inférieure ou égale à 600");
+define("_LESSTHANOREQUAL120", "doit être inférieure ou égale à 120");
+define("_HIGHTHANOREQUAL0", "doit être supérieur ou égal à 0");
+define("_CHANGEPASSWORDSUGGESTION", "Il est recommandé de changer votre mot de passe par défaut dans le menu de maintenance du système");
+
+define("_FILESIZE", "Veuillez vérifier la taille du fichier.");
+define("_FILETYPE", "Veuillez vérifier le type de fichier.");
+
+define("_BACKUPVERSIONCHECK", "La version de ce fichier n&#39est pas adaptée à l&#39appareil.");
+define("_HARDRESETCONFIRM", "Êtes-vous sûr de vouloir réinitialiser le materiel ?");
+define("_SOFTRESETCONFIRM", "Êtes-vous sûr de vouloir réinitialiser le logiciel ?");
+define("_NEWSETUP", "Veuillez utiliser le manuel de l&#39utilisateur pour la nouvelle configuration");
+
+define("_LOADMANAGEMENT", "Gestion de charge");
+define("_CPROLE", "Rôle de point de charge");
+define("_GRIDSETTINGS", "Paramètres de la grille");
+define("_LOADMANAGEMENTMODE", "Mode de gestion de la charge");
+define("_LOADMANAGEMENTGROUP", "Groupe de gestion de la charge");
+define("_LOADMANAGEMENTOPTION", "Option de gestion de charge");
+define("_ALARMS", "Alarmes");
+
+define("_LOGOSETTINGS", "Paramètres du logo");
+define("_USELOGO", "Sélectionnez le fichier de logo");
+define("_LOGOTYPE", "Veuillez sélectionner un logo au format png.");
+define("_LOGODIMENSION", "La taille maximale autorisée du logo est de 80 x 80, <br> veuillez sélectionner un logo avec la taille appropriée.");
+
+define("_SERVICECONTACTINFO", "Afficher les informations de contact du service");
+define("_SERVICECONTACTINFOCHARACTER", "Les informations de contact du service d&#39affichage doivent comporter au maximum 25 caractères!<br>Caractères valides a..z 0..9 .+@*");
+
+define("_SCREENTHEME", "Thème de l&#39écran");
+define("_DARKBLUE", "Bleu Foncé");
+define("_ORANGE", "Orange");
+define("_PLEASEENTERRFIDLOCALLIST", "Veuillez entrer la liste locale RFID!");
+
+define("_MASTER", "Capitaine");
+define("_SLAVE", "Esclave");
+define("_TOTALCURRENTLIMIT", "Limite de courant total par phase");
+define("_SUPPLYTYPE", "Type d&#39alimentation");
+define("_FIFOPERCANTAGE", "FIFO Percentage");
+define("_TIC", "TIC");
+define("_EQUALLYSHARED", "Partagé équitablement");
+define("_COMBINED", "Combinées");
+define("_TOTALCURRENTLIMITERROR", "La limite de courant totale par phase est requise!");
+define("_LESSTHAN1024", "doit être inférieur à 1024");
+define("_ATLEAST0","doit être au moins 0");
+define("_MORETHAN12", "doit être supérieur à 12");
+define("_CHOOSEONE", "Choisissez une");
+define("_SLAVEMINCHCURRENT", "Réglage du courant de charge à sécurité intégrée hors ligne");
+define("_SERIALNO", "Numéro de série");
+define("_CONNECTORSTATE", "État du connecteur");
+define("_NUMBEROFPHASES", "Nombres de phases");
+define("_PHASECONSEQUENCE", "Connexion des phases en séquence");
+define("_VIP", "Charge VIP");
+define("_CPMODE", "CP Mode");
+define("_VIPERROR", "La charge VIP est requise");
+define("_PHASECONSEQUENCEERROR", "La connexion des phases en séquence est requise!");
+define("_CPMODEERROR", "Le mode CP est requis!");
+define("_SUPPORTEDCURRENT", "Courant pris en charge");
+define("_INSTANTCURPERPHASE", "Phase de courant instantané");
+define("_FIFOCHARGINGPERCENTAGE", "Pourcentage de charge FIFO");
+define("_MINIMUMCURRENT1P", "Courant de charge minimum monophasé");
+define("_MINIMUMCURRENT3P", "Courant de charge minimum triphasé");
+define("_MAXIMUMCURRENT", "Courant de charge maximum");
+define("_STEP", "Étape");
+define("_UPDATEDLMGROUP", "Mise à jour du groupe DLM");
+define("_MAINCIRCUITCURRENT", "Courant maximum du réseau");
+define("_MAINCIRCUITCURRENTERROR", "Le courant de réseau maximum est requis !");
+define("_DLMMAXCURRENT", "Limite de courant total DLM par phase");
+define("_DLMMAXCURRENTERROR", "La limite de courant total DLM par phase est requise !");
+define("_DLMMAXCURRENTMORETHANMAIN", "La limite de courant total du DLM doit être supérieure à la moitié du courant du disjoncteur principal");
+define("_DLMMAXCURRENTLESSTHANMAIN", "La limite de courant total du DLM doit être inférieure au courant du disjoncteur principal");
+
+define("_DHCPSERVER", "Serveur DHCP");
+define("_DHCPCLIENT", "Client DHCP");
+
+define("_MAXDHCPADDRRANGE", "Adresse IP de fin du serveur DHCP");
+define("_MINDHCPADDRRANGE", "Adresse IP de démarrage du serveur DHCP");
+
+define("_MAXDHCPADDRRANGEERROR", "L&#39adresse IP de fin du serveur DHCP est requise!");
+define("_MINDHCPADDRRANGEERROR", "L&#39adresse IP de démarrage du serveur DHCP est requise!");
+define("_DIFFERENCEBETWEENMAXANDMINADDRRANGE", "L&#39adresse IP de fin du serveur DHCP doit être supérieure à l&#39adresse IP de début du serveur DHCP");
+define("_IPADDRESSRANGE", "L&#39adresse IP ne peut pas prendre une valeur entre les adresses IP de début et de fin du serveur DHCP");
+
+define("_CELLULARGATEWAY", "Passerelle Cellulaire");
+define("_INVALIDSUBNET", "L&#39adresse IP n&#39est pas dans le vrai sous-réseau");
+
+define("_INSTALLATIONSETTINGS", "Paramètres d&#39installation");
+define("_EARTHINGSYSTEM", "Prise de terre");
+define("_CURRENTLIMITERSETTINGS", "Paramètres du limiteur de courant");
+define("_CURRENTLIMITERPHASE", "Phase du limiteur de courant");
+define("_CURRENTLIMITERVALUE", "Valeur du limiteur de courant");
+define("_UNBALANCEDLOADDETECTION", "Détection de charge déséquilibrée");
+define("_EXTERNALENABLEINPUT", "Activation externe de l&#39entrée");
+define("_LOCKABLECABLE", "Câble verrouillable");
+define("_POWEROPTIMIZERTOTALCURRENTLIMIT", "Limite de courant totale de l&#39optimiseur de puissance");
+define("_POWEROPTIMIZER", "Optimiseur de puissance");
+define("_TNORTT", "TN/TT");
+define("_SPLITPHASE", "IT/Split Phase");
+define("_ONEPHASE", "Monophasé");
+define("_THREEPHASE", "Triphasé");
+define("_POWEROPTIMIZERTOTALCURRENTLIMITMORETHANOREQUAL16", "La limite de courant totale <br> de l&#39optimiseur de puissance <br> doit être supérieure ou égal <br> à 16");
+define("_POWEROPTIMIZERTOTALCURRENTLIMITLESSTHANOREQUAL100", "La limite de courant totale <br> de l&#39optimiseur de puissance <br> doit être inférieure ou égale <br> à 100");
+define("_FOLLOWTHESUN", "Suis le soleil");
+define("_FOLLOWTHESUNMODE", "Suivez le mode soleil");
+define("_AUTOPHASESWITCHING", "Commutation de phase automatique");
+define("_MAXHYBRID", "Hybride maximum");
+define("_SUNONLY", "Soleil seulement");
+define("_SUNHYBRID", "Hybride solaire");
+
+define("_DISPLAYBACKLIGHTSETTINGS", "Affiche les paramètres du rétroéclairage");
+define("_BACKLIGHTLEVEL", "Niveau de rétroéclairage");
+define("_SUNRISETIME", "Lever du soleil ");
+define("_SUNSETTIME", "Coucher du soleil");
+
+define("_HIGH", "Élevé");
+define("_MID", "Moyen");
+define("_LOW", "Faible");
+define("_CONNECTIONSTATUS", "État de la connexion");
+
+define("_A", " (A)");
+
+define("_CURRENTLIMITERVALUELESSTHAN8", "* Lorsque EVReadySupport est activé et que la phase limite de courant est une phase, la valeur limite de courant ne peut pas être inférieure à 8 !");
+define("_CURRENTLIMITERVALUELESSTHAN14", "* Lorsque EVReadySupport est activé et que la phase limite de courant est triphasée, la valeur limite de courant ne peut pas être inférieure à 14 !");
+define("_LEDDIMMINGSETTINGS", "Paramètres de gradation des Led");
+define("_LEDDIMMINGLEVEL", "Niveau de gradation Led");
+define("_VERYLOW", "Très Faible");
+define("_WARNINGFORLTEENABLED", "Le mode de réglage IP de l&#39interface LAN sera défini comme statique et le serveur DHCP sera activé.");
+define("_WARNINGFORLTEDISABLED", "Le mode de paramétrage IP de l&#39interface LAN sera défini comme Client DHCP et le serveur DHCP sera désactivé.");
+define("_ACCEPTQUESTION", "Acceptez-vous les changements?");
+
+define("_CELLULARGATEWAYCONFIRM", "La passerelle cellulaire sera désactivée.");
+
+define("_ETHERNETIP", "IP de l&#39interface ethernet :");
+define("_WLANIP", "IP de l&#39interface réseau sans fil :");
+define("_STRENGTH", "Force");
+define("_WIFIFREQ", "Fréquence");
+define("_WIFILEVEL", "Niveau");
+define("_CELLULARIP", "IP de l&#39interface cellulaire :");
+define("_CELLULAROPERCODE" , "Opérateur");
+define("_CELLULARTECH" , "Technologie");
+define("_SCANNETWORKS" , "Scanner les réseaux");
+define("_AVAILABLENETWORKS" , "Réseaux disponibles");
+define("_NETWORKSTATUS" , "Statut du réseau");
+define("_PLEASEWAITMSG" , "Veuillez patienter...");
+define("_SCANNINGWIFIMSG" , "Scan des réseaux Wi-Fi");
+define("_NOWIFIFOUNDMSG" , "Aucun réseau Wi-Fi trouvé");
+define("_PLEASECHECKWIFICONNMSG" , "Veuillez vérifier votre connexion Wi-Fi et réessayez.");
+
+define("_APPLICATIONRESTART", "Cette modification nécessite le redémarrage de l&#39application.");
+
+define("_QRCODE", "Code QR d&#39affichage");
+define("_QRCODEONSCREEN", "Code QR à l&#39écran");
+define("_QRCODEDELIMITER", "Délimiteur de code QR");
+define("_INVALIDDELIMITERCHARACTER", "Le délimiteur de code QR est invalide, le caractère d#39&espacement n#39&est pas acceptable, la longueur des caractères doit être un minimum de 1 et un maximum de 3, caractères valides 0..9 .,:;!#^+$%&/(){[]}=*?-_@<>|");
+
+define("_LOCATION", "Emplacement");
+define("_INDOOR", "Intérieur");
+define("_OUTDOOR", "Extérieur");
+define("_POWEROPTIMIZEREXTERNALMETER", "Compteur Externe");
+define("_OPERATIONMODE", "Mode De Fonctionnement");
+define("_AUTOSELECTED", "Sélection automatique");
+define("_NOTSELECTED", "Non séléctionné");
+define("_CHARGINGMODESELECTIONANDPOWEROPTIMIZERCONF", "Sélection Du Mode de Charge et Configuration de l&#39optimiseur de Puissance");
+
+define("_USERINTERACTION", "Interaction de l&#39utilisateur");
+define("_STANDBYLEDBEHAVIOUR", "Comportement du voyant de veille");
+define("_OFF", "Désactivé");
+define("_ON", "Sur");
+
+define("_LOADSHEDDINGMINIMUMCURRENT", "Courant minimum de délestage");
+define("_UNBALANCEDLOADDETECTIONMAXCURRENT", "Courant maximum de détection de charge déséquilibrée");
+
+define("_SCHEDULEDCHARGING", "Recharge programmée");
+define("_OFFPEAKCHARGING", "Charge hors pointe");
+define("_OFFPEAKCHARGINGWEEKENDS", "Week-ends de recharge hors pointe");
+define("_OFFPEAKCHARGINGPERIODS", "Périodes de charge hors pointe");
+define("_CONTINUECHARGINGENDPEAKINTERVAL", "Continuer la charge après la fin de l&#39intervalle de pointe");
+define("_CONTINUECHARGINGWITHOUTREAUTHAFTERPOWERLOSS", " Continuer la charge sans réauthentification après une perte de courant");
+define("_RANDOMISEDDELAYMAXIMUMDURATION", "Délai <br> aléatoire Durée maximale (secondes)");
+
+define("_RANDOMISEDDELAYMAXIMUMDURATIONERROR", "* La durée maximale du délai aléatoire est requise!");
+define("_RANDOMISEDDELAYMAXIMUMDURATIONBENUMERIC", "* La durée maximale du délai aléatoire doit être un nombre entier !");
+define("_RANDOMISEDDELAYMAXIMUMDURATIONLIMIT", "* La durée maximale du délai aléatoire doit être comprise entre 0 et 1800");
+define("_OFFPEAKCHARGINGPERIODSERROR", "* Des périodes de charge hors pointe sont requises !");
+define("_OFFPEAKCHARGINGPERIODSSAMETIMEERROR", "* L&#39heure de début et de fin de la charge hors pointe ne peut pas être la même !");
+define("_OFFPEAKCHARGINGSECONDTIMEPERIOD", "Deuxième période de charge hors pointe");
+define("_OFFPEAKDISABLEDCONFIRM", "La charge hors pointe sera désactivée. Confirmez-vous?");
+define("_SHOWSERVICECONTACTINFO", "Afficher les informations de contact du service supplémentaire");
+define("_EXTRASERVICECONTACTINFORMATION", "Les informations de contact du service sont affichées sur les écrans de connexion du câble de charge, de préparation de la charge, d&#39initialisation et d&#39attente de connexion");
+
+define("_LOADSHEDDINGSTATUS", "Statut de délestage: ");
+define("_ACTIVE", "Actif");
+define("_INACTIVE", "Inactif");
+define("_POWEROPTIMIZEREXTERNALMETERENABLEALERT", "Si vous souhaitez utiliser votre option de gestion de charge dans Modbus,<br>vous devez d&#39abord désactiver la limite de courant total de l&#39optimiseur de puissance<br>dans &#39Sélection du mode de charge et configuration de l&#39optimiseur de puissance&#39.");
+define("_MODBUSALERT", "Si vous souhaitez activer votre Power Optimizer External Meter,<br>vous devez d&#39abord désactiver Modbus<br>à partir de &#39Local Load Management&#39.");
+define("_POWEROPTIMIZERDLMENABLEALERT", "Si vous souhaitez utiliser votre option de gestion de charge en mode Maître/Esclave,<br>vous devez d&#39abord désactiver l&#39Optimiseur de puissance<br>dans &#39Sélection du mode de charge et configuration de l&#39optimiseur de puissance&#39.");
+define("_DLMALERT", "Si vous souhaitez activer votre Optimiseur de puissance,<br>vous devez d&#39abord désactiver Master/Slave<br>dans &#39Gestion locale de la charge&#39.");
+
+define("_FOLLOWTHESUNDLMENABLEALERT", "Si vous souhaitez utiliser votre option de gestion de charge en mode Maître/Esclave,<br>vous devez d&#39abord désactiver l&#39Suis le soleil<br>dans &#39Sélection du mode de charge et configuration de l&#39optimiseur de puissance&#39.");
+define("_DLMALERTFOLLOWTHESUN", "Si vous souhaitez activer Suis le soleil,<br>vous devez d&#39abord désactiver Master/Slave<br>dans &#39Gestion locale de la charge&#39.");
+
+define("_RESETUSERPASSWORD", "Réinitialiser le mot <br> de passe utilisateur");
+define("_INSTALLATIONERRORENABLEDCONFIRM", "Si vous souhaitez désactiver l&#39activation des erreurs d&#39installation,<br>vous devez d&#39abord définir le système de mise à la terre de &#39Paramètres d&#39installation&#39 sur IT/Split Phase.");
+define("_EARTHINGSYSTEMCONFIRM", "Si vous souhaitez définir le système de mise à la terre sur TN/TT,<br>vous devez d&#39abord activer l&#39activation de l&#39erreur d&#39installation à partir de &#39Paramètres OCPP&#39.");
+
+define("_AUTHKEYMAXLIMIT", "la longueur doit être de 40 caractères maximum.");
+define("_AUTHORIZATIONKEYEMPTYCONFIRM", "Le champ Authorization Key est vide.<br>Confirmez-vous les modifications?");
+
+define("_RANDOMISEDDELAYATOFFPEAKEND", "Délai aléatoire à la fin des heures creuses");
+define("_FIFO", "FIFO");
+define("_FAILSAFECURRENT", "Courant de sécurité");
+define("_FAILSAFECURRENTERROR", "Le courant de sécurité est requis !");
+define("_FAILSAFECURRENTLESSTHAN0", "** La valeur du courant de sécurité ne doit pas être inférieure à 0 !");
+define("_FAILSAFECURRENTMORETHAN32", "* La valeur du courant de sécurité ne doit pas être supérieure à 32 !");
+define("_FAILSAFECURRENTMORETHAN50", "* La valeur du courant de sécurité ne doit pas être supérieure à 50 !");
+
+define("_LOCALCHARGESESSION", "Sessions de facturation locale");
+define("_ROWNUMBER", "N° de ligne");
+define("_SESSIONUUID", "identifiant de facturation");
+define("_AUTHORIZATIONUID", "Code RFID");
+define("_STARTTIME", "Heure de début");
+define("_STOPTIME", "Heure de fin");
+define("_TOTALTIME", "Temps total");
+define("_STATUS", "Statut");
+define("_CHARGEPOINTIDS", "Numéro de prise");
+define("_INITIALENERGY", "Energie Initiale(kWh)");
+define("_LASTENERGY", "Dernière énergie(kWh)");
+define("_TOTALENERGY", "Energie totale(kWh)");
+define("_DOWNLOADLOCALCHARGESESSIONLOGS", "Journal de session complet en CSV");
+define("_DOWNLOADFULLSESSIONLOGS", "Log récapitulatif dans CSV");
+define("_STARTDATE", "date de début");
+define("_ENDDATE", "date de fin");
+define("_RFIDSELECTION", "sélection RFID");
+define("_CLEAR", "clair");
+
+define("_FALLBACKCURRENT", "Courant de repli");
+define("_FALLBACKRANGE", "Le courant de repli doit être égal à 0 ou compris dans la plage de ");
+define("_DOWNLOADEEBUSLOGS", "Journaux EEBUS");
+define("_PAIRINGENERGYMANAGER", "Activé pour l&#39appairage");
+define("_PAIR", "Pair Enable");
+define("_UNPAIR", "Dissocier");
+define("_EEBUS", "EEBUS");
+define("_FIRMWAREVERSION", "Version du micrologiciel");
+define("_EEBUSDISCOVERY", "Appareils découverts");
+define("_REFRESH", "Actualiser");
+define("_CPROLEMASTERREQUIREDFIELD", "Si vous souhaitez mettre à jour les paramètres du groupe de gestion de charge, le rôle de point de charge doit être enregistré en tant que &#39Maître&#39 dans les paramètres généraux de gestion de charge.");
+
+define("_LISTOFSLAVES", "Liste des esclaves");
+define("_NUMBEROFSLAVES", "Nombre d&#39esclaves");
+define("_LISTOFCONNECTOR", "Liste des connecteurs");
+define("_AVAILABLECURRENT", "Phase actuelle disponible");
+
+define("_DLMINTERFACE", "Interface DLM");
+define("_ETHERNET", "Ethernet");
+define("_DLMINTERFACEERROR", "Activer le WiFi depuis les interfaces réseau !");
+
+define("_MUSTBEINTEGER", "doit être un nombre entier!");
+define("_GRIDBUFFER", "Pourcentage de marge de protection du réseau");
+define("_CHARGINGSTATUSALERT", "Dans l&#39état de charge, la valeur ne peut pas être mise à jour !");
+define("_READUNDERSTAND", "J&#39ai lu, je comprends");
+
+define("_MORETHAN10", "Vous devez augmenter le courant maximal du réseau ou diminuer le pourcentage de marge de protection du réseau avant d&#39enregistrer ces paramètres. La limite de courant maximal du réseau ne peut pas être inférieure à 10 A lorsque vous utilisez le pourcentage de marge de protection du réseau.");
+
+define("_CLUSTERMAXCURRENT", "Courant maximum du cluster");
+define("_CLUSTERFAILSAFECURRENT", "Courant de sécurité du cluster");
+define("_CLUSTERMAXCURRENTERROR", "Le courant maximum du cluster est requis !");
+define("_CLUSTERFAILSAFECURRENTERROR", "Le courant de sécurité du cluster est requis !");
+define("_CLUSTERFAILSAFECURRENTLESSTHAN0", "La valeur actuelle du cluster Failsafe ne doit pas être inférieure à 0!");
+define("_CLUSTERFAILSAFECURRENTMORETHAN", "La valeur du courant de sécurité du cluster doit être inférieure au courant maximum du réseau !");
+define("_CLUSTERFAILSAFE", "Mode de sécurité du cluster");
+
+define("_CLUSTERMAXCURRENTLESSTHAN10", "La valeur actuelle maximale du cluster ne doit pas être inférieure à 10");
+define("_CLUSTERMAXCURRENTMORETHAN", "La valeur actuelle maximale du cluster doit être égale ou inférieure à cette valeur :");

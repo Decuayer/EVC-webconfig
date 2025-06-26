@@ -1,0 +1,2156 @@
+@font-face {
+    font-family: Raleway-Regular;
+    src: url('../fonts/raleway/Raleway-Regular.ttf');
+}
+
+@font-face {
+    font-family: Raleway-Medium;
+    src: url('../fonts/raleway/Raleway-Medium.ttf');
+}
+
+@font-face {
+    font-family: Raleway-SemiBold;
+    src: url('../fonts/raleway/Raleway-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: Raleway-Bold;
+    src: url('../fonts/raleway/Raleway-Bold.ttf');
+}
+
+@font-face {
+    font-family: OpenSans-Regular;
+    src: url('../fonts/opensans/OpenSans-Regular.ttf');
+}
+
+@font-face {
+    font-family: OpenSans-Semibold;
+    src: url('../fonts/opensans/OpenSans-Semibold.ttf');
+}
+
+
+body {
+    font-family: "Lato", sans-serif;
+}
+
+
+/* Style the tab */
+
+.tab {
+    float: left;
+    background-color: #f1f1f1;
+}
+
+
+/* Style the buttons inside the tab */
+
+.tab button {
+    display: block;
+    background-color: #2b3648;
+    color: white;
+    width: 24vw;
+    height: 6vh;
+    border: 0;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 18px;
+    padding: 0;
+}
+
+.tab button::-moz-focus-inner {
+    border: 0;
+}
+
+.tab button:hover {
+    background-color: #6587ba;
+}
+
+.tab button.active {
+    background-color: #496081;
+    background-image: linear-gradient(to right, #ffae12, white);
+}
+
+.tabcontent {
+    float: left;
+    padding: 0px 12px;
+    width: 70%;
+    height: 40%;
+    border-left: none;
+    margin-top: 115px;
+}
+
+.topnav {
+    overflow: hidden;
+    background-color: #171F2E;
+    padding: 10px 3.5vw 10px 3.5vw;
+    position: fixed;
+    height: 80px;
+    margin-top: 50px;
+    width: 100vw;
+    z-index: 2;
+}
+
+.topnav a {
+    width: 11.5vw;
+    float: left;
+    color: #839cbe;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    background-color: #171F2E;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 4px;
+    font-family: OpenSans-Regular;
+}
+
+
+
+.topnav a:hover {
+    background-color: #171F2E;
+    color: white;
+}
+
+#defaultOpen.active {
+    background-color: #3cd7b4;
+    color: white;
+}
+
+#generalNav.active {
+    background-color: #18b8ce;
+    color: white;
+}
+
+#ocppNav.active {
+    background-color: #058183;
+    color: white;
+}
+
+#networkNav.active {
+    background-color: #86cf1f;
+    color: white;
+}
+
+#standaloneNav.active {
+    background-color: #f7ca0a;
+    color: white;
+}
+
+#localNav.active {
+    background-color: #ed553b;
+    color: white;
+}
+
+#systemNav.active {
+    background-color: #ffa200;
+    color: white;
+}
+
+#installationSettingsNav.active {
+    background-color: #d6dbaa;
+    color: white;
+}
+
+label {
+    float: left;
+    display: block;
+    color: #0f1a2a;
+    text-align: left;
+    width: 100%;
+    font-family: OpenSans-Regular;
+    font-size: 18px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.group {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.displayNone {
+    display: none;
+}
+
+.settingCombobox {
+    margin-left: 85px;
+    width: 250px;
+}
+
+.infotext {
+    display: inline-block;
+}
+
+.title {
+    margin-top: 25px;
+    display: inline-block;
+    font-size: 20px;
+}
+
+.interfaceCombobox {
+    margin: 0px 30px;
+    height: 30px;
+    width: 250px;
+}
+
+.ocppCombobox {
+    margin: 0px 30px 5px;
+    height: 30px;
+    width: 250px;
+}
+
+.textarea1 {
+    width: 36vw;
+    height: 60px;
+    margin-top: 1%;
+    margin-bottom: 2.5%;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    border: 2px solid #ccc;
+    background-color: #ececec;
+    padding: 0 25px 0 25px;
+    border-radius: 4px;
+    color: #0080c0;
+    font-size: 18px;
+}
+
+.textarea1:disabled {
+    background-color: #d6d2d1;
+}
+
+.textarea2 {
+    margin: 0px 30px 15px;
+    height: 30px;
+    width: 250px;
+}
+
+.focusedTextarea {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 1);
+    background-color: #ececec;
+    padding: 0 25px 0 25px;
+    border-radius: 4px;
+    color: #0080c0;
+    font-size: 18px;
+    width: 36vw;
+    height: 60px;
+    margin-top: 1%;
+    margin-bottom: 2.5%;
+    border: 1px solid rgba(255, 0, 0, 1);
+}
+
+.focusedTextarea2 {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 1);
+    background-color: #ececec;
+    padding: 0 25px 0 25px;
+    border-radius: 4px;
+    color: #0080c0;
+    font-size: 18px;
+    width: 13vw;
+    height: 60px;
+    margin-top: 1%;
+    margin-bottom: 2.5%;
+    border: 1px solid rgba(255, 0, 0, 1);
+}
+
+.listbox {
+    width: 670px;
+    height: 300px;
+    padding: 20px 10px 20px 10px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    border: 2px solid #ccc;
+    background-color: #ececec;
+    font-size: 18px;
+    line-height: 20px;
+    margin-right: 36px;
+}
+
+.controls {
+    width: 40px;
+    margin: 10px;
+}
+
+.controls a {
+    background-color: #222222;
+    border-radius: 4px;
+    border: 2px solid #000;
+    color: #ffffff;
+    padding: 2px;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    margin: 5px;
+    width: 30px;
+}
+
+.centerButtons {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    padding-left: 8%;
+}
+
+.centerSaveButton {
+    margin: auto;
+    width: 40%;
+    padding: 10px;
+}
+
+.error {
+    font-family: OpenSans-Regular;
+    font-size: 25px;
+    padding-top: 2px;
+    margin-left: 20px;
+    color: #0080c0;
+}
+
+.dialog-no-close .ui-dialog-titlebar {
+    display: none;
+}
+
+.topright {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    font-size: 15px;
+    color: #494949;
+}
+
+.tab_button {
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+    line-height: 1.2;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    margin-bottom: 30px;
+    min-width: 200px;
+    height: 70px;
+    border: none;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    border-radius: 5.3px;
+    border: 2px solid #ccc;
+}
+
+.tab_button:hover:enabled {
+    background-image: linear-gradient(to right, #00E5FA, #00549C);
+}
+
+.tab_button:hover:disabled {
+    background-image: linear-gradient(to right, #00E5FA, #00549C);
+}
+
+.tab_button::-moz-focus-inner {
+    border: 0;
+}
+
+.languagePosition {
+    position: absolute;
+    right: 6.5%;
+    width: auto;
+    height: 5%;
+    background: transparent;
+    line-height: 50px;
+    z-index: 2;
+}
+
+.ring {
+    display: inline-block;
+    width: 97px;
+    height: 97px;
+    object-fit: contain;
+    position: absolute;
+    top: 17px;
+    left: 179px;
+}
+
+.ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 97px;
+    height: 97px;
+    margin: 6px;
+    border: 6px solid #fdd;
+    border-radius: 50%;
+    animation: ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #34b9ef transparent transparent transparent;
+}
+
+.ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#animationContainer {
+    position: absolute;
+    width: 300px;
+    height: 200px;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    margin: -100px 0 0 -150px;
+}
+
+.overlay {
+    background-color: #EFEFEF;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+    opacity: .3;
+    filter: alpha(opacity=30);
+}
+
+#logoutPosition {
+    right: 3%;
+    background: transparent;
+    line-height: 50px;
+    color: #839cbe;
+    font-family: OpenSans-Regular;
+    display: flex;
+    z-index: 2;
+    position:fixed;
+    margin-top:0,8%;
+
+}
+
+.explanation {
+    color: gray;
+}
+
+.ocpp_button {
+    color: white;
+    float: right;
+    position: fixed;
+    right: 5%;
+    bottom: 40%;
+    font-family: OpenSans-Semibold;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+
+.titleBar {
+    background: #171F2E;
+    width: 100%;
+    font-family: OpenSans-Regular;
+    font-size: 20px;
+    color: white;
+    line-height: 50px;
+    padding-left: 10px;
+    display: flex;
+    z-index: 2;
+}
+
+#lang {
+    font-family: OpenSans-Regular;
+}
+
+.bar {
+    float: left;
+    background-color: #2b3648;
+    width: 24.5vw;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    padding-top: 4.5vh;
+}
+
+.bar button {
+    display: block;
+    background-color: #2b3648;
+    color: white;
+    padding: 2vh 1vh;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1em;
+    font-family: OpenSans-Semibold;
+}
+
+.bar button::-moz-focus-inner {
+    border: 0;
+}
+
+.bar button:hover {
+    background-color: #314159;
+}
+
+.bar button.active {
+    background-color: #496081;
+}
+
+.barcontent {
+    float: left;
+    width: 100%;
+    margin: 50px 0 0 500px;
+}
+
+.standalone_button {
+    font-family: OpenSans-Semibold;
+    font-size: 20px;
+    color: #0080c0;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    height: 60px;
+    background-color: #e0dfdf;
+    border-radius: 5.3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    background-color: #ececec;
+    border: 2px solid #ccc;
+    overflow: hidden;
+    margin-top: 1.5%;
+}
+
+.standalone_button:hover:enabled {
+    color: white;
+    background-color: #34b9ef;
+    background-image: linear-gradient(to right, #34b9ef, #1f50a3);
+}
+
+.standalone_button::-moz-focus-inner {
+    border: 0;
+}
+
+.log_button {
+    font-family: OpenSans-Regular;
+    font-size: 20px;
+    color: #0080c0;
+    justify-content: center;
+    align-items: center;
+    width: 240px;
+    height: 74px;
+    background-color: #e0dfdf;
+    border-radius: 5.3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    background-color: #ececec;
+    border: 2px solid #ccc;
+    overflow: hidden;
+}
+
+.log_button:hover {
+    color: white;
+    background-color: #34b9ef;
+    background-image: linear-gradient(to right, #34b9ef, #1f50a3);
+}
+
+.log_button::-moz-focus-inner {
+    border: 0;
+}
+
+.centerElement {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    margin-top: 30px;
+}
+
+#backupIcon,
+#hardResetIcon {
+    position: absolute;
+    left: 40%;
+    top: 30%;
+    transform: translate(10%);
+}
+
+#backup_button,
+#hard_reset_button {
+    position: absolute;
+    left: 40%;
+    top: 55%;
+}
+
+#restoreIcon,
+#softResetIcon {
+    position: absolute;
+    left: 65%;
+    top: 30%;
+    transform: translate(10%);
+}
+
+#restore_button,
+#soft_reset_button {
+    position: absolute;
+    left: 65%;
+    top: 55%;
+}
+
+#factoryResetIcon {
+    position: absolute;
+    left: 50%;
+    top: 32%;
+    transform: translate(10%);
+}
+
+#factory_reset_button {
+    position: absolute;
+    left: 50%;
+    top: 55%;
+}
+
+.star {
+    font-family: OpenSans-Regular;
+    font-size: 16px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0080c0;
+}
+
+.textInSettings {
+    width: 260px;
+    height: 33px;
+    font-family: OpenSans-Regular;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0f1a2a;
+}
+
+#wifiPasswordErr{
+    margin:0 0; 
+    margin-bottom:4.59vh;
+}
+
+
+@media only screen and (max-width: 760px) {
+    .ocpp_button {
+        position: relative;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 4.59vh;
+    }
+    #selectSecurityItem {
+        margin-top: 5.2vh;
+    }
+}
+
+.interfaceTitle {
+    margin-top: 25px;
+    display: inline-block;
+    font-family: OpenSans-Regular;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0f1a2a;
+}
+
+.standaloneTitle {
+    display: inline-block;
+    font-family: OpenSans-Regular;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0f1a2a;
+}
+
+.textarea3 {
+    margin: 0px 30px 0px;
+    height: 30px;
+}
+
+.interfacesButton {
+    width: 12.5vw;
+    height: 75px;
+    position: fixed;
+    right: 5%;
+    top: 50%;
+    object-fit: contain;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    color: white;
+    border-radius: 12px;
+    font-size: 24px;
+    font-family: OpenSans-Regular;
+    text-transform: uppercase;
+}
+
+.interfacesRefreshButton {
+    width: 12.5vw;
+    height: 75px;
+    position: fixed;
+    right: 5%;
+    top: 60%;
+    object-fit: contain;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    color: white;
+    border-radius: 12px;
+    font-size: 24px;
+    font-family: OpenSans-Regular;
+    text-transform: uppercase;
+}
+
+.interfacesButtonPair {
+    width: 12.5vw;
+    height: 75px;
+    position: fixed;
+    right: 5%;
+    top: 90%;
+    object-fit: contain;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    color: white;
+    border-radius: 12px;
+    font-size: 24px;
+    font-family: OpenSans-Regular;
+    text-transform: uppercase;
+}
+
+.interfacesButtonUnpair {
+    width: 12.5vw;
+    height: 75px;
+    position: fixed;
+    right: 5%;
+    top: 80%;
+    object-fit: contain;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    color: white;
+    border-radius: 12px;
+    font-size: 24px;
+    font-family: OpenSans-Regular;
+    text-transform: uppercase;
+}
+
+.interfacesButtonPairDisabled {
+    width: 12.5vw;
+    height: 75px;
+    position: fixed;
+    right: 5%;
+    top: 90%;
+    object-fit: contain;
+    background-image: linear-gradient(to right, #a5a1a1, #b4b3be);
+    color: white;
+    border-radius: 12px;
+    font-size: 24px;
+    font-family: OpenSans-Regular;
+    text-transform: uppercase;
+}
+
+.interfacesButton:hover {
+    background-image: linear-gradient(to right, #00E5FA, #00549C);
+}
+
+.interfacesRefreshButton:hover {
+    background-image: linear-gradient(to right, #00E5FA, #00549C);
+}
+
+.interfacesButtonPair:hover {
+    background-image: linear-gradient(to right, #00E5FA, #00549C);
+}
+
+.interfacesButtonUnpair:hover {
+    background-image: linear-gradient(to right, #00E5FA, #00549C);
+}
+
+.interfacesButton::-moz-focus-inner {
+    border: 0;
+}
+
+.selectdivLogin {
+    position: relative;
+    float: left;
+    min-width: 150px;
+}
+
+.selectdivLogin:after {
+    content: '⌄';
+    font-weight: bold;
+    font: normal normal normal 30px/1 FontAwesome;
+    right: 11px;
+    height: 34px;
+    padding: 0px 0px 0px 8px;
+    position: absolute;
+    pointer-events: none;
+    margin-left: 10%;
+    color: #627997;
+    width: 18.7px;
+    height: 10.7px;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+.selectdivLogin select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: 50px;
+    padding: 0px 24px;
+    font-size: 20px;
+    line-height: 1.75;
+    -ms-word-break: normal;
+    word-break: normal;
+    color: #0080C0;
+    background-color: transparent;
+}
+
+.center_system_maintanence {
+    width: 240px;
+    height: 300px;
+    left: 50%;
+    top: 50%;
+}
+
+.standaloneModeButton {
+    width: 260px;
+    height: 65px;
+    object-fit: contain;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    color: white;
+    border-radius: 12px;
+    font-size: 24px;
+    font-family: OpenSans-Semibold;
+    text-transform: uppercase;
+}
+
+.standaloneModeButton:hover:enabled {
+    background-image: linear-gradient(to right, #00E5FA, #00549C);
+}
+
+.standaloneModeButton::-moz-focus-inner {
+    border: 0;
+}
+
+.selectbox {
+    position: relative;
+    float: left;
+    min-width: 220px;
+}
+
+.selectionbox {
+    position: relative;
+    float: left;
+    min-width: 220px;
+    width: 100%;
+    max-width: 665px;
+}
+
+@media screen and (max-width: 1330px) {
+    .selectionbox {
+        max-width: 20vw;
+        /* Set the maximum width relative to the viewport width for smaller screens */
+    }
+}
+
+.dynamic-width {
+    width: 700px;
+    box-sizing: border-box;
+}
+
+.textForEebusSetting {
+    float: left;
+    width: 12vw;
+    font-family: OpenSans-Regular;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0f1a2a;
+    margin-top: 1%;
+}
+
+.selectbox:after {
+    content: '\f078';
+    font: normal normal normal 17px/1 FontAwesome;
+    color: #627997;
+    right: 11px;
+    top: 6px;
+    height: 60px;
+    padding: 14px 0px 0px 8px;
+    position: absolute;
+    pointer-events: none;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+.selectbox select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: 60px;
+    float: right;
+    font-family: OpenSans-Regular;
+    padding: 0px 10px;
+    font-size: 16px;
+    line-height: 1.75;
+    color: #333;
+    font-weight: 600;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    background-color: #ececec;
+    border-radius: 4px;
+    color: #0080C0;
+    border: 2px solid #ccc;
+}
+
+.selectbox select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
+.selectbox select:disabled {
+    background-color: #d6d6d6;
+}
+
+.dialogText {
+    font-family: OpenSans-Regular;
+    font-size: 18px;
+    text-align: center;
+    color: black;
+    padding: 65px 5px 0px 5px;
+    color: #4a4a4a;
+}
+
+.dialogTextBold {
+    font-family: OpenSans-Semibold;
+    font-size: 18px;
+    text-align: center;
+    color: black;
+    padding: 0px 5px 0px 5px;
+    color: #4a4a4a;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton {
+    font-family: OpenSans-Semibold;
+    font-size: 20px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 60px;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    border-radius: 5.3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    border: 2px solid #ccc;
+    overflow: hidden;
+    margin-top: 0;
+    margin-left: 12px;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton:hover {
+    color: white;
+    background-image: linear-gradient(to right, #00E5FA, #00549C);
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton::-moz-focus-inner {
+    border: 0;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton {
+    font-family: OpenSans-Semibold;
+    font-size: 20px;
+    color: #0080c0;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 60px;
+    border-radius: 5.3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    background-color: #ececec;
+    border: 2px solid #ccc;
+    overflow: hidden;
+    margin-top: 0;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton:hover {
+    color: white;
+    background-color: #34b9ef;
+    background-image: linear-gradient(to right, #34b9ef, #1f50a3);
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton::-moz-focus-inner {
+    border: 0;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+    text-align: center;
+    float: none !important;
+}
+
+.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
+    border: none;
+}
+
+.textForOccpSetting {
+    float: left;
+    width: 20vw;
+    font-family: OpenSans-Regular;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    color: #0f1a2a;
+    margin-top: 1%;
+}
+
+.ocppButton {
+    width: 240px;
+    height: 74px;
+    margin-right: 37.5%;
+    margin-top: 1.5%;
+    object-fit: contain;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.ocppButton:hover {
+    background-image: linear-gradient(to right, #00E5FA, #00549C);
+}
+
+.errorText {
+    width: 36vw;
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.factory_default_button {
+    font-family: OpenSans-Semibold;
+    font-size: 20px;
+    color: #0080c0;
+    justify-content: center;
+    align-items: center;
+    width: 240px;
+    height: 74px;
+    border-radius: 5.3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    border: 2px solid #ccc;
+    overflow: hidden;
+    background-image: linear-gradient(to right, #f9f6f6, #d0d1d1);
+}
+
+.factory_default_button:hover {
+    color: white;
+    background-color: #34b9ef;
+    background-image: linear-gradient(to right, #34b9ef, #1f50a3);
+}
+
+.factory_default_button::-moz-focus-inner {
+    border: 0;
+}
+
+.system_maintanence_text {
+    font-family: OpenSans-Regular;
+    font-size: 18px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0f1a2a;
+    text-align: center
+}
+
+.logoutPosition {
+    right: 3%;
+    background: transparent;
+    line-height: 50px;
+    color: #839cbe;
+    font-family: OpenSans-Regular;
+    display: flex;
+    z-index: 2;
+    position:fixed;
+    margin-top:0.8%
+}
+
+.logoutText{
+    color:#839cbe;
+    text-decoration:none;
+    font-family: OpenSans-Regular;
+    font-size: 16px;
+    font-weight: 600;
+    width:6vw;
+}
+
+.greekLogoutPosition{
+    margin-top:0;
+}
+.greeklogoutText{
+    font-size:14px;
+}
+
+html:lang(bg) .topnav a{
+    font-size: 1.50rem;
+}
+
+html:lang(bg) .log_button{
+    font-size: 1.35rem;
+}
+
+html:lang(de) .topnav a {
+    font-size: 1.50rem;
+}
+
+html:lang(de) .log_button{
+    font-size: 1.45rem;
+}
+
+@media only screen and (max-width: 1800px) {
+    .topnav a {
+        width: 11.5vw;
+    }
+    .topnav {
+        height: 100px;
+    }
+
+    html:lang(fi) .logoutPosition {
+        margin-top: 0;
+    }
+
+    html:lang(rs) .topnav a {
+        font-size: 1.53rem;
+    }
+    html:lang(ba) .topnav a {
+        font-size: 1.55rem;
+    }
+    html:lang(me) .topnav a {
+        font-size: 1.55rem;
+    }
+    html:lang(sk) .topnav a {
+        font-size: 1.55rem;
+    }
+    html:lang(es) .logoutPosition {
+        margin-top: 0;
+    }
+    html:lang(da) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(bg) .log_button {
+        font-size: 1.35rem;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 4.59vh;
+    }
+}
+
+@media only screen and (max-width: 1450px) {
+    html:lang(gr) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(me) .logoutPosition {
+        margin-top: 0;
+    }
+    html:lang(ba) .logoutPosition {
+        margin-top: 0;
+    }
+    html:lang(bg) .topnav a{
+        font-size: 1.50rem;
+    }
+    html:lang(da) .topnav a{
+        font-size: 1.25rem;
+    }
+    html:lang(de) .topnav a{
+        font-size: 1.50rem;
+    }
+    html:lang(es) .topnav a{
+        font-size: 1.50rem;
+    }
+    html:lang(cz) .topnav a{
+        font-size: 1.50rem;
+    }
+    html:lang(fi) .topnav a{
+        font-size: 1.35rem;
+    }
+    html:lang(ba) .topnav a{
+        font-size: 1.50rem;
+    }
+    html:lang(nl) .topnav a{
+        font-size: 1.50rem;
+    }
+    html:lang(sk) .logoutPosition {
+        margin-top: 0;
+    }
+    html:lang(sk) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(cz) .logoutPosition {
+        margin-top: 0;
+    }
+    html:lang(bg) .log_button {
+        font-size: 1.35rem;
+    }
+    html:lang(sv) .topnav a {
+        font-size: 1.35rem;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 4.59vh;
+    }
+
+}
+
+@media only screen and (max-width: 1350px) {
+    html:lang(bg) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(fr) .topnav a {
+        font-size: 1rem;
+    }
+    html:lang(ro) .topnav a {
+        font-size: 1rem;
+    }
+    html:lang(es) .topnav a {
+        font-size: 0.85rem;
+    }
+    html:lang(da) .topnav a {
+    	font-size: 1.50rem;
+    }
+    html:lang(nl) .topnav a {
+	font-size: 1.50rem;
+    }
+    html:lang(bg) .log_button {
+        font-size: 1.35rem;
+    }
+    html:lang(sv) .topnav a {
+        font-size: 1.25rem;
+    }
+}
+
+@media only screen and (max-width: 1170px) and (min-width: 990px) {
+    .topnav a {
+        width: 10.5vw;
+    }
+    .topnav {
+        height: 110px;
+    }
+    .greeklogoutText{
+        font-size: 12px;
+    }
+    html:lang(sv) .logoutPosition {
+        margin-top: 0;
+    }
+    html:lang(da) .topnav a {
+        font-size: 1.25rem;
+    }
+    html:lang(nl) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(gr) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(bg) .log_button {
+        font-size: 1.35rem;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 4.59vh;
+    }
+}
+
+@media only screen and (max-width: 990px) {
+    .topnav a {
+        width: 10vw;
+        padding:12px 4px;
+    }
+    .topnav {
+        height: 110px;
+    }
+    html:lang(en) .logoutPosition {
+        margin-top: 0;
+    }
+    html:lang(sv) .logoutPosition {
+        margin-top: 0;
+    }
+    html:lang(da) .logoutPosition {
+        margin-top: 0;
+    }
+    html:lang(es) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(da) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(nl) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(gr) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(bg) .log_button {
+        font-size: 1.35rem;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 4.59vh;
+    }
+}
+
+@media only screen and (max-height: 1024px) {
+    html:lang(hr) .topnav a {
+        font-size: 1.45rem;
+    }
+    html:lang(es) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(gr) .topnav a {
+        font-size: 1.50rem;
+    }
+    html:lang(bg) .log_button {
+        font-size: 1.35rem;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 4.59vh;
+    }
+    html:lang(it) .topnav a {
+        font-size: 1.35rem;
+    }
+
+}
+
+
+#progress {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 50px;
+}
+
+#bar {
+    width: 1%;
+    height: 50px;
+    border-radius: 50px;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+}
+
+.animationBar {
+    display: none;
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+}
+
+.animationBar div {
+    display: inline-block;
+    position: absolute;
+    left: 8px;
+    width: 20px;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    animation: animationBar 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+
+.animationBar div:nth-child(1) {
+    left: 8px;
+    animation-delay: -0.24s;
+}
+
+.animationBar div:nth-child(2) {
+    left: 32px;
+    animation-delay: -0.12s;
+}
+
+.animationBar div:nth-child(3) {
+    left: 56px;
+    animation-delay: 0;
+}
+
+.animationBar div:nth-child(4) {
+    left: 80px;
+    animation-delay: 0;
+}
+
+@keyframes animationBar {
+    0% {
+        top: 8px;
+        height: 96px;
+    }
+    50%,
+    100% {
+        top: 24px;
+        height: 48px;
+    }
+}
+
+.slaveConfigItems {
+    display: none;
+}
+
+.textareaForLocalLoadGroup {
+    height: 60px;
+    margin-top: 1%;
+    margin-left: 1%;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    border: 2px solid #ccc;
+    background-color: #ececec;
+    border-radius: 4px;
+    color: #0080c0;
+    font-size: 18px;
+    width: 220px;
+    padding: 0px 10px;
+}
+
+.focusedTextareaForLocalLoadGroup {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 1);
+    background-color: #ececec;
+    padding: 0px 10px;
+    border-radius: 4px;
+    color: #0080c0;
+    font-size: 11px;
+    width: 220px;
+    height: 60px;
+    margin-top: 1%;
+    margin-left: 1%;
+    border: 1px solid rgba(255, 0, 0, 1);
+}
+
+.textareaForLocalLoadGroup:disabled {
+    background-color: #d6d2d1;
+}
+
+.alertForLoadManagementGroup {
+    font-family: OpenSans-Regular;
+    font-size: 11px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #d0021b;
+    height: 15px;
+    display: inline-block;
+}
+
+.interfacesButtonUpdateSlave {
+    width: 12.5vw;
+    height: 75px;
+    position: fixed;
+    right: 5%;
+    object-fit: contain;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    color: white;
+    border-radius: 12px;
+    font-size: 24px;
+    font-family: OpenSans-Regular;
+    text-transform: uppercase;
+}
+
+.interfacesButtonUpdateSlaveDisabled {
+    width: 12.5vw;
+    height: 75px;
+    position: fixed;
+    right: 5%;
+    object-fit: contain;
+    background-image: linear-gradient(to right, #a5a1a1, #b4b3be);
+    color: white;
+    border-radius: 12px;
+    font-size: 24px;
+    font-family: OpenSans-Regular;
+    text-transform: uppercase;
+}
+
+.power_optimizer_button {
+    font-family: OpenSans-Semibold;
+    font-size: 20px;
+    color: #0080c0;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 30px;
+    background-color: #e0dfdf;
+    border-radius: 5.3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    background-color: #ececec;
+    border: 2px solid #ccc;
+    overflow: hidden;
+    margin-top: 0.5%;
+    margin-left: 2%;
+    float:right;
+}
+
+
+@media only screen and (max-width: 1020px) {
+    .ipSettingDiv {
+        margin-left: 5vw;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 8vh;
+    }
+}
+
+.log_button_suomi{
+    font-family: OpenSans-Regular;
+    font-size: 20px;
+    color: #0080c0;
+    justify-content: center;
+    align-items: center;
+    height: 74px;
+    background-color: #e0dfdf;
+    border-radius: 5.3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    background-color: #ececec;
+    border: 2px solid #ccc;
+    overflow: hidden;
+}
+
+.log_button_suomi:hover {
+    color: white;
+    background-color: #34b9ef;
+    background-image: linear-gradient(to right, #34b9ef, #1f50a3);
+}
+
+.log_button_suomi::-moz-focus-inner {
+    border: 0;
+}
+
+@media only screen and (max-height: 750px) {
+    .bar {
+        padding-top:7.5vh;
+    }
+    .greeklogoutText{
+        font-size: 10px;
+    }
+    .greekLogoutPosition{
+        margin-top:1%;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 8vh;
+    }
+}
+
+
+@media only screen and (max-height: 570px) {
+    .bar button {
+        padding: 1.2vh 1vh;
+        font-size:1em;
+    }
+    .bar {
+        padding-top:15vh;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 16vh;
+    }
+}
+
+@media only screen and (max-height: 500px) {
+    .bar button {
+        padding: 1vh 1vh;
+        font-size:1em;
+    }
+    .bar {
+        padding-top:15vh;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 20vh;
+    }
+}
+
+
+@media only screen and (max-height: 450px) {
+    .bar button {
+        padding: 0.25vh 1vh;
+        font-size:0.75em;
+    }
+    .bar {
+        padding-top:15vh;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 24vh;
+    }
+}
+
+
+.info {
+    width: 30px;
+    margin-left: 10px;
+    cursor: default;
+}
+
+.info .contactInformation {
+    display: none;
+    position: relative;
+    z-index: 1;
+    width: auto;
+    background-color: #2b3648;
+    color: #fff;
+    text-align: center;
+    left: 5px;
+    top: -6px;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 15px;
+}
+
+.info .contactInformation:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 15px solid transparent;
+    border-bottom-color: #2b3648;
+    border-top: 0;
+    border-right: 0;
+    margin-left: -10.5px;
+    margin-top: -10px;
+}
+
+.info:hover .contactInformation {
+    display: inline-block;
+}
+
+.fa-info-circle {
+    color: #2b3648 !important;
+}
+
+#from{
+    width: 670px;
+    margin-right: 36px;
+    margin-bottom: 0%;
+}
+
+#manageLebel{
+    margin-bottom: 1%;
+    padding-left: 3%;
+    font-size: 18px;
+}
+#standaloneErr{
+    padding-top:16px;
+    height:15px;
+    display: inline-block;
+}
+#wrapper{
+    height:60px;
+}
+#bottomOfLogin{
+    margin-top:2.8em;
+}
+@media only screen and (max-height: 775px) {
+    .standaloneModeTab {
+        margin-top: 0;
+    }
+    .standaloneTitle{
+        font-size:16px;
+
+    }
+    #from{
+        height:30px;
+        width:550px;
+
+    }
+    #wrapper{
+        height:30px;
+    }
+    #standaloneErr{
+        padding: 0 0 0 0;
+    }
+    .listbox{
+        height:145px;
+        width:550px;
+    }
+    #selectStandaloneMode{
+        height:30px;
+    }
+    #selectdiv:after{
+        height:30px;
+        padding: 0 0 0 0;
+    }
+    #manageLebel{
+        padding-left: 0%;
+        font-size: 16px;
+    }
+    #mode{
+        margin-top:1.4em;
+    }
+    #bottomOfLogin{
+        margin-top:0em;
+    }
+    .textArea1{
+        margin-bottom: 0%;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 8vh;
+    }
+}
+
+#password_reset_authorization_button{
+    position: relative;
+    left:25%;
+    font-size:1.20vw;
+    min-height:75px;
+    height:auto;
+    min-width:12.5vw;
+    width:auto;
+}
+
+.behind-input {
+    position: relative;
+    z-index: 1;
+}
+
+.input-container input {
+    width: 200px;
+    margin-right: 10px;
+    position-left: 10px;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    font-weight:bold;
+    font-size:13px;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border:1px solid black;
+}
+
+.pagination a.active {
+    background-color: pink;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: skyblue;
+
+}
+
+#administrationPasswordPage {
+    display: flex;
+    flex-direction: column;
+}
+
+#administrationPasswordShowPass{
+    left:56%;
+    top:17%
+}
+
+.wlanErr{
+    margin-left:20vw;
+    height: 40px; 
+    margin-top:4%; 
+    float:right; 
+    margin-bottom:25px;
+}
+
+.textForOcppSetting:lang(ro){
+    margin-top: 0%;
+    line-height: 2.00;
+    height: 50px;
+    font-size: 14px;
+}
+
+.textForOcppSetting:lang(es){
+    width: 20vw;
+}
+
+
+@media only screen and (max-height: 1500px) {
+    html:lang(gr) #changePasswordInputArea {
+        margin-top: 3vw;
+    }
+
+}
+
+@media only screen and (max-width: 1350px) {
+    /* Adjust styles for smaller screens */
+    #changePasswordInputArea {
+        margin-top: 5vw;
+    }
+    html:lang(gr) #changePasswordInputArea {
+        margin-top: 5vw;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 4.59vh;
+    }
+    #generalSettingsPage:lang(it){
+        width: 50vw;
+
+    }
+    a:lang(it){
+        line-height: 1.2;
+    }
+    .textForOcppSetting:lang(fr){
+        margin-top: 0%;
+        line-height: 2.00;
+        height: 50px;
+        font-size: 14px;
+    }
+    .textForOcppSetting:lang(en){
+        margin-top: 0%;
+        line-height: 2.00;
+        height: 50px;
+        font-size: 14px;
+    }
+    #connectorSwitch3to1PhaseSupportedVal {
+        width: 15vw !important;
+    }
+    #bootNotificationAfterConnectionLossVal {
+        width: 15vw !important;
+    }
+    #centralSmartChargingWithNoTrippingVal {
+        width: 15vw !important;
+    }
+    #continueChargingAfterPowerLossVal {
+        width: 15vw !important;
+    }
+}
+
+
+@media only screen and (max-width: 1250px) {
+    /* Adjust styles for smaller screens */
+    html:lang(gr) #changePasswordInputArea {
+        margin-top: 7vw;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 4.59vh;
+    }
+}
+
+
+@media only screen and (max-width: 1000px) {
+    /* Adjust styles for smaller screens */
+    #changePasswordInputArea {
+        margin-top: 10vw;
+    }
+
+    html:lang(gr) #changePasswordInputArea {
+        margin-top: 15vw;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 8vh;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    /* Adjust styles for even smaller screens */
+    #administrationPasswordPage {
+        width: 80vw;
+        left: 10%;
+    }
+
+    .textarea1 {
+        width: 80%;
+    }
+
+    #changePasswordInputArea {
+        margin-top: 12vw; /* Adjust margin as needed */
+    }
+
+    html:lang(gr) #changePasswordInputArea {
+        margin-top: 18vw;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 24vh;
+    }
+    #selectSecurityItem{
+        margin-top: 5.2vh;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    /* Adjust styles for smaller screens */
+    #changePasswordInputArea {
+        margin-top: 17vw;
+    }
+    html:lang(gr) #changePasswordInputArea {
+        margin-top: 25vw;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 28vh;
+    }
+    #selectSecurityItem{
+        margin-top: 5.2vh;
+    }
+
+}
+
+@media only screen and (max-width: 650px) {
+    /* Adjust styles for smaller screens */
+
+    html:lang(gr) #changePasswordInputArea {
+        margin-top: 28vw;
+    }
+    #administrationPasswordShowPass{
+        left:54%;
+        top:17%
+    }
+    #wifiPasswordErr {
+        margin-bottom: 28vh;
+    }
+    #selectSecurityItem{
+        margin-top: 5.2vh;
+    }
+
+    #documentTitle{
+        color: #2F5496;
+    }
+
+    #documentText{
+        margin-top: 10%;
+    }
+}
+
+
+@media only screen and (max-width: 600px) {
+    /* Adjust styles for smaller screens */
+    #changePasswordInputArea {
+        margin-top: 32vw;
+    }
+    html:lang(gr) #changePasswordInputArea {
+        margin-top: 45vw;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 38vh;
+    }
+    #selectSecurityItem{
+        margin-top: 5.2vh;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    /* Adjust styles for smaller screens */
+    #changePasswordInputArea {
+        margin-top: 45vw;
+    }
+    html:lang(gr) #changePasswordInputArea {
+        margin-top: 55vw;
+    }
+    #wifiPasswordErr {
+        margin-bottom: 58vh;
+    }
+}
+
+.logFilesButton {
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    color: white;
+    font-size: 24px;
+    font-family: OpenSans-Regular;
+    text-transform: uppercase;
+    justify-content: center;
+    align-items: center;
+    width: 12.5vw;
+    height: 75px;
+    border-radius: 5.3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}    
+
+.outer_box {
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid #333;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.box {
+    border: 2px solid #333;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    justify-content: center;
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    width: 50%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.checkbox-container {
+    margin-top: 20px; 
+    display:flex; 
+    align-items:center;
+    gap: 10px;
+}
+
+#documentTitle{
+    color: #2F5496;
+}
+
+#documentText{
+    max-height: 400px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+#confirmButton{
+    width:10vw;
+    height:8vh;
+    font-size:1.50em;
+    margin-top: 20px;
+}
+
+
+.loginError{
+    float:right;
+    margin-right:10%;
+    color: #d0021b;
+    font-weight: bold;
+}
+
+.modal-content ol,
+.modal-content ul {
+    display: block !important;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.modal-content ol li,
+.modal-content ul li {
+    display: list-item;
+    list-style-type: inherit;
+ 
+    &::marker {
+        font-weight: bold;
+    }
+}
+.circle-spinner {
+    border: 6px solid rgba(255, 255, 255, 0.2);
+    border-top: 6px solid #28a745;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spin 1.5s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.scanningPopUp {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    font-family: 'Arial', sans-serif;
+    padding-top: 20%;
+    letter-spacing: 1px;
+    transition: opacity 0.3s ease;
+}
+
+.noNetworkPopUp {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    font-size: 24px;
+    padding: 20px;
+}
+
+/* DECU ADDED */
+
+nav.navbar {
+    position: fixed;
+    top: 56px; 
+    width: 100%;
+    z-index: 1020;
+}
+
+.logo-img {
+    max-height: 50px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    nav.navbar {
+        top: 96px
+    }
+
+    .logo-img {
+        max-height: 35px;
+    }
+}

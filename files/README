@@ -1,0 +1,7 @@
+# SQLITE query for creating database and table and then inserting username and password in the table for login :
+============================================================================================================
+
+$database = new SQLite3('account.db');
+$database->exec("CREATE TABLE USERS(ID INTEGER PRIMARY KEY AUTOINCREMENT, USERNAME TEXT, PASSWORD VARCHAR(50), FIRSTLOGIN TEXT)");
+$database->exec("INSERT INTO USERS (USERNAME,PASSWORD)"."\n"."VALUES ('admin', 'admin', 'true');");
+$database->close(); 

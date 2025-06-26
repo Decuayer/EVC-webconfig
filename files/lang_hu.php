@@ -1,0 +1,527 @@
+<?php
+include_once "access_control.php";
+define("_LOGIN", "BEJELENTKEZÉS");
+define("_USERNAME", "Felhasználónév:");
+define("_PASSWORD", "Jelszó:");
+define("_CHANGEPASSWORD", "Jelszó megváltoztatása");
+define("_CURRENTPASSWORD", "Aktuális jelszó:");
+define("_NEWPASSWORD", "Új jelszó:");
+define("_CONFIRMNEWPASSWORD", "Erősítse meg az új jelszót:");
+define("_SUBMIT", "Küldés");
+define("_CURRENTPASSWORDREQUIRED", "Az aktuális jelszó szükséges");
+define("_PASSWORDREQUIRED", "Jelszó szükséges");
+define("_USERNAMEREQUIRED", "Felhasználónév szükséges");
+define("_USERAUTHFAILED", "A felhasználói hitelesítés nem sikerült!");
+define("_USERNAMEORCURRENTPASSWORDWRONG", "Hibás felhasználónév vagy jelenlegi jelszó!");
+define("_DBACCESSFAILURE", "Nem lehet elérni az adatbázist!");
+define("_CHANGEPASSWORDERROR", "Először módosítsa a jelszavát!");
+define("_SAMEPASSWORDERROR", "Az aktuális jelszó és az új jelszó nem egyezhet meg!");
+define("_PASSWORDMATCHERROR", "A jelszavak nem egyeznek!");
+define("_CURRENTPASSWORDWRONG", "Az aktuális jelszó helytelen!");
+define("_PASSWORDERRORLEVEL2", "A jelszó érvénytelen, 20 karakter hosszúságúnak kell lennie, és tartalmaznia kell legalább két betűt [A-Za-z], két számjegyet [0-9] és két speciális karaktert [!%&/()=?*#+-_]");
+define("_PASSWORDERRORLEVEL3", "A jelszó érvénytelen, a karakter hossza legalább 12, maximum 32 karakter lehet, és tartalmaznia kell legalább két kisbetűt [a-z] és két nagybetűt [A-Z], két számot [0-9] és legalább két speciális karaktert [!%&/()=?*#+-_].");
+define("_LOGINLOCKOUT", "Túl sok sikertelen próbálkozás. Kérjük, próbálja meg 1800 másodperc után.");
+
+define("_MAINPAGE", "Főoldal");
+define("_GENERAL", "Általános beállítások");
+define("_OCPPSETTINGS", "OCPP-beállítások");
+define("_NETWORKINTERFACES", "Hálózati adapterek");
+
+define("_OCPPCONNINTERFACE", "OCPP csatlakozási interfész : ");
+define("_CONNECTIONSTATE", "Kapcsolati állapot : ");
+define("_DISCONNECTED", "Szétkapcsolva");
+define("_NEEDTOLOGINFIRST", "Először be kell jelentkeznie!");
+define("_CONNECTED", "Kapcsolódva");
+define("_CPSERIALNUMBER", "CP-sorozatszám : ");
+define("_HMISOFTWAREVERSION", "HMI-szoftververzió : ");
+define("_OCPPSOFTWAREVERSION", "OCPP-szoftververzió : ");
+define("_POWERBOARDSOFTWAREVERSION", "Alaplapi szoftververzió : ");
+define("_OCPPDEVICEID", "OCPP-eszközazonosító : ");
+define("_DURATIONAFTERPOWERON", "Bekapcsolás óta eltelt idő : ");
+define("_LOGOUT", "Kijelentkezés");
+define("_PRESET", "Előbeállítások:");
+
+define("_OCPPCONNECTION", "OCPP csatlakozás");
+define("_ENABLED", "Bekapcsolva");
+define("_DISABLED", "Kikapcsolva");
+define("_CONNECTIONSETTINGS", "Csatlakozás beállítások");
+define("_CENTRALSYSTEMADDRESS", "Központi rendszercím ");
+define("_CHARGEPOINTID", "Töltőpont azonosítója ");
+define("_OCPPVERSION", "OCPP-verzió");
+define("_SAVE", "Mentés");
+define("_SAVESUCCESSFUL", "Sikeres mentés.");
+define("_CENTRALSYSTEMADDRESSERROR", "A központi rendszercím szükséges!");
+define("_CHARGEPOINTIDERROR", "A töltőpont azonosítója szükséges!");
+define("_SECONDS", "Másodperc");
+define("_ADD", "Hozzáadás");
+define("_REMOVE", "Eltávolítás");
+define("_SAVECAPITAL", "MENTÉS");
+define("_CANCEL", "Mégse");
+
+define("_CELLULAR", "Mobilhálózat");
+define("_INTERFACEIPADDRESS", "Adapter IP-címe: ");
+define("_ICCID", "ICCID: ");
+define("_IMSI", "IMSI: ");
+define("_IMEI", "IMEI: ");
+define("_APNNAME", "APN-név: ");
+define("_APNUSERNAME", "APN-felhasználónév: ");
+define("_APNPASSWORD", "APN-jelszó: ");
+define("_IPSETTING", "IP-cím beállítása: ");
+define("_IPADDRESS", "IP-cím: ");
+define("_NETWORKMASK", "Hálózati maszk: ");
+define("_DEFAULTGATEWAY", "Alapértelmezett átjáró: ");
+define("_PRIMARYDNS", "Elsődleges DNS: ");
+define("_SECONDARYDNS", "Másodlagos DNS: ");
+define("_WIFI", "WLAN");
+define("_SECURITY", "Titkosítás: ");
+define("_SECURITYTYPE", "Titkosítás típusának kiválasztása");
+define("_NONE", "Nincs");
+define("_SELECTMODE", "Válasszon üzemmódot!");
+define("_RFIDLOCALLIST", "RFID helyi lista");
+define("_ACCEPTALLRFIDS", "Minden RFID elfogadása");
+define("_MANAGERFIDLOCALLIST", "RFID helyi lista kezelése:");
+define("_AUTOSTART", "Autostart");
+define("_PROCESSING", "Feldolgozás… Kérem várjon...");
+define("_MACADDRESS", "MAC-cím: ");
+define("_WIFIHOTSPOT", "Wi-FI Hotspot");
+define("_TURNONDURINGBOOT", "Bekapcsolás indításkor: ");
+define("_AUTOTURNOFFTIMEOUT", "Kikapcsolás időkorlátja: ");
+define("_AUTOTURNOFF", "Automatikus kikapcsolás: ");
+define("_HOTSPOTALERTMESSAGE", "A hotspot beállításainak módosítása a készülék következő bekapcsolásakor lép életbe. ");
+define("_HOTSPOTREBOOTMESSAGE", "Újra akarja indítani most? ");
+
+define("_DOWNLOADACLOGS", "AC-naplófájlok letöltése");
+define("_DOWNLOADCELLULARLOGS", "Mobilhálózatimodul-naplók letöltése");
+define("_DOWNLOADPOWERBOARDLOGS", "Alaplapi naplók letöltése");
+define("_PASSWORDRESETSUCCESSFUL", "Jelszava sikeresen vissza lett állítva.");
+define("_DBOPENEDSUCCESSFULLY", "Adatbázis sikeresen megnyitva\n");
+define("_WSSCERTSSETTINGS", "WSS-tanúsítvány beállításai ");
+define("_CONFKEYS", "Konfigurációs kulcsok");
+define("_KEY", "Kulcs");
+define("_STATIC", "Statikus");
+define("_TIMEZONE", "Időzóna");
+define("_PLEASESELECTTIMEZONE", "Válasszon időzónát");
+define("_DISPLAYSETTINGS", "Kijelző-beállítások");
+define("_DISPLAYLANGUAGE", "Megjelenítés nyelve");
+define("_BACKLIGHTDIMMING", "Háttérvilágítás fényerejének csökkentése : ");
+define("_PLEASESELECT", "Kérjük, válasszon");
+define("_TIMEBASED", "Időalapú");
+define("_SENSORBASED", "Szenzoralapú");
+define("_BACKLIGHTDIMMINGLEVEL", "Háttérvilágítás fényerőcsökkentésének szintje : ");
+define("_BACKLIGHTTHRESHOLD", "Háttérvilágítás-küszöbérték : ");
+define("_SETMIDTHRESHOLD", "Közepes küszöbértéké beállítása");
+define("_SETHIGHTHRESHOLD", "Magas küszöbértéké beállítása");
+define("_LOCALLOADMANAGEMENT", "Helyi terheléskezelés");
+define("_MINIMUMCURRENT", "Minimális áramerősség: ");
+define("_FIFOPERCENTAGE", "FIFO százalék: ");
+define("_GRIDMAXCURRENT", "Hálózat maximális teljesítménye: ");
+define("_MASTERIPADDRESS", "Master töltő IP-címe: ");
+define("_BACKLIGHTTIMESETTINGS", "Háttérvilágítás időbeállításai: ");
+define("_SHOULDSELECTTIMEZONE", "* Ki kell választania az időzónát!");
+define("_MINIMUMCURRENTREQUIRED", "* A minimális áramerősség szükséges!");
+define("_CURRENTMUSTBENUMERIC", "* A teljesítménynek számnak kell lennie!");
+define("_FIFOPERCREQUIRED", "* FIFO-százalék szükséges!");
+define("_FIFOPERCSHOULDBETWEEN", "* A FIFO-százalék 0 és 100 között kell legyen!");
+define("_PERCMUSTBENUMERIC", "* A százaléknak számértéknek kell lennie!");
+define("_GRIDMAXCURRENTREQUIRED", "* A maximális rácsáram szükséges!");
+define("_GRIDCURRENTMUSTBENUMERIC", "* A  hálózati teljesítmények számnak kell lennie!");
+define("_IPADDRESSOFMASTERREQUIRED", "* A master töltő IP-címe szükséges!");
+define("_INVALIDIPADDRESS", "* Érvénytelen IP-címet adott meg!");
+define("_SAMENETWORKLAN", "* IP-címet adott meg ugyanabban a hálózatban a LAN-nal!");
+define("_SAMENETWORKWLAN", "* IP-címet adott meg ugyanabban a hálózatban a WLAN-nal!");
+define("_APNISREQUIRED", "APN szükséges!");
+define("_IPADDRESSREQUIRED", "Az IP-cím szükséges!");
+define("_NETWORKMASKREQUIRED", "Hálózati maszk szükséges!");
+define("_INVALIDNETWORKMASK", "* Érvénytelen hálózati maszkot adott meg!");
+define("_DEFAULTGATEWAYREQUIRED", "Az alapértelmezett átjáró szükséges!");
+define("_INVALIDGATEWAY", "Érvénytelen alapértelmezett átjárót adott meg!");
+define("_PRIMARYDNSREQUIRED", "Az elsődleges DNS szükséges!");
+define("_INVALIDDNS", "Érvénytelen DNS-t adott meg!");
+define("_SELECTIPSETTING", "Válasszon IP-beállítást.");
+define("_SSIDREQUIRED", "SSID szükséges!");
+define("_PASSWORDISREQUIRED", "Jelszó szükséges!");
+define("_WIFIPASSWORDERROR", "A jelszó érvénytelen, a karakter hossza legalább 8 és legfeljebb 63 <br> érvényes karakter: a..z A..Z 0..9 .,:;!#^+$%&/(){[]}=*?-_@<>|");
+define("_WIFIHOTSPOTPASSWORDERRORLEVEL2", "&#8226; A jelszó érvénytelen, a karakter hosszúságának 20-nak kell lennie,<br>&#8226; A jelszónak legalább két betűt kell tartalmaznia [A-Za-z],<br>&#8226; A jelszónak legalább két számjegyet kell tartalmaznia [0-9],<br>&#8226; A jelszónak legalább két speciális karaktert kell tartalmaznia [!%&/()=?*#+-_]");
+define("_WIFIHOTSPOTPASSWORDERRORLEVEL3", "&#8226; A jelszó érvénytelen, a karakter hosszának legalább 12-nek, legfeljebb 32-nek kell lennie,<br>&#8226; A jelszónak tartalmaznia kell legalább két kisbetűt [a-z], <br>&#8226; A jelszónak legalább két nagybetűt [A-Z] kell tartalmaznia, <br>&#8226; A jelszónak legalább két számjegyet kell tartalmaznia [0-9],<br>&#8226; A jelszónak legalább két speciális karaktert kell tartalmaznia [!%&/()=?*#+-_]");
+define("_WIFISSIDERROR", "Az SSID érvénytelen, érvényes karakterek a..z A..Z 0..9 .,:;!#^+$%&/(){[]}=*?-_@<>|");
+define("_SELECTSECURITYTYPE", "Válassza ki a titkosítás típusát");
+define("_HOSTIPREQUIRED", "* HOst IP szükséges!");
+define("_CERTMANREQUIRED", "* Hitelesítéskezelés szükséges!");
+define("_OCPPENABLEALERT", "Ha önálló módban szerezné használni a töltőállomást,<br>először le kell tiltania az OCPP-kapcsolatot az OCPP beállítások menüben.");
+define("_NOTSAVEDALERT", "Az oldal nem lett elmentve.");
+define("_SAVEQUESTION", "Szeretné menteni a módosításokat?");
+define("_OKBUTTON", "OK");
+define("_LTECONNECTIONCONFIRM", "A mobilkapcsolat ki lesz kapcsolva. Folytatja?");
+define("_WIFICONNECTIONCONFIRM", "A Wi-Fi kapcsolat ki lesz kapcsolva. Folytatja?");
+define("_DHCPSERVERCONNECTIONCONFIRM", "Ha engedélyezni szeretné a LAN DHCP szervert,<br>először le kell tiltania a Wi-Fi Hotspotot<br>a &#39Wi-Fi Hotspot&#39 menüben.");
+define("_WIFIHOTSPOTCONNECTIONCONFIRM", "Ha engedélyezni szeretné a Wi-Fi hotspotot,<br>először le kell tiltania a LAN DHCP szervert<br>a &#39LAN IP Setting&#39 menüben.");
+
+define("_DYNAMIC", "Dinamikus");
+define("_DIAGNOSTICS", "Diagnosztika");
+define("_LOCALLOAD", "Helyi terheléskezelés");
+define("_DOWNLOAD", "Letöltés");
+define("_STARTDATE", "Kezdő dátum");
+define("_ENDDATE", "Befejező dátum");
+define("_CLEAREVENTLOGS", "Összes eseménynapló törlése");
+define("_CLEAREVENTLOGSINFO", "Ez törölni fogja az összes eseménynaplót!");
+define("_DOWNLOADEVENTLOGSINFO", "Töltse le az eszköz eseménynaplóit legfeljebb 5 napra");
+define("_DEVICEEVENTLOGS", "Eszköz eseménynaplói");
+define("_DEVICECHANGELOGS", "Eszköz változásnaplói");
+define("_LOGSDATEERROR", "Kérjük, válasszon dátumokat legfeljebb 5 napra.");
+define("_DOWNLOACHANGELOGS", "Eszköz változásnaplóinak letöltése");
+define("_VPNFUNCTIONALITY", "VPN-funkció: ");
+define("_CERTMANAGEMENT", "Tanúsítványkezelő: ");
+define("_NAME", "Név: ");
+define("_CONNECTIONINTERFACE", "Kapcsolati adapter ");
+define("_ANY", "Tetszőleges");
+define("_OCPPCONNPARAMETERS", "OCPP konfigurációs paraméterek");
+define("_SETDEFAULT", "Visszaállítás alapértelmezett értékekre ");
+define("_STANDALONEMODE", "Önálló mód");
+define("_STANDALONEMODETITLE", "Önálló mód:");
+define("_STANDALONEMODENOTSELECTED", "* Az Önálló mód nem választható ki, mert az OCPP engedélyezve van.");
+define("_CHARGERWEBUI", "Töltő webes felhasználói felülete");
+define("_SYSTEMMAINTENANCE", "Rendszerkarbantartás");
+define("_HOSTIP", "Host IP: ");
+define("_PASSWORDERRORLEVEL1", "A jelszó érvénytelen, a karakter hosszának legalább 6 karakternek kell lennie, és tartalmaznia kell legalább 1 kisbetűt, 1 nagybetűt és 1 számjegyet!");
+define("_SELECTBACKLIGHTDIMMING", "* Ki kell választani a háttérvilágítás fényerejének csökkentését!");
+define("_ISREQUIRED", "kötelező!");
+define("_ISNOTVALID", "érvénytelen!");
+define("_ISDUPLICATED", "megkettőződik!");
+define("_MUSTBENUMERIC", "számnak kell lennie!");
+define("_VPNFUNCTIONALITYREQUIRED", "* VPN-funkció szükséges!");
+define("_VPNNAMEREQUIRED", "* VPN-név szükséges!");
+define("_VPNPASSWORDREQUIRED", "* VPN-jelszó szükséges!");
+define("_EXPLANATION", "Kötelező mezőt jelöl.");
+define("_FIRMWAREUPDATE", "Firmware-frissítések");
+define("_BACKUPRESTORE", "Biztonsági mentés és visszaállítás konfigurálása");
+define("_SYSTEMRESET", "Újraindítás");
+define("_CHANGEADMINPASSWORD", "Admin jelszó");
+define("_FACTORYRESET", "Gyári beállítások");
+define("_FACTORYRESETBUTTON", "Gyári beállítások visszaállítása");
+define("_FACTORYDEFAULTCONFIGURATION", "Alapértelmezett gyári beállítások");
+define("_LOGFILES", "Naplófájlok");
+define("_BACKUPFILE", "Biztonságimentés-fájl");
+define("_RESTOREFILE", "Konfigurációs fájl visszaállítása");
+define("_FREEMODEMAXCHARACTER", "maximum 32 karakter lehet!");
+define("_RESTOREMESSAGE", "Alkalmazza a változtatásokat és újraindít most?");
+
+define("_TURKISH", "Türkçe");
+define("_ROMANIAN", "Română");
+define("_ENGLISH", "English");
+define("_GERMAN", "Deutsch");
+define("_FRENCH", "Français");
+define("_SPANISH", "Español");
+define("_ITALIAN", "Italiano");
+define("_FINNISH", "Suomi");
+define("_NORWEGIAN", "Norsk");
+define("_SWEDISH", "Svenska");
+define("_DUTCH", "Nederlands");
+define("_HEBREW", "עב&#39ת");
+define("_DANISH", "Dansk");
+define("_CZECH", "Čeština");
+define("_POLISH", "Polski");
+define("_HUNGARIAN", "Magyar");
+define("_SLOVAK", "Slovák");
+define("_BULGARIAN", "български");
+define("_GREEK", "Ελληνικά");
+define("_MONTENEGRIN", "црногорски");
+define("_BOSNIAN", "босански");
+define("_SERBIAN", "Srpski Jezik");
+define("_CROATIAN", "Hrvatski");
+
+define("_PASSWORDTYPEEXPLANATION", "A jelszó hat karakter kell legyen, és tartalmaznia kell legalább egy
+nagybetűt, egy kisbetűt és egy számot.");
+define("_PASSWORDTYPEEXPLANATIONLEVEL2", "A karakter hosszúságának 20-nak kell lennie, és legalább két betűt,
+két számjegyet és két speciális karaktert tartalmazhat.");
+define("_PASSWORDTYPEEXPLANATIONLEVEL3", "A jelszónak legalább 12, legfeljebb 32 karakterből kell állnia,
+és legalább két nagybetűt, két kisbetűt, két számjegyet és két speciális karaktert kell tartalmaznia.");
+
+define("_BACKTOLOGIN", "Vissza a bejelentkezéshez");
+define("_CHANGE", "Megváltoztatása");
+define("_SYSTEMADMINISTRATION", "Rendszerfelügyelet");
+define("_UPDATE", "Frissítés");
+define("_CONFIRM", "Megerősítés");
+define("_FACTORYDEFAULTCONFIRM", "Biztosan visszaállítja a gyári alapértékeket?");
+define("_FILENAME", "Fájlnév");
+define("_UPLOAD", "Feltöltés");
+define("_SELECTFIRMWARE", "Firmware-fájl feltöltése számítógépről");
+define("_FIRMWAREFILESIZE", "Ellenőrizze a firmware-fájl méretét.");
+define("_FIRMWAREFILETYPE", "Ellenőrizze a firmware-fájl típusát.");
+
+define("_LESSTHANOREQUAL4", "1 és 4 között kell lennie");
+define("_LESSTHANOREQUAL20", "a maximális érték 20 lehet");
+define("_LESSTHANOREQUAL65000", "a maximális érték 65000 lehet");
+define("_LESSTHANOREQUAL300", "a maximális érték 300 lehet");
+define("_LESSTHANOREQUAL86500", "a maximális érték 86500 lehet");
+define("_LESSTHANOREQUAL10000", "a maximális érték 10000 lehet");
+define("_LESSTHANOREQUAL22", "a maximális érték 22 lehet");
+define("_LESSTHANOREQUAL10", "a maximális érték 10 lehet");
+define("_LESSTHANOREQUAL600", "a maximális érték 600 lehet");
+define("_LESSTHANOREQUAL120", "a maximális érték 120 lehet");
+define("_HIGHTHANOREQUAL0", "0-nál nagyobbnak vagy egyenlőnek kell lennie");
+define("_CHANGEPASSWORDSUGGESTION", "Javasoljuk, hogy módosítsa az alapértelmezett jelszót a rendszerkarbantartás menüben");
+
+define("_FILESIZE", "Ellenőrizze a fájl méretét.");
+define("_FILETYPE", "Ellenőrizze a fájl típusát.");
+
+define("_BACKUPVERSIONCHECK", "Ez a verzió nem megfelelő az eszközhöz.");
+define("_HARDRESETCONFIRM", "Biztosan elvégzi a hardveres újraindítást?");
+define("_SOFTRESETCONFIRM", "Biztosan elvégzi a szoftveres újraindítást?");
+define("_NEWSETUP", "A beállításhoz használja a kezelési útmutatót.");
+
+define("_LOGOSETTINGS", "Logóbeállítások");
+define("_USELOGO", "Válasszon logót a számítógépről");
+define("_LOGOTYPE", "Png formátumú logót válasszon.");
+define("_LOGODIMENSION", "A logó maximális mérete 80x80 lehet, válasszon megfelelő méretű logót.");
+
+define("_SERVICECONTACTINFO", " Ügyfélszolgálat elérhetőségének megjelenítése");
+define("_SERVICECONTACTINFOCHARACTER", "Ügyfélszolgálat elérhetősége maximum 25 karakter lehet!<br>Érvényes karakterek a..z 0..9 .+@*");
+
+define("_SCREENTHEME", "Kijelzőtéma");
+define("_DARKBLUE", "Sötétkék");
+define("_ORANGE", "Narancssárga");
+define("_PLEASEENTERRFIDLOCALLIST", "Adjon meg RFID helyi listát!");
+
+define("_LOADMANAGEMENT", "Terheléskezelés");
+define("_CPROLE", "Charge Point Role");
+define("_GRIDSETTINGS", "Hálózati beállítások");
+define("_LOADMANAGEMENTMODE", "Terheléskezelési mód");
+define("_LOADMANAGEMENTGROUP", "Terheléskezelési csoport");
+define("_LOADMANAGEMENTOPTION", "Terheléskezelési lehetőség");
+define("_ALARMS", "Riasztások");
+
+define("_MASTER", "Master");
+define("_SLAVE", "Slave");
+define("_TOTALCURRENTLIMIT", "Teljes áramkorlát fázisonként");
+define("_SUPPLYTYPE", "Táp típusa");
+define("_FIFOPERCANTAGE", "FIFO százalék");
+define("_TIC", "TIC");
+define("_EQUALLYSHARED", "Egyenlően megosztva");
+define("_COMBINED", "Kombinált");
+define("_TOTALCURRENTLIMITERROR", "A teljes áramkorlát fázisonként kötelező!");
+define("_LESSTHAN1024", "kevesebbnek kell lennie, mint 1024");
+define("_ATLEAST0","legalább 0-nak kell lennie");
+define("_MORETHAN12", "többnek kell lennie, mint 12");
+define("_CHOOSEONE", "Válasszon egyet");
+define("_SLAVEMINCHCURRENT", "Offline állapot esetén érvényes biztonsági áramkorlát");
+define("_SERIALNO", "Sorozatszám");
+define("_CONNECTORSTATE", "Csatlakozó állapota");
+define("_NUMBEROFPHASES", "Fázisok száma");
+define("_PHASECONSEQUENCE", "Fázisbekötési sorrend");
+define("_VIP", "VIP-töltés");
+define("_CPMODE", "CP Mode");
+define("_VIPERROR", "VIP-töltés szükséges");
+define("_PHASECONSEQUENCEERROR", "A fázisbekötési sorrend kötelező!");
+define("_CPMODEERROR", "CP-üzemmód kötelező!");
+define("_SUPPORTEDCURRENT", "Támogatott teljesítmény");
+define("_INSTANTCURPERPHASE", "Pillanatnyi fázis");
+define("_FIFOCHARGINGPERCENTAGE", "FIFO töltési százalék");
+define("_MINIMUMCURRENT1P", "Minimális teljesítmény 1 fázis");
+define("_MINIMUMCURRENT3P", "Minimális teljesítmény 3 fázis");
+define("_MAXIMUMCURRENT", "Maximális teljesítmény");
+define("_STEP", "Lépés");
+define("_UPDATEDLMGROUP", "DLM-csoport frissítése");
+define("_MAINCIRCUITCURRENT", "Maximális hálózatáram");
+define("_MAINCIRCUITCURRENTERROR", "Maximális hálózati áramerősség szükséges!");
+define("_DLMMAXCURRENT", "DLM teljes áramkorlát fázisonként");
+define("_DLMMAXCURRENTERROR", "DLM teljes áramkorlát fázisonként szükséges!");
+define("_DLMMAXCURRENTMORETHANMAIN", "A DLM teljes áramkorlátja több, mint a fő áramkör megszakító áramának a fele");
+define("_DLMMAXCURRENTLESSTHANMAIN", "A DLM teljes áramkorlátjának kisebbnek kell lennie, mint a fő áramkör megszakító árama");
+
+define("_DHCPSERVER", "DHCP Server");
+define("_DHCPCLIENT", "DHCP Kliens");
+
+define("_MAXDHCPADDRRANGE", "DHCP Server End IP-cím");
+define("_MINDHCPADDRRANGE", "DHCP Server Start IP-cím");
+
+define("_MAXDHCPADDRRANGEERROR", "DHCP Server End IP-cím szükséges!");
+define("_MINDHCPADDRRANGEERROR", "DHCP Server Start IP-cím szükséges!");
+define("_DIFFERENCEBETWEENMAXANDMINADDRRANGE", "DHCP Server End IP-címnek nagyobbnak kell lennie, mint a DHCP Server Start IP-cím");
+define("_IPADDRESSRANGE", "IP-cím nem lehet a DHCP Server Start és End IP-címek közötti érték");
+define("_INVALIDSUBNET", "IP-cím nincs a valós alhálózatban");
+
+define("_CONNECTIONSTATUS", "Kapcsolat állapota");
+
+define("_INSTALLATIONSETTINGS", "Telepítési beállítások");
+define("_EARTHINGSYSTEM", "Földelési rendszer");
+define("_CURRENTLIMITERSETTINGS", "Áramkorlátozó beállításai");
+define("_CURRENTLIMITERPHASE", "Áramkorlátozó-fázis");
+define("_CURRENTLIMITERVALUE", "Áramkorlátozó értéke");
+define("_UNBALANCEDLOADDETECTION", "Kiegyenlítetlen terhelés érzékelése");
+define("_EXTERNALENABLEINPUT", "Külső vezérlés bekapcsolása");
+define("_LOCKABLECABLE", "Zárolható kábel");
+define("_POWEROPTIMIZERTOTALCURRENTLIMIT", "Teljesítményoptimalizáló teljes áramkorlátja");
+define("_POWEROPTIMIZER", "Teljesítményoptimalizáló");
+define("_TNORTT", "TN/TT");
+define("_SPLITPHASE", "IT/Split Phase");
+define("_ONEPHASE", "Egy fázis");
+define("_THREEPHASE", "Három fázis");
+define("_POWEROPTIMIZERTOTALCURRENTLIMITMORETHANOREQUAL16", "A teljesítményoptimalizáló <br> teljes áramkorlátja <br> minimum 16 legyen");
+define("_POWEROPTIMIZERTOTALCURRENTLIMITLESSTHANOREQUAL100", "A teljesítményoptimalizáló <br> teljes áramkorlátja <br> teljes áramkorlátja maximum 100 legyen");
+define("_FOLLOWTHESUN", "Kövesd a napot");
+define("_FOLLOWTHESUNMODE", "Kövesse a nap üzemmódot");
+define("_AUTOPHASESWITCHING", "Automatikus fázisváltás");
+define("_MAXHYBRID", "Max hibrid");
+define("_SUNONLY", "Csak a nap");
+define("_SUNHYBRID", "Sun hibrid");
+
+define("_DISPLAYBACKLIGHTSETTINGS", "Kijelző-háttérvilágítás beállításai");
+define("_BACKLIGHTLEVEL", "Háttérvilágítás szintje");
+define("_SUNRISETIME", "Napkelte időpontja ");
+define("_SUNSETTIME", "Napnyugta időpontja");
+
+define("_HIGH", "Magas");
+define("_MID", "Közepes");
+define("_LOW", "Alacsony");
+
+define("_A", " (A)");
+
+define("_CURRENTLIMITERVALUELESSTHAN8", "* Ha a EVReadySupport be van kapcsolva, és az áram határértéke egy fázis, az áram határértéke nem lehet kisebb 8-nál!");
+define("_CURRENTLIMITERVALUELESSTHAN14", "* Ha a EVReadySupport be van kapcsolva, és az áram határértéke háromfázisú, az áram határértéke nem lehet kisebb 14-nél!");
+define("_LEDDIMMINGSETTINGS", "LED fényerő beállítások");
+define("_LEDDIMMINGLEVEL", "LED fényerő szintje ");
+define("_VERYLOW", "Nagyon alacsony");
+
+define("_CELLULARGATEWAYCONFIRM", "A mobilkapcsolat ki lesz kapcsolva.");
+
+define("_ETHERNETIP", "Ethernet interfész IP:");
+define("_WLANIP", "WLAN interfész IP:");
+define("_STRENGTH", "Erő: ");
+define("_WIFIFREQ", "Frekvencia");
+define("_WIFILEVEL", "Szint");
+define("_CELLULARIP", "Cellas interfész IP:");
+define("_CELLULAROPERCODE" , "Operátor");
+define("_CELLULARTECH" , "Technológia");
+define("_APPLICATIONRESTART", "Ez a módosítás az alkalmazás újraindítását igényli.");
+define("_ACCEPTQUESTION", "Elfogadja a változtatásokat?");
+define("_POWEROPTIMIZEREXTERNALMETER", "Külső mérő");
+define("_OPERATIONMODE", "Üzemmód");
+define("_AUTOSELECTED", "Automatikusan kiválasztva");
+define("_NOTSELECTED", "Nincs kiválasztva");
+define("_CHARGINGMODESELECTIONANDPOWEROPTIMIZERCONF", "Töltési Mód Kiválasztása és az Energiaoptimalizáló Konfigurálása");
+define("_SCANNETWORKS" , "Hálózatok keresése");
+define("_AVAILABLENETWORKS" , "Elérhető hálózatok");
+define("_NETWORKSTATUS" , "Hálózati állapot");
+define("_PLEASEWAITMSG" , "Kérem várjon...");
+define("_SCANNINGWIFIMSG" , "Wi-Fi hálózatok keresése");
+define("_NOWIFIFOUNDMSG" , "Nem található Wi-Fi hálózat");
+define("_PLEASECHECKWIFICONNMSG" , "Kérem ellenőrizze a Wi-Fi kapcsolatot, és próbálja újra.");
+
+define("_USERINTERACTION", "Felhasználói interakció");
+
+define("_STANDBYLEDBEHAVIOUR", "Készenléti LED viselkedése");
+define("_OFF", "Kikapcsolni");
+define("_ON", "Bekapcsolni");
+define("_QRCODE", "QR -kód megjelenítése");
+define("_QRCODEONSCREEN", "QR -kód a képernyőn");
+define("_QRCODEDELIMITER", "QR -kód határoló");
+define("_INVALIDDELIMITERCHARACTER", "A QR-kód határoló karaktere érvénytelen, szóköz karakter nem elfogadható, a karakter hosszának legalább 1 és legfeljebb 3 karakternek kell, érvényes karakterek 0..9 .,:;!#^+$%&/(){[]}=*?-_@<>|");
+
+define("_LOCATION", "Elhelyezkedés");
+define("_INDOOR", "Beltéri");
+define("_OUTDOOR", "Szabadtéri");
+
+define("_LOADSHEDDINGMINIMUMCURRENT", "Terhelésleválasztó minimális áram");
+define("_UNBALANCEDLOADDETECTIONMAXCURRENT", "Kiegyensúlyozatlan terhelés észlelése Max. áram");
+
+define("_SCHEDULEDCHARGING", "Ütemezett töltés");
+define("_OFFPEAKCHARGING", "Csúcsidőn kívüli töltés");
+define("_OFFPEAKCHARGINGWEEKENDS", "Csúcsidőn kívüli töltési hétvégék");
+define("_OFFPEAKCHARGINGPERIODS", "Csúcsidőn kívüli töltési időszakok");
+define("_CONTINUECHARGINGENDPEAKINTERVAL", "Töltés folytatása a csúcsidőszak végén");
+define("_CONTINUECHARGINGWITHOUTREAUTHAFTERPOWERLOSS", "Töltés folytatása újraazonosítás nélkül áramkimaradás után");
+define("_RANDOMISEDDELAYMAXIMUMDURATION", "Véletlenszerű késleltetés maximális <br> időtartama (másodperc)");
+
+define("_RANDOMISEDDELAYMAXIMUMDURATIONERROR", "* Véletlenszerű késleltetés maximális időtartama szükséges!");
+define("_RANDOMISEDDELAYMAXIMUMDURATIONBENUMERIC", "* Véletlenszerű késleltetés maximális időtartamának egész számnak kell lennie!");
+define("_RANDOMISEDDELAYMAXIMUMDURATIONLIMIT", "* A véletlenszerű késleltetés maximális időtartamának 0 és 1800 között kell lennie");
+define("_OFFPEAKCHARGINGPERIODSERROR", "* Csúcsidőn kívüli töltési időszak szükséges!");
+define("_OFFPEAKCHARGINGPERIODSSAMETIMEERROR", "* Csúcsidőn kívüli töltés kezdési és befejezési ideje nem lehet azonos!");
+define("_OFFPEAKCHARGINGSECONDTIMEPERIOD", "Csúcsidőn kívüli töltés második időszaka");
+define("_OFFPEAKDISABLEDCONFIRM", "Csúcsidőn kívüli töltés le lesz tiltva. Folytatja?");
+define("_SHOWSERVICECONTACTINFO", "Extra szolgáltatás elérhetőségi adatainak megjelenítése");
+define("_EXTRASERVICECONTACTINFORMATION", "A szerviz elérhetőségei a Csatlakoztassa a töltőkábelt, a töltés előkészítése, az inicializálás és a csatlakozásra váró képernyőkön láthatók");
+
+define("_LOADSHEDDINGSTATUS", "Terheléscsökkentés állapota:");
+define("_ACTIVE", "Aktív");
+define("_INACTIVE", "Inaktív");
+define("_POWEROPTIMIZEREXTERNALMETERENABLEALERT", "Ha a Modbus terheléskezelési opcióját szeretné használni,<br>először le kell tiltania a Power Optimizer teljes áramkorlátját<br>a &#39Töltési mód kiválasztása és az Energiaoptimalizáló konfigurálása&#39 részben.");
+define("_MODBUSALERT", "Ha engedélyezni szeretné a Power Optimizer külső mérőműszerét,<br>először diaktiválnia kell a Modbust<br>a &#39Local Load Management&#39 webhelyről.");
+define("_POWEROPTIMIZERDLMENABLEALERT", "Ha használni szeretné a Terheléskezelési lehetőséget Master/Slave módban,<br>először ki kell kapcsolnia a Teljesítményoptimalizálót<br>a &#39Töltési mód kiválasztása és Teljesítményoptimalizáló konfiguráció&#39 beállításából.");
+define("_DLMALERT", "Ha aktiválni szeretné a Teljesítményoptimalizálót,<br>először ki kell kapcsolnia a Master/Slave-t<br>a &#39Helyi Terheléskezelés&#39-ből.");
+
+define("_FOLLOWTHESUNDLMENABLEALERT", "Ha használni szeretné a Terheléskezelési lehetőséget Master/Slave módban,<br>először ki kell kapcsolnia a Kövesd a napot<br>a &#39Töltési mód kiválasztása és Teljesítményoptimalizáló konfiguráció&#39 beállításából.");
+define("_DLMALERTFOLLOWTHESUN", "Ha aktiválni szeretné a Kövesd a napot,<br>először ki kell kapcsolnia a Master/Slave-t<br>a &#39Helyi Terheléskezelés&#39-ből.");
+
+define("_RESETUSERPASSWORD", "Felhasználói jelszó <br> visszaállítása");
+define("_INSTALLATIONERRORENABLEDCONFIRM", "Ha le szeretné tiltani a Telepítési hiba engedélyezését,<br>először a Földelési rendszert a &#39Telepítési beállítások&#39 lehetőségnél IT/Split Phase értékre kell állítania.");
+define("_EARTHINGSYSTEMCONFIRM", "Ha a Földelési rendszert TN/TT-re szeretné állítani,<br>először engedélyeznie kell a Telepítési hiba engedélyezését az &#39OCPP-beállítások&#39 menüpontban.");
+
+define("_AUTHKEYMAXLIMIT", "hossza legfeljebb 40 karakter lehet.");
+define("_AUTHORIZATIONKEYEMPTYCONFIRM", "Az Authorization Key mező üres.<br>Megerősíti a változtatásokat?");
+
+define("_RANDOMISEDDELAYATOFFPEAKEND", "Véletlenszerű késleltetés csúcsidőn kívül");
+define("_FIFO", "FIFO");
+define("_FAILSAFECURRENT", "Hibabiztos áram");
+define("_FAILSAFECURRENTERROR", "Hibabiztos áramra van szükség!");
+define("_FAILSAFECURRENTLESSTHAN0", "* Hibabiztos áramérték nem lehet kisebb 0-nál!");
+define("_FAILSAFECURRENTMORETHAN32", "* Hibabiztos áramérték nem lehet nagyobb 32-nél!");
+define("_FAILSAFECURRENTMORETHAN50", "* Hibabiztos áramérték nem lehet több 50-nél!");
+
+define("_LOCALCHARGESESSION", "Helyi díjú munkamenetek");
+define("_ROWNUMBER", "Sor száma");
+define("_SESSIONUUID", "töltés ID");
+define("_AUTHORIZATIONUID", "RFID kod");
+define("_STARTTIME", "Kezdési idő");
+define("_STOPTIME", "Befejezési Idő");
+define("_TOTALTIME", "Teljes Időtartam");
+define("_STATUS", "Állapot");
+define("_CHARGEPOINTIDS", "Aljzat száma");
+define("_INITIALENERGY", "Kezdeti energia(kWh)");
+define("_LASTENERGY", "Utolso Energia(kWh)");
+define("_TOTALENERGY", "Teljes energia(kWh)");
+define("_DOWNLOADLOCALCHARGESESSIONLOGS", "Teljes munkamenet bejelentkezés CSV-ben");
+define("_DOWNLOADFULLSESSIONLOGS", "Összefoglaló bejelentkezés CSV-ben");
+define("_STARTDATE", "kezdő dátum");
+define("_ENDDATE", "befejezés dátuma");
+define("_RFIDSELECTION", "RFID kiválasztása");
+define("_CLEAR", "egyértelmű");
+
+define("_FALLBACKCURRENT", "Tartalékáram");
+define("_FALLBACKRANGE", "A tartalék áramnak 0-nak vagy a tartományon belül kell lennie ");
+define("_DOWNLOADEEBUSLOGS", "EEBUS naplók");
+define("_PAIRINGENERGYMANAGER", "Engedélyezve a párosításhoz");
+define("_PAIR", "Párosítás engedélyezése");
+define("_UNPAIR", "Unpair");
+define("_EEBUS", "EEBUS");
+define("_FIRMWAREVERSION", "Firmware verzió");
+define("_EEBUSDISCOVERY", "Felfedezett eszközök");
+define("_REFRESH", "Frissítés");
+define("_CPROLEMASTERREQUIREDFIELD", "Ha frissíteni szeretné a terheléskezelési csoport beállításait, a terheléskezelési általános beállításokból a terhelési pont szerepkört &#39Master&#39 néven kell menteni.");
+
+define("_LISTOFSLAVES", "Szolgok listája");
+define("_NUMBEROFSLAVES", "Szolgák száma");
+define("_LISTOFCONNECTOR", "Csatlakozók listája");
+define("_AVAILABLECURRENT", "Elérhető jelenlegi fázis");
+
+define("_DLMINTERFACE", "DLM interfész");
+define("_ETHERNET", "Ethernet");
+define("_DLMINTERFACEERROR", "WiFi engedélyezése a hálózati interfészekről!");
+
+define("_MUSTBEINTEGER", "egész számnak kell lennie!");
+define("_GRIDBUFFER", "Rács védelmi árrés százaléka");
+define("_CHARGINGSTATUSALERT", "Töltési állapotban az érték nem frissíthető!");
+define("_READUNDERSTAND", "Elolvastam, értem");
+
+define("_MORETHAN10", "Növelnie kell a Maximális hálózati áramerősséget vagy csökkentenie kell a hálózati védelmi ráhagyás százalékát, mielőtt elmenti ezeket a beállításokat. A Maximális hálózati áram korlátja nem lehet alacsonyabb 10A-nél a Hálózati védelmi ráhagyás százalékos használatakor.");
+
+define("_CLUSTERMAXCURRENT", "Cluster Max Current");
+define("_CLUSTERFAILSAFECURRENT", "Cluster Failsafe Current");
+define("_CLUSTERMAXCURRENTERROR", "Cluster Max Current szükséges!");
+define("_CLUSTERFAILSAFECURRENTERROR", "Cluster Failsafe Current szükséges!");
+define("_CLUSTERFAILSAFECURRENTLESSTHAN0", "Cluster Failsafe jelenlegi értéke nem lehet kisebb 0-nál!");
+define("_CLUSTERFAILSAFECURRENTMORETHAN", "Cluster Failsafe Current értékének kisebbnek kell lennie, mint a Maximum Grid Current!");
+define("_CLUSTERFAILSAFE", "Cluster Failsafe Mode");
+
+define("_CLUSTERMAXCURRENTLESSTHAN10", "A fürt maximális aktuális értéke nem lehet kisebb 10-nél");
+define("_CLUSTERMAXCURRENTMORETHAN", "A fürt maximális aktuális értékének egyenlőnek vagy kisebbnek kell lennie ezzel az értékkel:");
