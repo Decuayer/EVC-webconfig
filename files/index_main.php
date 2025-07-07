@@ -337,6 +337,7 @@ include_once 'languageController.php';
         // Eebus Discovery
         $stmt = $webconfigDB->prepare("SELECT * FROM eebusDiscovery");
         $eebusDiscovery = $stmt->execute();
+        
         $rowEebusDiscovery = $eebusDiscovery->fetchArray();
         $skiDiscovery = $rowEebusDiscovery['ski'];
 
@@ -570,7 +571,7 @@ include_once 'languageController.php';
         $size = 92 / (sizeof($tabs_display) - $display_none_count);
         $size = "width: " . strval($size) . "vw";
         foreach ($tabs_display as $key => $value) {
-            $tabs_display[$key] = $tabs_display[$key] . $size;
+            $tabs_display[$key] = $tabs_display[$key];
         }
 
         //Installation Settings
@@ -1225,7 +1226,7 @@ include_once 'languageController.php';
                     }
                 ?>
                 <img src="/css/weblogo.png" alt="logo" height="40" class="me-2" style="<?php echo $logoStyle."display:".$logoDisplay; ?>">
-                <span class="fw-bold text-nowrap"><?php echo $deviceModel;?></span>
+                <span id="headerTitle" class="fw-bold text-nowrap"><?php echo $deviceModel;?></span>
             </div>
             <div class="d-flex align-items-center ms-auto">
                 <form method="post">
@@ -1239,92 +1240,98 @@ include_once 'languageController.php';
                     </select>
                     <input id="changeLangButton" type="submit" hidden />
                 </form>
-                <a href="logout.php" id="logoutText" class="btn btn-outline-light btn-sm"><?= _LOGOUT ?></a>
+                <div id="logoutLocation">
+                    <a href="logout.php" id="logoutText" class="btn btn-outline-light btn-sm"><?= _LOGOUT ?></a>
+                </div>
             </div>
         </div>
-    </header>
+    </header>   
     <div class="animationBar">
         <div></div>
         <div></div>
         <div></div>
         <div></div>
     </div>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <!--configurationSettings.json FILE SOULD BE UPDATED FOR EACH SETTINGS ADDED TO WEBCONFIG-->
+    <nav id="mainpage-navbar" class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container container-fluid">
             <a href="#" class="navbar-brand d-lg-none">Menu</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <button class="navbar-toggler" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav">
-                    <li id="mainPageTab" class="nav-item"><a class="nav-link" style="display:<?php echo $tabs_display["mainPageTab"] ?>" onclick="openTab(event, 'MainPage')" id="defaultOpen"><?= _MAINPAGE ?></a></li>
-                    <li id="generalSettingsTab" class="nav-link dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["generalSettingsTab"] ?>" onclick="openTab(event, 'General')" id="generalNav"><?= _GENERAL ?></a>
+                    <li id="mainPageTab" class="nav-item"><a class="nav-link tablinks const" style="display:<?php echo $tabs_display["mainPageTab"] ?>" onclick="openTab(event, 'MainPage')" id="defaultOpen"><?= _MAINPAGE ?></a></li>
+                    <li id="generalSettingsTab" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle tablinks" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["generalSettingsTab"] ?>" onclick="openTab(event, 'General')" id="GeneralNav"><?= _GENERAL ?></a>
                         <ul class="dropdown-menu d-md-none">
-                            <li><a class="dropdown-item" href="#" >Display Language</a></li>
-                            <li><a class="dropdown-item" href="#">Display Backlight Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Led Dimming Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Standby Led Behaviour</a></li>
-                            <li><a class="dropdown-item" href="#">Display Theme</a></li>
-                            <li><a class="dropdown-item" href="#">Display Service Contact Info</a></li>
-                            <li><a class="dropdown-item" href="#">Logo Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Display QR Code</a></li>
-                            <li><a class="dropdown-item" href="#">Schedulde Charging</a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'LanguageSettings', 'General')" id="languageSettingsBar"><?= _DISPLAYLANGUAGE ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'DisplayBacklightSettings', 'General')" id="displayBacklightSettingsBar"><?= _DISPLAYBACKLIGHTSETTINGS ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'LedDimmingSettings', 'General')" id="ledDimmingSettingsBar"><?= _LEDDIMMINGSETTINGS ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'StandbyLedBehaviour', 'General')" id="standbyLedBehaviourBar"><?= _STANDBYLEDBEHAVIOUR ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'ThemeSettings', 'General')" id="themeSettingsBar"><?= _SCREENTHEME ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'ServiceContactSettings', 'General')" id="contactInfoBar"><?= _SERVICECONTACTINFO ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'LogoSettings', 'General')" id="logoSettingsBar"><?= _LOGOSETTINGS ?></a></li>
+                            <li><a class="dropdown-item barlinks" style="display:<?php echo $displayQRCode; ?>" onclick="openBar(event, 'QRCodeSettings', 'General')" id="qrCodeBar"><?= _QRCODE ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'ScheduledCharging', 'General')" id="scheduledChargingBar"><?= _SCHEDULEDCHARGING ?></a></li>
                         </ul>
                     </li>
                     <li id="installationSettingsTab" class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["installationSettingsTab"] ?>" onclick="openTab(event, 'InstallationSettings')" id="installationSettingsNav"><?= _INSTALLATIONSETTINGS ?></a>
+                        <a class="nav-link dropdown-toggle tablinks" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["installationSettingsTab"] ?>" onclick="openTab(event, 'InstallationSettings')" id="InstallationSettingsNav"><?= _INSTALLATIONSETTINGS ?></a>
                         <ul class="dropdown-menu d-md-none">
-                            <li><a class="dropdown-item" href="#">Earthing System</a></li>
-                            <li><a class="dropdown-item" href="#">Current Limiter Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Unbalanced Load Detection</a></li>
-                            <li><a class="dropdown-item" href="#">External Enable Input</a></li>
-                            <li><a class="dropdown-item" href="#">Lockable Cable</a></li>
-                            <li><a class="dropdown-item" href="#">Charging Mode Selection and Power Optimizer Configuration</a></li>
-                            <li><a class="dropdown-item" href="#">Load Shedding Minimum Current</a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'EarthingSystem', 'InstallationSettings')" id="earthingSystemBar"><?= _EARTHINGSYSTEM ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'CurrrentLimitterSettings', 'InstallationSettings')" id="currentLimiterBarSettingsBar"><?= _CURRENTLIMITERSETTINGS ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'UnbalancedLoadDetection', 'InstallationSettings')" id="unbalancedLoadDetectionBar"><?= _UNBALANCEDLOADDETECTION ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'ExternalEnableInput', 'InstallationSettings')" id="externalEnableInputBar"><?= _EXTERNALENABLEINPUT ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'LockableCable', 'InstallationSettings')" id="lockableCableBar"><?= _LOCKABLECABLE ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'PowerOptimizerCurrentLimit', 'InstallationSettings')" id="powerOptimizerCurrentLimitBar"><?= _CHARGINGMODESELECTIONANDPOWEROPTIMIZERCONF ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'LoadSheddingMinimumCurrent', 'InstallationSettings')" id="loadSheddingMinimumCurrentBar"><?=  _LOADSHEDDINGMINIMUMCURRENT?></a></li>
                         </ul>
                     </li>
                     <li id="ocppSettingTab" class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["ocppSettingTab"] ?>" onclick="openTab(event, 'OCPPSettings')" id="ocppNav" ><?= _OCPPSETTINGS ?></a>
+                        <a class="nav-link dropdown-toggle tablinks" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["ocppSettingTab"] ?>" onclick="openTab(event, 'OCPPSettings')" id="OCPPSettingsNav" ><?= _OCPPSETTINGS ?></a>
                         <ul class="dropdown-menu d-md-none">
-                            <li><a class="dropdown-item" href="#">OCPP Connection</a></li>
-                            <li><a class="dropdown-item" href="#">OCPP Version</a></li>
-                            <li><a class="dropdown-item" href="#">Connection Settings</a></li>
-                            <li><a class="dropdown-item" href="#">OCPP Configuration Parameters</a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBarOCPP(event, 'OCPPConnection', 'OCPPSettings')" id="defaultOpenOCPP"><?= _OCPPCONNECTION ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBarOCPP(event, 'OCPPVersion', 'OCPPSettings')" id="ocppVersionBar"><?= _OCPPVERSION ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBarOCPP(event, 'OCPPConnectionSettings', 'OCPPSettings')" id="ocppConnectionSettingsBar"><?= _CONNECTIONSETTINGS ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBarOCPP(event, 'OCPPConfiguration', 'OCPPSettings')" id="ocppConnectionParametersBar"><?= _OCPPCONNPARAMETERS ?></a></li>
                         </ul>
                     </li>
                     <li id="networkInterfacesTab" class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["networkInterfacesTab"] ?>" onclick="openTab(event, 'NetworkInterfaces')" id="networkNav" ><?= _NETWORKINTERFACES ?></a>
+                        <a class="nav-link dropdown-toggle tablinks" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["networkInterfacesTab"] ?>" onclick="openTab(event, 'NetworkInterfaces')" id="NetworkInterfacesNav" ><?= _NETWORKINTERFACES ?></a>
                         <ul class="dropdown-menu d-md-none">
-                            <li><a class="dropdown-item" href="#">LAN</a></li>
-                            <li><a class="dropdown-item" href="#">WLAN</a></li>
-                            <li><a class="dropdown-item" href="#">Wi-Fi Hotspot</a></li>
+                            <li><a class="dropdown-item barlinks" style="display:<?php echo $cellularDisplay; ?>" onclick="openBar(event, 'CellularNetwork', 'NetworkInterfaces')" id="cellularBar"><?= _CELLULAR ?></a></li>
+                            <li><a class="dropdown-item barlinks" style="display:<?php echo $ethernetDisplay; ?>" onclick="openBar(event, 'LanNetwork', 'NetworkInterfaces')" id="lanBar">LAN</a></li>
+                            <li><a class="dropdown-item barlinks" style="display:<?php echo $wifiDisplay; ?>" onclick="openBar(event, 'WlanNetwork', 'NetworkInterfaces')" id="wlanBar"><?= _WIFI ?></a></li>
+                            <li><a class="dropdown-item barlinks" style="display:<?php echo $wifiDisplay; ?>" onclick="openBar(event, 'WifiHotspotNetwork', 'NetworkInterfaces')" id="wifiHotspotBar"><?= _WIFIHOTSPOT ?></a></li>
                         </ul>
                     </li>
-                    <li id="standaloneModeTab" class="nav-item"><a class="nav-link" style="display:<?php echo $tabs_display["standaloneModeTab"] ?>" onclick="openTab(event, 'StandaloneMode')" id="standaloneNav" ><?= _STANDALONEMODE ?></a></li>
+                    <li id="standaloneModeTab" class="nav-item"><a class="nav-link tablinks const" style="display:<?php echo $tabs_display["standaloneModeTab"] ?>" onclick="openTab(event, 'StandaloneMode')" id="StandaloneModeNav" ><?= _STANDALONEMODE ?></a></li>
                     <li id="localLoadManagementTab" class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["localLoadManagementTab"] ?>" onclick="openTab(event, 'LocalLoadManagement')" id="localNav"><?= _LOCALLOAD ?></a>
+                        <a class="nav-link dropdown-toggle tablinks" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["localLoadManagementTab"] ?>" onclick="openTab(event, 'LocalLoadManagement')" id="LocalLoadManagementNav"><?= _LOCALLOAD ?></a>
                         <ul class="dropdown-menu d-md-none">
-                            <li><a class="dropdown-item" href="#">General Settings</a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'LoadManagement', 'LocalLoadManagement')" id="defaultLocalLoadBar"><?= _GENERAL ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'LoadManagementGroup', 'LocalLoadManagement')" id=loadManagementGroupButton><?= _LOADMANAGEMENTGROUP ?></a></li>
                         </ul>
                     </li>
                     <li id="systemMaintenanceTab" class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["systemMaintenanceTab"] ?>" onclick="openTab(event, 'SystemMaintenance')" id="systemNav"><?= _SYSTEMMAINTENANCE ?></a>
+                        <a class="nav-link dropdown-toggle tablinks" data-bs-toggle="dropdown" style="display:<?php echo $tabs_display["systemMaintenanceTab"] ?>" onclick="openTab(event, 'SystemMaintenance')" id="SystemMaintenanceNav"><?= _SYSTEMMAINTENANCE ?></a>
                         <ul class="dropdown-menu d-md-none">
-                            <li><a class="dropdown-item" href="#">Log Files</a></li>
-                            <li><a class="dropdown-item" href="#">Firmware Updates</a></li>
-                            <li><a class="dropdown-item" href="#">Configuration Backup & Restore</a></li>
-                            <li><a class="dropdown-item" href="#">System Reset</a></li>
-                            <li><a class="dropdown-item" href="#">Administration Password</a></li>
-                            <li><a class="dropdown-item" href="#">Factory Default Configuration</a></li>
-                            <li><a class="dropdown-item" href="#">Local Charge Sessions</a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'LogFiles', 'SystemMaintenance')" id="logFilesBar"><?= _LOGFILES ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'FirmwareUpdate', 'SystemMaintenance')" id="firmwareUpdatesBar"><?= _FIRMWAREUPDATE ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'BackupRestore', 'SystemMaintenance')" id="backupRestoreBar"><?= _BACKUPRESTORE ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'SystemReset', 'SystemMaintenance')" id="systemResetBar"><?= _SYSTEMRESET ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'Password', 'SystemMaintenance')" id="administrationPasswordBar"><?= $change_administration_password ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'FactoryDefault', 'SystemMaintenance')" id="factoryDefaultBar"><?= _FACTORYDEFAULTCONFIGURATION ?></a></li>
+                            <li><a class="dropdown-item barlinks" onclick="openBar(event, 'LocalChargeSession', 'SystemMaintenance')" id="localChargeSessionBar"><?= _LOCALCHARGESESSION ?></a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    
+    <!--configurationSettings.json FILE SOULD BE UPDATED FOR EACH SETTINGS ADDED TO WEBCONFIG-->
+
     <input type="hidden" id="active_tab" name="active_tab" value="MainPage" />
 
     <form method="post" autocomplete="off">
@@ -1335,18 +1342,22 @@ include_once 'languageController.php';
     </form>
 
     <div id="General" class="tabcontent" style="display:none">
+        <input type="hidden" id="active_bar_General" name="active_bar_General" value="LanguageSettings" />
         <?php include("generalTab.php"); ?>
     </div>
 
     <div id="InstallationSettings" class="tabcontent" style="display:none">
+        <input type="hidden" id="active_bar_InstallationSettings" name="active_bar_InstallationSettings" value="EarthingSystem" />
         <?php include("installationSettings.php"); ?>
     </div>
 
     <div id="OCPPSettings" class="tabcontent" style="display:none">
+        <input type="hidden" id="active_bar_OCPPSettings" name="active_bar_OCPPSettings" value="OCPPConnection" />
         <?php include("ocppSettingsTab.php"); ?>
     </div>
 
     <div id="NetworkInterfaces" class="tabcontent" style="display:none">
+        <input type="hidden" id="active_bar_NetworkInterfaces" name="active_bar_NetworkInterfaces" value="CellularNetwork" />
         <?php include("networkInterfacesTab.php"); ?>
     </div>
 
@@ -1358,14 +1369,16 @@ include_once 'languageController.php';
     </form>
 
     <div id="LocalLoadManagement" class="tabcontent" style="display:none">
+        <input type="hidden" id="active_bar_LocalLoadManagement" name="active_bar_LocalLoadManagement" value="LoadManagement" />
         <?php include("localLoadTab.php"); ?>
     </div>
 
     <div id="SystemMaintenance" class="tabcontent" style="display:none">
+        <input type="hidden" id="active_bar_SystemMaintenance" name="active_bar_SystemMaintenance" value="LogFiles" />
         <?php include("systemMaintenanceTab.php"); ?>
     </div>
 
-    <div id="notSavedAlertMessage" style="display:none">
+    <div class="container mt-4" id="notSavedAlertMessage" style="display:none">
         <p class="dialogText"><?= _NOTSAVEDALERT ?></p>
         <p class="dialogTextBold"><?= _SAVEQUESTION ?></p>
     </div>
@@ -2192,7 +2205,7 @@ include_once 'languageController.php';
     <script src="js/jquery.cookie.js?<?php echo time(); ?>"></script>
     <script src="js/webconfig.js?<?php echo time(); ?>"></script>
     <script src="js/main.js?<?php echo time(); ?>"></script>
-
+    <script src="js/bootstrap.min.js?<?php echo time(); ?>"></script>
     <?php ob_end_flush(); ?>
 </body>
 

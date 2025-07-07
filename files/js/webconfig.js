@@ -507,11 +507,12 @@ function disableUI() {
     divForLogs = document.createElement("div");
     divForLogs.className += "overlay";
     document.body.appendChild(divForLogs);
-    $('.animationBar').show();
+    $('.animationBar').css('display', 'flex');
 }
 
 function enableUI() {
-    $('.animationBar').hide();
+    $('.animationBar').css('display', 'none');
+
     if( document.body.contains(divForLogs)){
         document.body.removeChild(divForLogs);
     }
@@ -621,7 +622,8 @@ function openTab(tabEvent, tab) {
     checkSessionTimeout();
 
     var currentTab = document.getElementById("active_tab").value;
-    var currentBar = document.getElementById("active_bar").value;
+    var activeBarInput = document.getElementById(`active_bar_${currentTab}`);
+    var currentBar = activeBarInput ? activeBarInput.value : null;
     if (somethingChanged == true) {
         $("#notSavedAlertMessage").dialog({
             width: 580,
@@ -639,19 +641,19 @@ function openTab(tabEvent, tab) {
                     if (tab == "MainPage") {
                         document.getElementById("defaultOpen").click();
                     } else if (tab == "General") {
-                        document.getElementById("generalNav").click();
+                        document.getElementById("GeneralNav").click();
                     } else if (tab == "OCPPSettings") {
-                        document.getElementById("ocppNav").click();
+                        document.getElementById("OCPPSettingsNav").click();
                     } else if (tab == "NetworkInterfaces") {
-                        document.getElementById("networkNav").click();
+                        document.getElementById("NetworkInterfacesNav").click();
                     } else if (tab == "StandaloneMode") {
-                        document.getElementById("standaloneNav").click();
+                        document.getElementById("StandaloneModeNav").click();
                     } else if (tab == "SystemMaintenance") {
-                        document.getElementById("systemNav").click();
+                        document.getElementById("SystemMaintenanceNav").click();
                     } else if (tab == "InstallationSettings") {
-                        document.getElementById("installationSettingsNav").click();
+                        document.getElementById("InstallationSettingsNav").click();
                     } else if (tab == "LocalLoadManagement") {
-                        document.getElementById("localNav").click();
+                        document.getElementById("LocalLoadManagementNav").click();
                     }
                     $(this).dialog("close");
                 }
@@ -741,11 +743,59 @@ function openTab(tabEvent, tab) {
 }
 
 function callOpenTab(evt, tabName) {
-    var i, tabcontent, tablinks, default_bar;
+    const valueToBarId = {
+        LanguageSettings: "languageSettingsBar",
+        DisplayBacklightSettings: "displayBacklightSettingsBar",
+        LedDimmingSettings: "ledDimmingSettingsBar",
+        StandbyLedBehaviour: "standbyLedBehaviourBar",
+        ThemeSettings: "themeSettingsBar",
+        ServiceContactSettings: "contactInfoBar",
+        LogoSettings: "logoSettingsBar",
+        QRCodeSettings: "qrCodeBar",
+        ScheduledCharging: "scheduledChargingBar",
+    
+        EarthingSystem: "earthingSystemBar",
+        CurrrentLimitterSettings: "currentLimiterBarSettingsBar",
+        UnbalancedLoadDetection: "unbalancedLoadDetectionBar",
+        ExternalEnableInput: "externalEnableInputBar",
+        LockableCable: "lockableCableBar",
+        PowerOptimizerCurrentLimit: "powerOptimizerCurrentLimitBar",
+        LoadSheddingMinimumCurrent: "loadSheddingMinimumCurrentBar",
+    
+        OCPPConnection: "defaultOpenOCPP",
+        OCPPVersion: "ocppVersionBar",
+        OCPPConnectionSettings: "ocppConnectionSettingsBar",
+        OCPPConfiguration: "ocppConnectionParametersBar",
+    
+        CellularNetwork: "cellularBar",
+        LanNetwork: "lanBar",
+        WlanNetwork: "wlanBar",
+        WifiHotspotNetwork: "wifiHotspotBar",
+    
+        LoadManagement: "defaultLocalLoadBar",
+        LoadManagementGroup: "loadManagementGroupButton",
+    
+        LogFiles: "logFilesBar",
+        FirmwareUpdate: "firmwareUpdatesBar",
+        BackupRestore: "backupRestoreBar",
+        SystemReset: "systemResetBar",
+        Password: "administrationPasswordBar",
+        FactoryDefault: "factoryDefaultBar",
+        LocalChargeSession: "localChargeSessionBar"
+    };    
+
+    var i, tabcontent, tablinks;
+
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
+
+    var barcontent = document.getElementsByClassName("barcontent");
+    for (i = 0; i < barcontent.length; i++) {
+        barcontent[i].style.display = "none";
+    }
+
     tablinks = document.getElementsByClassName("tablinks");
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
@@ -755,45 +805,33 @@ function callOpenTab(evt, tabName) {
     evt.currentTarget.className += " active";
     document.getElementById("active_tab").value = tabName;
 
-    if (tabName == "General" || tabName == "InstallationSettings" || tabName == "NetworkInterfaces" || tabName == "SystemMaintenance") {
-        if (tabName == "General") {
-            bar_names = document.getElementById("general_settings_bar").getElementsByClassName("barlinks");
-        } else if (tabName == "InstallationSettings") {
-            bar_names = document.getElementById("installation_settings_bar").getElementsByClassName("barlinks");
-        } else if (tabName == "NetworkInterfaces") {
-            bar_names = document.getElementById("network_settings_bar").getElementsByClassName("barlinks");
-        } else if (tabName == "SystemMaintenance") {
-            bar_names = document.getElementById("system_maintenance_bar").getElementsByClassName("barlinks");
-        }
-        for (j = 0; j < bar_names.length; j++) {
-            if (bar_names[j].style.display != "none") {
-                default_bar = bar_names[j].id;
-                break;
-            }
-        }
-    }
+    const activeBarInput = document.getElementById(`active_bar_${tabName}`);
+    const defaultBar = activeBarInput ? activeBarInput.value : null;
+    const defaultBarID = activeBarInput ? valueToBarId[activeBarInput.value] : null;
 
     if (tabName == "General") {
-        document.getElementById(default_bar).click();
+        if (defaultBar) activateBar(defaultBar, defaultBarID);
     } else if (tabName == "OCPPSettings") {
         getDefaultParameters("ocppConnection");
         ocppConnection();
-        document.getElementById("defaultOpenOCPP").click();
+        if (defaultBar) activateBar(defaultBar, defaultBarID);
+        //document.getElementById("defaultOpenOCPP").click();
         openThePosition("OCPPConnectionPart");
 
     } else if (tabName == "NetworkInterfaces") {
-        document.getElementById(default_bar).click();
+        if (defaultBar) activateBar(defaultBar, defaultBarID);
         ethernetFunction();
         cellularFunction();
         wifiFunction();
         wifiHotspotFunction();
     } else if (tabName == "SystemMaintenance") {
-        document.getElementById(default_bar).click();
+        if (defaultBar) activateBar(defaultBar, defaultBarID);
     } else if (tabName == "LocalLoadManagement") {
-        document.getElementById("defaultLocalLoadBar").click();
+        if (defaultBar) activateBar(defaultBar, defaultBarID);
         CPRoleFunction();
     } else if (tabName == "StandaloneMode") {
-        if (selectOCPPConnection.value == 1) {
+        const selectOCPPConnectionStandalone = document.getElementById("selectOCPPConnection");
+        if (selectOCPPConnectionStandalone.value == 1) {
             if(isJQueryAndUIReady()){
                 $("#alertMessage").dialog({
                     width: 580,
@@ -805,7 +843,7 @@ function callOpenTab(evt, tabName) {
                         text: ok_button,
                         class: "okButton",
                         click: function () {
-                            document.getElementById("ocppNav").click();
+                            document.getElementById("OCPPSettingsNav").click();
                             $(this).dialog("close");
                         }
                     }]
@@ -815,14 +853,37 @@ function callOpenTab(evt, tabName) {
         getDefaultParameters("StandaloneMode");
         selectMode();
     } else if (tabName == "InstallationSettings") {
-        document.getElementById(default_bar).click();
+        if (defaultBar) activateBar(defaultBar, defaultBarID);
     }
 
 }
 
-function openBar(barEvent, bar) {
+function openBar(barEvent, bar, parentTab = null) {
     checkSessionTimeout();
-    var currentOpenBar = document.getElementById("active_bar").value;
+
+    if (parentTab) {
+        const allTabs = document.getElementsByClassName("tabcontent");
+        for(let i = 0; i < allTabs.length; i++) {
+            allTabs[i].style.display = "none";
+        }
+
+        const tabLinks = document.querySelectorAll(".tablinks");
+        tabLinks.forEach(link => link.classList.remove("active"));
+
+        const tabElement = document.getElementById(parentTab);
+        if (tabElement) tabElement.style.display = "block";
+
+        const relatedNav = document.querySelector(`#${parentTab}Nav`);
+
+        if (relatedNav) relatedNav.classList.add("active");
+
+        document.getElementById("active_tab").value = parentTab;
+    }
+
+    var currentTab = document.getElementById("active_tab").value;
+    var activeBarInput = document.getElementById(`active_bar_${currentTab}`);
+    var currentOpenBar = activeBarInput ? activeBarInput.value : null;
+
     if (somethingChanged == true) {
         $("#notSavedAlertMessage").dialog({
             width: 580,
@@ -978,26 +1039,45 @@ function callOpenBar(barEvt, barName) {
     for (i = 0; i < barlinks.length; i++) {
         barlinks[i].className = barlinks[i].className.replace(" active", "");
     }
-
     document.getElementById(barName).style.display = "block";
     barEvt.currentTarget.className += " active";
-    document.getElementById("active_bar").value = barName;
+    const currentTab = document.getElementById("active_tab").value;
+    const activeBarInput = document.getElementById(`active_bar_${currentTab}`);
+    if(activeBarInput) {
+        activeBarInput.value = barName;
+    }
 }
 
 function openBarOCPP(OCPPevt, barNameOCPP) {
-    var i, barcontent, barlinks;
-    barcontent = document.getElementsByClassName("barcontent");
-    barlinks = document.getElementsByClassName("barlinks");
-    for (i = 0; i < barlinks.length; i++) {
+    const allTabs = document.getElementsByClassName("tabcontent");
+    for (let i = 0; i < allTabs.length; i++) {
+        allTabs[i].style.display = "none";
+    }
+
+    document.getElementById("OCPPSettings").style.display = "block";
+
+    const navLinks = document.querySelectorAll(".tablinks");
+    navLinks.forEach(link => link.classList.remove("active"));
+
+    
+    const ocppNav = document.querySelector("#OCPPSettingsNav");
+    if (ocppNav) ocppNav.classList.add("active");
+
+    document.getElementById("active_tab").value = "OCPPSettings";
+
+    const barcontent = document.getElementsByClassName("barcontent");
+    const barlinks = document.getElementsByClassName("barlinks");
+
+    for (let i = 0; i < barlinks.length; i++) {
         barlinks[i].className = barlinks[i].className.replace(" active", "");
     }
 
-    if (barNameOCPP == "OCPPConnection")
+    if (barNameOCPP === "OCPPConnection")
         document.getElementById(barNameOCPP).style.display = "block";
 
     OCPPevt.currentTarget.className += " active";
 
-    document.getElementById("active_bar").value = barNameOCPP;
+    document.getElementById("active_bar_OCPPSettings").value = barNameOCPP;
 
     if (barNameOCPP == "OCPPConnection") {
         openThePosition("OCPPConnectionPart");
@@ -1008,6 +1088,28 @@ function openBarOCPP(OCPPevt, barNameOCPP) {
     } else if (barNameOCPP == "OCPPConfiguration") {
         openThePosition("OCPPConfigurationPart");
     }
+}
+
+function activateBar(barContentId, barLinkId) {
+    var barcontent = document.getElementsByClassName("barcontent");
+    for (var i = 0; i < barcontent.length; i++) {
+        barcontent[i].style.display = "none";
+    }
+
+    var barlinks = document.getElementsByClassName("barlinks");
+    for (var i = 0; i < barlinks.length; i++) {
+        barlinks[i].classList.remove("active");
+    }
+
+    var barContent = document.getElementById(barContentId);
+    if (barContent) {
+        barContent.style.display = "block";
+    }
+    
+    var barLinks = document.querySelectorAll('[id="' + barLinkId + '"]');
+    barLinks.forEach(function (barLink) {
+        barLink.classList.add("active");
+    });
 }
 
 function checkGeneralForm() {
@@ -1040,16 +1142,16 @@ function checkServiceContactInfoForm() {
     if (serviceContactInfo.value.trim() != '') {
         if (/^([@+.,* a-z0-9]){1,25}$/.test(serviceContactInfo.value) == false) {
             serviceContactInfoErr.innerHTML = service_contact_info_character;
-            serviceContactInfo.className = "focusedTextarea";
+            serviceContactInfo.className = "form-control focusedTextarea";
         }
         else {
             serviceContactInfoErr.innerHTML = "";
-            serviceContactInfo.className = "textarea1";
+            serviceContactInfo.className = "form-control";
             serviceContactError--;
         }
     } else {
         serviceContactInfoErr.innerHTML = "";
-        serviceContactInfo.className = "textarea1";
+        serviceContactInfo.className = "form-control";
         serviceContactError--;
     }
 
@@ -1062,7 +1164,7 @@ function checkServiceContactInfoForm() {
 function serviceContactInfo() {
     serviceContactInfo = document.getElementById("serviceContactInfo");
     serviceContactInfoErr = document.getElementById("serviceContactInfoErr");
-    serviceContactInfo.className = "textarea1";
+    serviceContactInfo.className = "form-control";
     serviceContactInfoErr.innerHTML = "";
 }
 
@@ -1078,14 +1180,14 @@ function checkOcppForm() {
 
     function generateErrorMessage(errorElement,element, message, position) {
         errorElement.innerHTML = message;
-        element.className = "focusedTextarea";
+        element.className = "form-control focusedTextarea";
         ocppErrorText += message + "<br>";
         if(!ocppErrorPosition)  ocppErrorPosition= position;
     }
 
     function removeErrorMessage(errorElement,element) {
         errorElement.innerHTML = "";
-        element.className = "textarea1";
+        element.className = "form-control";
         ocppError--;
     }
 
@@ -1677,15 +1779,15 @@ function checkCellularFields() {
     if (cellularEnabled.selected == true) {
         if (apn.value.trim() == '') {
             apnErr.innerHTML = enter_apn;
-            apn.className = "focusedTextarea";
+            apn.className = "form-control focusedTextarea";
         } else {
             apnErr.innerHTML = "";
-            apn.className = "textarea1";
+            apn.className = "form-control";
             cellularError--;
         }
         /*if (apnUserName.value.trim() == '') {
             apnUserNameErr.innerHTML = "* APN username is required!";
-            apnUserName.className = "focusedTextarea";
+            apnUserName.className = "form-control focusedTextarea";
         } else {
             apnUserNameErr.innerHTML = "*";
             apnUserName.className = "textarea1";
@@ -1693,7 +1795,7 @@ function checkCellularFields() {
         }
         if (apnPassword.value.trim() == '') {
             apnPasswordErr.innerHTML = "* APN password is required!";
-            apnPassword.className = "focusedTextarea";
+            apnPassword.className = "form-control focusedTextarea";
         } else {
             apnPasswordErr.innerHTML = "*";
             apnPassword.className = "textarea1";
@@ -1701,13 +1803,13 @@ function checkCellularFields() {
         }
         if (simPin.value.trim() == '') {
             simPinErr.innerHTML = "* SIM PIN is required!";
-            simPin.className = "focusedTextarea";
+            simPin.className = "form-control focusedTextarea";
         } else if (isNaN(simPin.value.trim())) {
             simPinErr.innerHTML = "* SIM PIN must be numeric!";
-            simpin.className = "focusedTextarea";
+            simpin.className = "form-control focusedTextarea";
         } else if (simPin.value.length != 4) {
             simPinErr.innerHTML = "* SIM PIN must be 4 digits!";
-            simPin.className = "focusedTextarea";
+            simPin.className = "form-control focusedTextarea";
         } else {
             simPinErr.innerHTML = "*";
             simPin.className = "textarea1";
@@ -1759,82 +1861,82 @@ function checkEthernetFields() {
         }
         if (IPadress.value.trim() == '') {
             IPadressErr.innerHTML = enter_ip;
-            IPadress.className = "focusedTextarea";
+            IPadress.className = "form-control focusedTextarea";
         } else if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(IPadress.value) == false) {
             IPadressErr.innerHTML = entered_invalid_ip;
-            IPadress.className = "focusedTextarea";
+            IPadress.className = "form-control focusedTextarea";
         } else if (wifiSelectionBox.selectedIndex == "1" && eth_broadcast == wifi_broadcast) {
             IPadressErr.innerHTML = same_network_wlan;
-            IPadress.className = "focusedTextarea";
+            IPadress.className = "form-control focusedTextarea";
         } else {
             IPadressErr.innerHTML = "";
-            IPadress.className = "textarea1";
+            IPadress.className = "form-control";
             ethernetError--;
         }
         if (networkMask.value.trim() == '') {
             networkMaskErr.innerHTML = enter_network_mask;
-            networkMask.className = "focusedTextarea";
+            networkMask.className = "form-control focusedTextarea";
         } else if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(networkMask.value) == false) {
             networkMaskErr.innerHTML = entered_invalid_network_mask;
-            networkMask.className = "focusedTextarea";
+            networkMask.className = "form-control focusedTextarea";
         } else if (subnetCheck == false) {
             networkMaskErr.innerHTML = entered_invalid_network_mask;
-            networkMask.className = "focusedTextarea";
+            networkMask.className = "form-control focusedTextarea";
         } else {
             networkMaskErr.innerHTML = "";
-            networkMask.className = "textarea1";
+            networkMask.className = "form-control";
             ethernetError--;
         }
         if (defaultGateway.value.trim() != '' && /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(defaultGateway.value) == false) {
             defaultGatewayErr.innerHTML = entered_invalid_default_gateway;
-            defaultGateway.className = "focusedTextarea";
+            defaultGateway.className = "form-control focusedTextarea";
         } else {
             defaultGatewayErr.innerHTML = "";
-            defaultGateway.className = "textarea1";
+            defaultGateway.className = "form-control";
             ethernetError--;
         }
         if (primaryDns.value.trim() != '' && /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(primaryDns.value) == false) {
             primaryDnsErr.innerHTML = entered_invalid_dns;
-            primaryDns.className = "focusedTextarea";
+            primaryDns.className = "form-control focusedTextarea";
         } else {
             primaryDnsErr.innerHTML = "";
-            primaryDns.className = "textarea1";
+            primaryDns.className = "form-control";
             ethernetError--;
         }
         if (secondaryDns.value.trim() != '' && /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(secondaryDns.value) == false) {
             secondaryDnsErr.innerHTML = entered_invalid_dns;
-            secondaryDns.className = "focusedTextarea";
+            secondaryDns.className = "form-control focusedTextarea";
         } else {
             secondaryDnsErr.innerHTML = "";
-            secondaryDns.className = "textarea1";
+            secondaryDns.className = "form-control";
             ethernetError--;
         }
         ethernetSelectionBoxErr.innerHTML = "";
-        ethernetSelectionBox.className = "textarea1";
+        ethernetSelectionBox.className = "form-control";
     }
     else if (ethernetSelectionBox.selectedIndex == "2") { //DHCP Server
         var ethernetError = 8;
         var subnetCheck = checkNetworkMaskValidity(networkMask.value.trim());
         if (networkMask.value.trim() == '') {
             networkMaskErr.innerHTML = enter_network_mask;
-            networkMask.className = "focusedTextarea";
+            networkMask.className = "form-control focusedTextarea";
         } else if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(networkMask.value) == false) {
             networkMaskErr.innerHTML = entered_invalid_network_mask;
-            networkMask.className = "focusedTextarea";
+            networkMask.className = "form-control focusedTextarea";
         } else if (subnetCheck == false) {
             networkMaskErr.innerHTML = entered_invalid_network_mask;
-            networkMask.className = "focusedTextarea";
+            networkMask.className = "form-control focusedTextarea";
         } else {
             networkMaskErr.innerHTML = "";
-            networkMask.className = "textarea1";
+            networkMask.className = "form-control";
             ethernetError--;
         }
         if (defaultGateway.value.trim() != '' && /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(defaultGateway.value) == false) {
             defaultGatewayErr.innerHTML = entered_invalid_default_gateway;
-            defaultGateway.className = "focusedTextarea";
+            defaultGateway.className = "form-control focusedTextarea";
         } else {
             defaultGatewayErr.innerHTML = "";
-            defaultGateway.className = "textarea1";
+            defaultGateway.className = "form-control";
             ethernetError--;
         }
 
@@ -1851,87 +1953,87 @@ function checkEthernetFields() {
 
         if (maxDHCPAddrRange.value.trim() == '') {
             maxDHCPAddrRangeErr.innerHTML = enter_max_dhcp_addr_range;
-            maxDHCPAddrRange.className = "focusedTextarea";
+            maxDHCPAddrRange.className = "form-control focusedTextarea";
         } else if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(maxDHCPAddrRange.value) == false) {
             maxDHCPAddrRangeErr.innerHTML = entered_invalid_ip;
-            maxDHCPAddrRange.className = "focusedTextarea";
+            maxDHCPAddrRange.className = "form-control focusedTextarea";
 
         } else if (binaryMaxIp.localeCompare(binaryBaseIp)) {
             maxDHCPAddrRangeErr.innerHTML = entered_invalid_subnet;
-            maxDHCPAddrRange.className = "focusedTextarea";
+            maxDHCPAddrRange.className = "form-control focusedTextarea";
         } else {
             maxDHCPAddrRangeErr.innerHTML = "";
-            maxDHCPAddrRange.className = "textarea1";
+            maxDHCPAddrRange.className = "form-control";
             ethernetError--;
         }
         if (minDHCPAddrRange.value.trim() == '') {
             minDHCPAddrRangeErr.innerHTML = enter_min_dhcp_addr_range;
-            minDHCPAddrRange.className = "focusedTextarea";
+            minDHCPAddrRange.className = "form-control focusedTextarea";
         } else if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(minDHCPAddrRange.value) == false) {
             minDHCPAddrRangeErr.innerHTML = entered_invalid_ip;
-            minDHCPAddrRange.className = "focusedTextarea";
+            minDHCPAddrRange.className = "form-control focusedTextarea";
 
         } else if (binaryMinIp.localeCompare(binaryBaseIp)) {
             minDHCPAddrRangeErr.innerHTML = entered_invalid_subnet;
-            minDHCPAddrRange.className = "focusedTextarea";
+            minDHCPAddrRange.className = "form-control focusedTextarea";
         } else {
             minDHCPAddrRangeErr.innerHTML = "";
-            minDHCPAddrRange.className = "textarea1";
+            minDHCPAddrRange.className = "form-control";
             ethernetError--;
         }
         if (((ip2long(maxDHCPAddrRange.value) - ip2long(minDHCPAddrRange.value))) <= 0) {
             maxDHCPAddrRangeErr.innerHTML = diff_max_and_min_dhcp_adr_range;
-            maxDHCPAddrRange.className = "focusedTextarea";
+            maxDHCPAddrRange.className = "form-control focusedTextarea";
             minDHCPAddrRangeErr.innerHTML = diff_max_and_min_dhcp_adr_range;
-            minDHCPAddrRange.className = "focusedTextarea";
+            minDHCPAddrRange.className = "form-control focusedTextarea";
         } else {
             ethernetError--;
         }
         if (IPadress.value.trim() == '') {
             IPadressErr.innerHTML = enter_ip;
-            IPadress.className = "focusedTextarea";
+            IPadress.className = "form-control focusedTextarea";
         } else if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(IPadress.value) == false) {
             IPadressErr.innerHTML = entered_invalid_ip;
-            IPadress.className = "focusedTextarea";
+            IPadress.className = "form-control focusedTextarea";
         } else if (ip2long(minDHCPAddrRange.value) < ip2long(IPadress.value) && ip2long(maxDHCPAddrRange.value) > ip2long(IPadress.value)) {
             IPadressErr.innerHTML = ip_address_range;
-            IPadress.className = "focusedTextarea";
+            IPadress.className = "form-control focusedTextarea";
         } else if (binaryIp.localeCompare(binaryBaseIp)) {
             IPadressErr.innerHTML = entered_invalid_subnet;
-            IPadress.className = "focusedTextarea";
+            IPadress.className = "form-control focusedTextarea";
         } else {
             IPadressErr.innerHTML = "";
-            IPadress.className = "textarea1";
+            IPadress.className = "form-control";
             ethernetError--;
         }
         if (primaryDns.value.trim() != '' && /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(primaryDns.value) == false) {
 
             primaryDnsErr.innerHTML = enter_primary_dns;
-            primaryDns.className = "focusedTextarea";
+            primaryDns.className = "form-control focusedTextarea";
         } else if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(primaryDns.value) == false) {
             primaryDnsErr.innerHTML = entered_invalid_dns;
-            primaryDns.className = "focusedTextarea";
+            primaryDns.className = "form-control focusedTextarea";
         } else {
             primaryDnsErr.innerHTML = "";
-            primaryDns.className = "textarea1";
+            primaryDns.className = "form-control";
             ethernetError--;
         }
         if (secondaryDns.value.trim() != '' && /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(secondaryDns.value) == false) {
             secondaryDnsErr.innerHTML = entered_invalid_dns;
-            secondaryDns.className = "focusedTextarea";
+            secondaryDns.className = "form-control focusedTextarea";
         } else {
             secondaryDnsErr.innerHTML = "";
-            secondaryDns.className = "textarea1";
+            secondaryDns.className = "form-control";
             ethernetError--;
         }
         ethernetSelectionBoxErr.innerHTML = "";
-        ethernetSelectionBox.className = "textarea1";
+        ethernetSelectionBox.className = "form-control";
     } else if (ethernetSelectionBox.selectedIndex == "0") {
         ethernetSelectionBoxErr.innerHTML = select_ip_setting;
-        ethernetSelectionBox.className = "focusedTextarea";
+        ethernetSelectionBox.className = "form-control focusedTextarea";
     } else {
         ethernetSelectionBoxErr.innerHTML = "";
-        ethernetSelectionBox.className = "textarea1";
+        ethernetSelectionBox.className = "form-control";
         ethernetError = 0;
     }
     return ethernetError;
@@ -1968,42 +2070,42 @@ function checkWifiFields() {
     if (wifiEnabled.selected == true) {
         if (ssid.value.trim() == '') {
             ssidErr.innerHTML = enter_ssid;
-            ssid.className = "focusedTextarea";
+            ssid.className = "form-control focusedTextarea";
         } else if (/^[\u0020-\u007F\u00C0-\u017F]{1,32}$/.test(ssid.value) == false) {
             ssidErr.innerHTML = wifiSSIDSpecialCharacter;
-            ssid.className = "focusedTextarea";
+            ssid.className = "form-control focusedTextarea";
         } else if ((ssid.value).includes('"') ||
             (ssid.value).includes("\\")) {
             ssidErr.innerHTML = wifiSSIDSpecialCharacter;
-            ssid.className = "focusedTextarea";
+            ssid.className = "form-control focusedTextarea";
         } else {
             ssidErr.innerHTML = "";
-            ssid.className = "textarea1";
+            ssid.className = "form-control";
             wifiError--;
         }
         if (wifiPassword.value.trim() == '' && selectSecurity.value == 'none') {
             wifiPasswordErr.innerHTML = "";
-            wifiPassword.className = "textarea1";
+            wifiPassword.className = "form-control";
             wifiError--;
         }else{
             if(wifiPassword.value.trim() == "******"){
                 wifiPasswordErr.innerHTML = "";
-                wifiPassword.className = "textarea1";
+                wifiPassword.className = "form-control";
                 wifiError--;
             }else{
                 if (wifiPassword.value.trim() == '') {
                     wifiPasswordErr.innerHTML = enter_password;
-                    wifiPassword.className = "focusedTextarea";
+                    wifiPassword.className = "form-control focusedTextarea";
                 } else if (/^([\x20-\x7F]){8,63}$/.test(wifiPassword.value) == false) {
                     wifiPasswordErr.innerHTML = wifiSpecialCharacter;
-                    wifiPassword.className = "focusedTextarea";
+                    wifiPassword.className = "form-control focusedTextarea";
                 } else if ((wifiPassword.value).includes("'") || (wifiPassword.value).includes('"') ||
                     (wifiPassword.value).includes("\\") || wifiPassword.value.includes(" ")) {
                     wifiPasswordErr.innerHTML = wifiSpecialCharacter;
-                    wifiPassword.className = "focusedTextarea";
+                    wifiPassword.className = "form-control focusedTextarea";
                 } else {
                     wifiPasswordErr.innerHTML = "";
-                    wifiPassword.className = "textarea1";
+                    wifiPassword.className = "form-control";
                     wifiError--;
                 }
             }
@@ -2011,10 +2113,10 @@ function checkWifiFields() {
         }
         if (selectSecurity.value == 'default') {
             selectSecurityErr.innerHTML = select_security_type;
-            selectSecurity.className = "focusedTextarea";
+            selectSecurity.className = "form-control focusedTextarea";
         } else {
             selectSecurityErr.innerHTML = "";
-            selectSecurity.className = "textarea1";
+            selectSecurity.className = "form-control";
             wifiError--;
         }
         if (wifiSelectionBox.selectedIndex == "1") {
@@ -2030,68 +2132,68 @@ function checkWifiFields() {
             }
             if (wifiIPaddress.value.trim() == '') {
                 wifiIPaddressErr.innerHTML = enter_ip;
-                wifiIPaddress.className = "focusedTextarea";
+                wifiIPaddress.className = "form-control focusedTextarea";
             } else if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(wifiIPaddress.value) == false) {
                 wifiIPaddressErr.innerHTML = entered_invalid_ip;
-                wifiIPaddress.className = "focusedTextarea";
+                wifiIPaddress.className = "form-control focusedTextarea";
             } else if (ethernetSelectionBox.selectedIndex == 1 && eth_broadcast == wifi_broadcast) {
                 wifiIPaddressErr.innerHTML = same_network_lan;
-                wifiIPaddress.className = "focusedTextarea";
+                wifiIPaddress.className = "form-control focusedTextarea";
             } else {
                 wifiIPaddressErr.innerHTML = "";
-                wifiIPaddress.className = "textarea1";
+                wifiIPaddress.className = "form-control";
                 wifiError--;
             }
             if (wifiNetworkMask.value.trim() == '') {
                 wifiNetworkMaskErr.innerHTML = enter_network_mask;
-                wifiNetworkMask.className = "focusedTextarea";
+                wifiNetworkMask.className = "form-control focusedTextarea";
             } else if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(wifiNetworkMask.value) == false) {
                 wifiNetworkMaskErr.innerHTML = entered_invalid_network_mask;
-                wifiNetworkMask.className = "focusedTextarea";
+                wifiNetworkMask.className = "form-control focusedTextarea";
             } else if (subnetCheck == false) {
                 wifiNetworkMaskErr.innerHTML = entered_invalid_network_mask;
-                wifiNetworkMask.className = "focusedTextarea";
+                wifiNetworkMask.className = "form-control focusedTextarea";
             } else {
                 wifiNetworkMaskErr.innerHTML = "";
-                wifiNetworkMask.className = "textarea1";
+                wifiNetworkMask.className = "form-control";
                 wifiError--;
             }
             if (wifiDefaultGateway.value.trim() != '' && /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(wifiDefaultGateway.value) == false) {
                 wifiDefaultGatewayErr.innerHTML = entered_invalid_default_gateway;
-                wifiDefaultGateway.className = "focusedTextarea";
+                wifiDefaultGateway.className = "form-control focusedTextarea";
             } else {
                 wifiDefaultGatewayErr.innerHTML = "";
-                wifiDefaultGateway.className = "textarea1";
+                wifiDefaultGateway.className = "form-control";
                 wifiError--;
             }
             if (wifiPrimaryDns.value.trim() != '' && /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(wifiPrimaryDns.value) == false) {
                 wifiPrimaryDnsErr.innerHTML = entered_invalid_dns;
-                wifiPrimaryDns.className = "focusedTextarea";
+                wifiPrimaryDns.className = "form-control focusedTextarea";
             } else {
                 wifiPrimaryDnsErr.innerHTML = "";
-                wifiPrimaryDns.className = "textarea1";
+                wifiPrimaryDns.className = "form-control";
                 wifiError--;
             }
             if (wifiSecondaryDns.value.trim() != '' && /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(wifiSecondaryDns.value) == false) {
                 wifiSecondaryDnsErr.innerHTML = entered_invalid_dns;
-                wifiSecondaryDns.className = "focusedTextarea";
+                wifiSecondaryDns.className = "form-control focusedTextarea";
             } else {
                 wifiSecondaryDnsErr.innerHTML = "";
-                wifiSecondaryDns.className = "textarea1";
+                wifiSecondaryDns.className = "form-control";
                 wifiError--;
             }
             selectWifiIPSettingErr.innerHTML = "";
-            wifiSelectionBox.className = "textarea1";
+            wifiSelectionBox.className = "form-control";
         } else if (wifiSelectionBox.selectedIndex == "0") {
             selectWifiIPSettingErr.innerHTML = select_ip_setting;
-            wifiSelectionBox.className = "focusedTextarea";
+            wifiSelectionBox.className = "form-control focusedTextarea";
         } else {
             selectWifiIPSettingErr.innerHTML = "";
-            wifiSelectionBox.className = "textarea1";
+            wifiSelectionBox.className = "form-control";
         }
     } else {
         selectWifiIPSettingErr.innerHTML = "";
-        wifiSelectionBox.className = "textarea1";
+        wifiSelectionBox.className = "form-control";
         wifiError = 0;
     }
     return wifiError;
@@ -2114,45 +2216,45 @@ function checkVpnFields() {
     if (vpnEnabled.checked == true) {
         if (vpnFunctionality.value.trim() == '') {
             vpnFunctionalityErr.innerHTML = enter_vpn_functionality;
-            vpnFunctionality.className = "focusedTextarea";
+            vpnFunctionality.className = "form-control focusedTextarea";
         } else {
             vpnFunctionalityErr.innerHTML = "*";
-            vpnFunctionality.className = "textarea1";
+            vpnFunctionality.className = "form-control";
             vpnError--;
         }
         if (hostIP.value.trim() == '') {
             hostIPErr.innerHTML = enter_host_ip;
-            hostIP.className = "focusedTextarea";
+            hostIP.className = "form-control focusedTextarea";
         } else if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(hostIP.value) == false) {
             hostIPErr.innerHTML = entered_invalid_ip;
-            hostIP.className = "focusedTextarea";
+            hostIP.className = "form-control focusedTextarea";
         } else {
             hostIPErr.innerHTML = "*";
-            hostIP.className = "textarea1";
+            hostIP.className = "form-control";
             vpnError--;
         }
         if (certification.value.trim() == '') {
             certificationErr.innerHTML = enter_cert_management;
-            certification.className = "focusedTextarea";
+            certification.className = "form-control focusedTextarea";
         } else {
             certificationErr.innerHTML = "*";
-            certification.className = "textarea1";
+            certification.className = "form-control";
             vpnError--;
         }
         if (vpnName.value.trim() == '') {
             vpnNameErr.innerHTML = enter_vpn_name;
-            vpnName.className = "focusedTextarea";
+            vpnName.className = "form-control focusedTextarea";
         } else {
             vpnNameErr.innerHTML = "*";
-            vpnName.className = "textarea1";
+            vpnName.className = "form-control";
             vpnError--;
         }
         if (vpnPassword.value.trim() == '') {
             vpnPasswordErr.innerHTML = enter_vpn_password;
-            vpnPassword.className = "focusedTextarea";
+            vpnPassword.className = "form-control focusedTextarea";
         } else {
             vpnPasswordErr.innerHTML = "*";
-            vpnPassword.className = "textarea1";
+            vpnPassword.className = "form-control";
             vpnError--;
         }
     } else {
@@ -2171,17 +2273,17 @@ function checkWifiHotspotFields() {
     if (hotspotEnabled.selected == true) {
         if (ssidHotspot.value.trim() == '') {
             ssidHotspotErr.innerHTML = enter_ssid;
-            ssidHotspot.className = "focusedTextarea";
+            ssidHotspot.className = "form-control focusedTextarea";
         } else if (/^([\x20-\x7F])+$/.test(ssidHotspot.value) == false) {
             ssidHotspotErr.innerHTML = wifiSSIDSpecialCharacter;
-            ssidHotspot.className = "focusedTextarea";
+            ssidHotspot.className = "form-control focusedTextarea";
         } else if ((ssidHotspot.value).includes("'") || (ssidHotspot.value).includes('"') ||
             (ssidHotspot.value).includes("\\")) {
             ssidHotspotErr.innerHTML = wifiSSIDSpecialCharacter;
-            ssidHotspot.className = "focusedTextarea";
+            ssidHotspot.className = "form-control focusedTextarea";
         } else {
             ssidHotspotErr.innerHTML = "";
-            ssidHotspot.className = "textarea1";
+            ssidHotspot.className = "form-control";
             hotspotError--;
         }
         if (checkWifiHotspotPassword() == true) {
@@ -2203,15 +2305,15 @@ function checkQRCodeDelimiterField() {
         if (qrCodeDelimiterValue.value.trim().length == 0) {
             changeLanguageForQRDelimiterErrorText(qrCodeDelimiterErr);
             qrCodeDelimiterErr.innerHTML = qrCodeDelimiterCharacter;
-            qrCodeDelimiterValue.className = "focusedTextarea";
+            qrCodeDelimiterValue.className = "form-control focusedTextarea";
         }
         else if (qrCodeDelimiterValue.value.trim() != '' && /^([@+.,0-9:;!#^$%&/()\[{}\]=*?_<>|-]){1,3}$/.test(qrCodeDelimiterValue.value) == false) {
             changeLanguageForQRDelimiterErrorText(qrCodeDelimiterErr);
             qrCodeDelimiterErr.innerHTML = qrCodeDelimiterCharacter;
-            qrCodeDelimiterValue.className = "focusedTextarea";
+            qrCodeDelimiterValue.className = "form-control focusedTextarea";
         } else {
             qrCodeDelimiterErr.innerHTML = "";
-            qrCodeDelimiterValue.className = "textarea1";
+            qrCodeDelimiterValue.className = "form-control";
             qrCodeError--;
         }
     } else {
@@ -2227,39 +2329,39 @@ function checkWifiHotspotPassword() {
     var wifiHotspotPasswordErr = document.getElementById("wifiHotspotPasswordErr");
     if(wifiHotspotPassword.value.trim() == "******"){
         wifiHotspotPasswordErr.innerHTML = "";
-        wifiHotspotPassword.className = "textarea1";
+        wifiHotspotPassword.className = "form-control";
         return true;
     }else{
         if (hotspotPasswordLevel == 1) {
             if (wifiHotspotPassword.value.trim() != '' && (/^([\x20-\x7F]){8,63}$/.test(wifiHotspotPassword.value) == false)) {
                 wifiHotspotPasswordErr.innerHTML = wifiSpecialCharacter;
-                wifiHotspotPassword.className = "focusedTextarea";
+                wifiHotspotPassword.className = "form-control focusedTextarea";
             } else if ((wifiHotspotPassword.value).includes("'") || (wifiHotspotPassword.value).includes('"') ||
                 (wifiHotspotPassword.value).includes("\\")) {
                 wifiHotspotPasswordErr.innerHTML = wifiSpecialCharacter;
-                wifiHotspotPassword.className = "focusedTextarea";
+                wifiHotspotPassword.className = "form-control focusedTextarea";
             } else {
                 wifiHotspotPasswordErr.innerHTML = "";
-                wifiHotspotPassword.className = "textarea1";
+                wifiHotspotPassword.className = "form-control";
                 return true;
             }
         }
         else if (hotspotPasswordLevel == 2) {
             if (wifiHotspotPassword.value.trim() != '' && ((/(?=^.{20}$)(?=(.*\d){2})(?=(.*[A-Za-z]){2})(?=(.*[!%&\/()=?\*#+\-_]){2}).*$/.test(wifiHotspotPassword.value) == false) || (/^[ A-Za-z0-9!%&\/()=?\*#+\-_]*$/.test(wifiHotspotPassword.value) == false))) {
                 wifiHotspotPasswordErr.innerHTML = wifiHotspotPasswordErrorLevel2;
-                wifiHotspotPassword.className = "focusedTextarea";
+                wifiHotspotPassword.className = "form-control focusedTextarea";
             } else {
                 wifiHotspotPasswordErr.innerHTML = "";
-                wifiHotspotPassword.className = "textarea1";
+                wifiHotspotPassword.className = "form-control";
                 return true;
             }
         } else if (hotspotPasswordLevel == 3) {
             if (/(?=^.{12,32}$)(?=(.*\d){2})(?=(.*[A-Z]){2})(?=(.*[a-z]){2})(?=(.*[!%&\/()=?\*#+\-_]){2}).*$/.test(wifiHotspotPassword.value) == false || (/^[ A-Za-z0-9!%&\/()=?\*#+\-_]*$/.test(wifiHotspotPassword.value) == false)) {
                 wifiHotspotPasswordErr.innerHTML = wifiHotspotPasswordErrorLevel3;
-                wifiHotspotPassword.className = "focusedTextarea";
+                wifiHotspotPassword.className = "form-control focusedTextarea";
             } else {
                 wifiHotspotPasswordErr.innerHTML = "";
-                wifiHotspotPassword.className = "textarea1";
+                wifiHotspotPassword.className = "form-control";
                 return true;
             }
         }
@@ -2286,13 +2388,13 @@ function sendMode() {
 
     if ((selection.options[selection.selectedIndex].value) == "select") {
         standaloneModeErr.innerHTML = select_mode;
-        selection.className = "focusedTextarea";
+        selection.className = "form-control focusedTextarea";
     } else if ((selection.options[selection.selectedIndex].value) == "localList" && rfidList.options.length == 0) {
         standaloneModeErr.innerHTML = enter_rfid_local_list;
-        selection.className = "focusedTextarea";
+        selection.className = "form-control focusedTextarea";
     } else {
         standaloneModeErr.innerHTML = "";
-        selection.className = "selectbox";
+        selection.className = "form-select";
         modeError--;
     }
 
@@ -2671,10 +2773,10 @@ function cellularFunction() {
         apnUserNameErr.innerHTML = "";
         apnPasswordErr.innerHTML = "";
         simPinErr.innerHTML = "";
-        apn.className = "textarea1";
-        apnUserName.className = "textarea1";
-        apnPassword.className = "textarea1";
-        simPin.className = "textarea1";
+        apn.className = "form-control";
+        apnUserName.className = "form-control";
+        apnPassword.className = "form-control";
+        simPin.className = "form-control";
         if (interfaceIPAddress.value) {
             interfaceIPAddress.style.display = "none";
             IPAddressLabel.style.display = "none";
@@ -2772,11 +2874,11 @@ function ethernetFunction() {
         defaultGatewayErr.innerHTML = "";
         primaryDnsErr.innerHTML = "";
         secondaryDnsErr.innerHTML = "";
-        IPadress.className = "textarea1";
-        networkMask.className = "textarea1";
-        defaultGateway.className = "textarea1";
-        primaryDns.className = "textarea1";
-        secondaryDns.className = "textarea1";
+        IPadress.className = "form-control";
+        networkMask.className = "form-control";
+        defaultGateway.className = "form-control";
+        primaryDns.className = "form-control";
+        secondaryDns.className = "form-control";
     }
 }
 
@@ -2813,21 +2915,7 @@ function wifiFunction() {
         };
     }
     changeLanguageForIpSetting(selectionBox.options[selectionBox.selectedIndex].value, selectionBox);
-    if ((languageSelectionValue == "fr" || languageSelectionValue == "es" || languageSelectionValue == "hu")
-        && (selectSecurity.options[selectSecurity.selectedIndex].value) == "default") {
-        selectSecurity.style.fontSize = 0.55 + "vw";
-
-    }
-    else if ((languageSelectionValue == "tr" || languageSelectionValue == "it" || languageSelectionValue == "fi"
-        || languageSelectionValue == "cz" || languageSelectionValue == "pl" || languageSelectionValue == "sk" || languageSelectionValue == "nl")
-        && (selectSecurity.options[selectSecurity.selectedIndex].value) == "default") {
-        selectSecurity.style.fontSize = 0.6 + "vw";
-
-    }
-    else {
-        selectSecurity.style.fontSize = 0.8 + "vw";
-    }
-
+    
     if ((selectionBox.options[selectionBox.selectedIndex].value) == "1") { //Static
         wifiInfo.style.display = "";
         wifiIPaddress.disabled = false;
@@ -2846,11 +2934,11 @@ function wifiFunction() {
         wifiDefaultGatewayErr.innerHTML = "";
         wifiPrimaryDnsErr.innerHTML = "";
         wifiSecondaryDnsErr.innerHTML = "";
-        wifiIPaddress.className = "textarea1";
-        wifiNetworkMask.className = "textarea1";
-        wifiDefaultGateway.className = "textarea1";
-        wifiPrimaryDns.className = "textarea1";
-        wifiSecondaryDns.className = "textarea1";
+        wifiIPaddress.className = "form-control";
+        wifiNetworkMask.className = "form-control";
+        wifiDefaultGateway.className = "form-control";
+        wifiPrimaryDns.className = "form-control";
+        wifiSecondaryDns.className = "form-control";
         wifiIPaddress.disabled = true;
         wifiNetworkMask.disabled = true;
         wifiDefaultGateway.disabled = true;
@@ -2916,20 +3004,20 @@ function wifiFunction() {
         wifiPasswordErr.innerHTML = "";
         selectionBoxErr.innerHTML = "";
         selectSecurityErr.innerHTML = "";
-        ssid.className = "textarea1";
-        wifiPassword.className = "textarea1";
-        selectionBox.className = "textarea1";
-        selectSecurity.className = "textarea1";
+        ssid.className = "form-control";
+        wifiPassword.className = "form-control";
+        selectionBox.className = "form-control";
+        selectSecurity.className = "form-control";
         wifiIPaddressErr.innerHTML = "";
         wifiNetworkMaskErr.innerHTML = "";
         wifiDefaultGatewayErr.innerHTML = "";
         wifiPrimaryDnsErr.innerHTML = "";
         wifiSecondaryDnsErr.innerHTML = "";
-        wifiIPaddress.className = "textarea1";
-        wifiNetworkMask.className = "textarea1";
-        wifiDefaultGateway.className = "textarea1";
-        wifiPrimaryDns.className = "textarea1";
-        wifiSecondaryDns.className = "textarea1";
+        wifiIPaddress.className = "form-control";
+        wifiNetworkMask.className = "form-control";
+        wifiDefaultGateway.className = "form-control";
+        wifiPrimaryDns.className = "form-control";
+        wifiSecondaryDns.className = "form-control";
         wifiIPaddress.disabled = true;
         wifiNetworkMask.disabled = true;
         wifiDefaultGateway.disabled = true;
@@ -2973,11 +3061,11 @@ function vpnFunction() {
         vpnNameErr.innerHTML = "";
         vpnPassword.value = "";
         vpnPasswordErr.innerHTML = "";
-        vpnFunctionality.className = "textarea1";
-        hostIP.className = "textarea1";
-        certificationManagement.className = "textarea1";
-        vpnName.className = "textarea1";
-        vpnPassword.className = "textarea1";
+        vpnFunctionality.className = "form-control";
+        hostIP.className = "form-control";
+        certificationManagement.className = "form-control";
+        vpnName.className = "form-control";
+        vpnPassword.className = "form-control";
         vpnFunctionality.disabled = true;
         hostIP.disabled = true;
         certificationManagement.disabled = true;
@@ -3061,8 +3149,8 @@ function wifiHotspotFunction() {
         wifiHotspotPassword.disabled = true;
         ssidHotspotErr.innerHTML = "";
         wifiHotspotPasswordErr.innerHTML = "";
-        ssidHotspot.className = "textarea1";
-        wifiHotspotPassword.className = "textarea1";
+        ssidHotspot.className = "form-control";
+        wifiHotspotPassword.className = "form-control";
     }
 }
 
@@ -3409,46 +3497,46 @@ function ocppConnection() {
         maxChargingProfilesInstalledErr.innerHTML = "";
         meterValuesSampledDataMaxLengthErr.innerHTML = "";
         sendLocalListMaxLengthErr.innerHTML = "";
-        centralSystemAddress.className = "textarea1";
-        chargePointId.className = "textarea1";
-        wssSettings.className = "textarea1";
-        authorizationKey.className = "textarea1";
-        blinkRepeat.className = "textarea1";
-        clockData.className = "textarea1";
-        connectionTimeOut.className = "textarea1";
-        connectorPhase.className = "textarea1";
-        CTStationCurrentInformationInterval.className = "textarea1";
-        rotationMaxLength.className = "textarea1";
-        maxKeys.className = "textarea1";
-        heartbeat.className = "textarea1";
-        light.className = "textarea1";
-        maxEnergy.className = "textarea1";
-        maxPowerChargeComplete.className = "textarea1";
-        maxTimeChargeComplete.className = "textarea1";
-        alignedData.className = "textarea1";
-        alignedDataMaxLength.className = "textarea1";
-        sampleData.className = "textarea1";
-        sampleInterval.className = "textarea1";
-        minDuration.className = "textarea1";
-        connectorNum.className = "textarea1";
-        resetRetries.className = "textarea1";
-        stopAligned.className = "textarea1";
-        stopAlignedMax.className = "textarea1";
-        stopSampled.className = "textarea1";
-        stopSampledMax.className = "textarea1";
-        supported.className = "textarea1";
-        supportedMax.className = "textarea1";
-        attempts.className = "textarea1";
-        retryInterval.className = "textarea1";
-        pingInterval.className = "textarea1";
-        freeModeRFID.className = "textarea1";
-        chargeProfileMaxStackLevel.className = "textarea1";
-        chargingScheduleAllowedChargingRateUnit.className = "textarea1";
-        chargingScheduleMaxPeriods.className = "textarea1";
-        localAuthListMaxLength.className = "textarea1";
-        maxChargingProfilesInstalled.className = "textarea1";
-        meterValuesSampledDataMaxLength.className = "textarea1";
-        sendLocalListMaxLength.className = "textarea1";
+        centralSystemAddress.className = "form-control";
+        chargePointId.className = "form-control";
+        wssSettings.className = "form-control";
+        authorizationKey.className = "form-control";
+        blinkRepeat.className = "form-control";
+        clockData.className = "form-control";
+        connectionTimeOut.className = "form-control";
+        connectorPhase.className = "form-control";
+        CTStationCurrentInformationInterval.className = "form-control";
+        rotationMaxLength.className = "form-control";
+        maxKeys.className = "form-control";
+        heartbeat.className = "form-control";
+        light.className = "form-control";
+        maxEnergy.className = "form-control";
+        maxPowerChargeComplete.className = "form-control";
+        maxTimeChargeComplete.className = "form-control";
+        alignedData.className = "form-control";
+        alignedDataMaxLength.className = "form-control";
+        sampleData.className = "form-control";
+        sampleInterval.className = "form-control";
+        minDuration.className = "form-control";
+        connectorNum.className = "form-control";
+        resetRetries.className = "form-control";
+        stopAligned.className = "form-control";
+        stopAlignedMax.className = "form-control";
+        stopSampled.className = "form-control";
+        stopSampledMax.className = "form-control";
+        supported.className = "form-control";
+        supportedMax.className = "form-control";
+        attempts.className = "form-control";
+        retryInterval.className = "form-control";
+        pingInterval.className = "form-control";
+        freeModeRFID.className = "form-control";
+        chargeProfileMaxStackLevel.className = "form-control";
+        chargingScheduleAllowedChargingRateUnit.className = "form-control";
+        chargingScheduleMaxPeriods.className = "form-control";
+        localAuthListMaxLength.className = "form-control";
+        maxChargingProfilesInstalled.className = "form-control";
+        meterValuesSampledDataMaxLength.className = "form-control";
+        sendLocalListMaxLength.className = "form-control";
         centralSystemAddress.disabled = true;
         chargePointId.disabled = true;
         wssSettings.disabled = true;
@@ -3693,9 +3781,9 @@ function setPassword() {
     current_pswd.innerHTML = "";
     pass_pwd.innerHTML = "";
     re_pwd.innerHTML = "";
-    current_pswd.className = "textarea1";
-    pass_pwd.className = "textarea1";
-    re_pwd.className = "textarea1";
+    current_pswd.className = "form-control";
+    pass_pwd.className = "form-control";
+    re_pwd.className = "form-control";
     passwordError.innerHTML = "";
 
 
@@ -3948,7 +4036,7 @@ function showingAnimationContainer(buttonId) {
     var div = document.createElement("div");
     div.className += "overlay";
     document.body.appendChild(div);
-    $('.animationBar').show();
+    $('.animationBar').css('display', 'flex');
     setTimeout(function () {
         document.getElementById(buttonId).click();
     }, 0);
@@ -4174,11 +4262,11 @@ function fillingTheSlaveConfigTable5Sec() {
                 if (serialNumber == masterSerialNumber) {
                     loadmanagementUpdatedlmgroupButton = document.getElementById('loadmanagement_updatedlmgroup_button');
                     if ($("#textconnectionStatus").val() == "Connected") {
-                        loadmanagementUpdatedlmgroupButton.className = 'interfacesButtonUpdateSlave';
+                        loadmanagementUpdatedlmgroupButton.classList.remove("disable");
                         loadmanagementUpdatedlmgroupButton.setAttribute("onclick", "updateDLMGroup()");
 
                     } else {
-                        loadmanagementUpdatedlmgroupButton.className = 'interfacesButtonUpdateSlaveDisabled';
+                        loadmanagementUpdatedlmgroupButton.classList.add("disable");
                         loadmanagementUpdatedlmgroupButton.removeAttribute("onclick");
                     }
                 }
@@ -4334,7 +4422,7 @@ function saveSlaveConfigDb() {
             return false;
         } else {
             textofflineCurrentErr.innerHTML = "";
-            textofflineCurrent.className = "textareaForLocalLoadGroup";
+            textofflineCurrent.className = "form-control";
         }
         if(textSerialNuber.value == choose_one)
         {
@@ -4357,7 +4445,7 @@ function saveSlaveConfigDb() {
         var div = document.createElement("div");
         div.className += "overlay";
         document.body.appendChild(div);
-        $('.animationBar').show();
+        $('.animationBar').css('display', 'flex');
         $.ajax({
             type: 'POST',
             url: 'query.php',
@@ -4367,13 +4455,15 @@ function saveSlaveConfigDb() {
                 if(textSerialNuber.value == ""){
                     textSerialNuber.value = choose_one;
                 }
-                $('.animationBar').hide();
+                $('.animationBar').css('display', 'none');
+
                 document.body.removeChild(div);
                 somethingChanged = false;
 
             },
             error: function(xhr) {
-                $('.animationBar').hide();
+                $('.animationBar').css('display', 'none');
+
 
             }
 
@@ -4408,7 +4498,7 @@ function saveConnectorInfoDb() {
     var div = document.createElement("div");
     div.className += "overlay";
     document.body.appendChild(div);
-    $('.animationBar').show();
+    $('.animationBar').css('display', 'flex');
     $.ajax({
         type: 'POST',
         url: 'query_connector.php',
@@ -4418,13 +4508,15 @@ function saveConnectorInfoDb() {
             if (textSerialNuber.value == "") {
                 textSerialNumber.value = choose_one;
             }
-            $('.animationBar').hide();
+            $('.animationBar').css('display', 'none');
+
             document.body.removeChild(div);
             somethingChanged = false;
 
         },
         error: function (xhr) {
-            $('.animationBar').hide();
+            $('.animationBar').css('display', 'none');
+
 
         }
 
@@ -4450,14 +4542,11 @@ function CPRoleFunction() {
     if (selectCpRole.value == "Slave") {
         DLMSettingsPart.style.display = "none";
         document.getElementById("loadManagementGroupButton").style.pointerEvents = "none";
-        if ( languageSelectionValue == "hr"){
-            selectCpRole.style.fontSize = 0.67 + "vw";
-        }
         clusterMaxCurrentPart.style.display = "none";
         clusterFailSafeModePart.style.display = "none";
     } else {
         DLMSettingsPart.style.display = "";
-        mainCircuitCurrent.className = "textarea1";
+        mainCircuitCurrent.className = "form-control";
         mainCircuitCurrentErr.innerHTML = "";
         //dlmMaxCurrent.className = "textarea1";
         //dlmMaxCurrentErr.innerHTML = "";
@@ -4500,20 +4589,20 @@ function checkDLMSettingsForm() {
         errorCheck = 1;
         if (failSafeCurrent.value.trim() == '') {
             failSafeCurrentErr.innerHTML = failsafe_current_err;
-            failSafeCurrent.className = "focusedTextarea";
+            failSafeCurrent.className = "form-control focusedTextarea";
         } else if (isNaN(failSafeCurrent.value.trim())) {
             failSafeCurrentErr.innerHTML = failsafe_current + " " + must_be_numeric;
-            failSafeCurrent.className = "focusedTextarea";
+            failSafeCurrent.className = "form-control focusedTextarea";
         } else if (failSafeCurrent.value < 0) {
             failSafeCurrentErr.innerHTML = failsafe_current_less_than_0;
-            failSafeCurrent.className = "focusedTextarea";
+            failSafeCurrent.className = "form-control focusedTextarea";
         }
         else if (failSafeCurrent.value > parseInt(maximumFailsafeCurrent)) {
             failSafeCurrentErr.innerHTML = failsafe_current_more_than;
-            failSafeCurrent.className = "focusedTextarea";
+            failSafeCurrent.className = "form-control focusedTextarea";
         } else {
             failSafeCurrentErr.innerHTML = "";
-            failSafeCurrent.className = "textarea1";
+            failSafeCurrent.className = "form-control";
             errorCheck--;
         }
     }
@@ -4521,28 +4610,28 @@ function checkDLMSettingsForm() {
         errorCheck = 4;
         if (dlmInterfaceValue == "wifi" && selectNetworkWLAN == "wifiDisable") {
             dlmInterfaceSelectionOuterErr.innerHTML = dlm_interface_selection_err;
-            dlmInterfaceValueOuter.className = "focusedTextarea";
+            dlmInterfaceValueOuter.className = "form-control focusedTextarea";
         } else {
             dlmInterfaceSelectionOuterErr.innerHTML = "";
-            dlmInterfaceValueOuter.className = "selectbox";
+            dlmInterfaceValueOuter.className = "form-select";
             errorCheck--;
         }
         if (supplyType !== "TIC") {
             if (mainCircuitCurrent.value.trim() == '') {
                 mainCircuitCurrentErr.innerHTML = main_circuit_current_err;
-                mainCircuitCurrent.className = "focusedTextarea";
+                mainCircuitCurrent.className = "form-control focusedTextarea";
             } else if (isNaN(mainCircuitCurrent.value.trim())) {
                 mainCircuitCurrentErr.innerHTML = main_circuit_current + " " + must_be_numeric;
-                mainCircuitCurrent.className = "focusedTextarea";
+                mainCircuitCurrent.className = "form-control focusedTextarea";
             } else if (parseInt(mainCircuitCurrent.value.trim()) > 1024) {
                 mainCircuitCurrentErr.innerHTML = main_circuit_current + " " + less_than_1024;
-                mainCircuitCurrent.className = "focusedTextarea";
+                mainCircuitCurrent.className = "form-control focusedTextarea";
             } else if (calculateMainCircuitCurrent < 10) {
                 mainCircuitCurrentErr.innerHTML = more_than_10;
-                mainCircuitCurrent.className = "focusedTextarea";
+                mainCircuitCurrent.className = "form-control focusedTextarea";
             } else {
                 mainCircuitCurrentErr.innerHTML = "";
-                mainCircuitCurrent.className = "textarea1";
+                mainCircuitCurrent.className = "form-control";
                 errorCheck--;
             }
         } else {
@@ -4550,39 +4639,39 @@ function checkDLMSettingsForm() {
         }
         if (clusterMaxCurrent.value.trim() == '') {
             clusterMaxCurrentErr.innerHTML = cluster_max_current_err;
-            clusterMaxCurrent.className = "focusedTextarea";
+            clusterMaxCurrent.className = "form-control focusedTextarea";
         } else if (isNaN(clusterMaxCurrent.value.trim())) {
             clusterMaxCurrentErr.innerHTML = cluster_max_current + " " + must_be_numeric;
-            clusterMaxCurrent.className = "focusedTextarea";
+            clusterMaxCurrent.className = "form-control focusedTextarea";
         } else if (clusterMaxCurrent.value < 10) {
             clusterMaxCurrentErr.innerHTML = cluster_max_current_less_than_10;
-            clusterMaxCurrent.className = "focusedTextarea";
+            clusterMaxCurrent.className = "form-control focusedTextarea";
         }
         else if (clusterMaxCurrent.value > calculateMainCircuitCurrent) {
             clusterMaxCurrentErr.innerHTML = cluster_max_current_more_than + " " + calculateMainCircuitCurrent;
-            clusterMaxCurrent.className = "focusedTextarea";
+            clusterMaxCurrent.className = "form-control focusedTextarea";
         } else {
             clusterMaxCurrentErr.innerHTML = "";
-            clusterMaxCurrent.className = "textarea1";
+            clusterMaxCurrent.className = "form-control";
             errorCheck--;
         }
         if (clusterFailSafeModeValue == "Enabled") {
             if (clusterFailSafeCurrent.value.trim() == '') {
                 clusterFailSafeCurrentErr.innerHTML = cluster_failsafe_current_err;
-                clusterFailSafeCurrent.className = "focusedTextarea";
+                clusterFailSafeCurrent.className = "form-control focusedTextarea";
             } else if (isNaN(clusterFailSafeCurrent.value.trim())) {
                 clusterFailSafeCurrentErr.innerHTML = cluster_failsafe_current + " " + must_be_numeric;
-                clusterFailSafeCurrent.className = "focusedTextarea";
+                clusterFailSafeCurrent.className = "form-control focusedTextarea";
             } else if (clusterFailSafeCurrent.value < 0) {
                 clusterFailSafeCurrentErr.innerHTML = cluster_failsafe_current_less_than_0;
-                clusterFailSafeCurrent.className = "focusedTextarea";
+                clusterFailSafeCurrent.className = "form-control focusedTextarea";
             }
             else if (clusterFailSafeCurrent.value > parseInt(mainCircuitCurrent.value.trim())) {
                 clusterFailSafeCurrentErr.innerHTML = cluster_failsafe_current_more_than;
-                clusterFailSafeCurrent.className = "focusedTextarea";
+                clusterFailSafeCurrent.className = "form-control focusedTextarea";
             } else {
                 clusterFailSafeCurrentErr.innerHTML = "";
-                clusterFailSafeCurrent.className = "textarea1";
+                clusterFailSafeCurrent.className = "form-control";
                 errorCheck--;
             }
         } else {
@@ -4591,22 +4680,22 @@ function checkDLMSettingsForm() {
         
         /* if (dlmMaxCurrent.value.trim() == '') {
             dlmMaxCurrentErr.innerHTML = dlm_max_current_err;
-            dlmMaxCurrent.className = "focusedTextarea";
+            dlmMaxCurrent.className = "form-control focusedTextarea";
         } else if (parseInt(dlmMaxCurrent.value.trim()) > 1024) {
             dlmMaxCurrentErr.innerHTML = dlm_max_current + " " + less_than_1024;
-            dlmMaxCurrent.className = "focusedTextarea";
+            dlmMaxCurrent.className = "form-control focusedTextarea";
         } else if (parseInt(dlmMaxCurrent.value.trim()) < 12) {
             dlmMaxCurrentErr.innerHTML = dlm_max_current + " " + more_than_12;
-            dlmMaxCurrent.className = "focusedTextarea";
+            dlmMaxCurrent.className = "form-control focusedTextarea";
         } else if (isNaN(dlmMaxCurrent.value.trim())) {
             dlmMaxCurrentErr.innerHTML = dlm_max_current + " " + must_be_numeric;
-            dlmMaxCurrent.className = "focusedTextarea";
+            dlmMaxCurrent.className = "form-control focusedTextarea";
         } else if (parseInt(dlmMaxCurrent.value.trim()) > parseInt(mainCircuitCurrent.value.trim())) {
             dlmMaxCurrentErr.innerHTML = dlm_max_current_less_err;
-            dlmMaxCurrent.className = "focusedTextarea";
+            dlmMaxCurrent.className = "form-control focusedTextarea";
         } else if (parseInt(dlmMaxCurrent.value.trim()) < (parseInt(mainCircuitCurrent.value.trim()) / 2)) {
             dlmMaxCurrentErr.innerHTML = dlm_max_current_more_err;
-            dlmMaxCurrent.className = "focusedTextarea";
+            dlmMaxCurrent.className = "form-control focusedTextarea";
         }
         else {
             dlmMaxCurrentErr.innerHTML = "";
@@ -4616,10 +4705,10 @@ function checkDLMSettingsForm() {
     } else {
         if (dlmInterfaceValue == "wifi" && selectNetworkWLAN == "wifiDisable") {
             dlmInterfaceSelectionOuterErr.innerHTML = dlm_interface_selection_err;
-            dlmInterfaceValueOuter.className = "focusedTextarea";
+            dlmInterfaceValueOuter.className = "form-control focusedTextarea";
         } else {
             dlmInterfaceSelectionOuterErr.innerHTML = "";
-            dlmInterfaceValueOuter.className = "selectbox";
+            dlmInterfaceValueOuter.className = "form-select";
             errorCheck = 0;
         }
     }
@@ -4914,11 +5003,11 @@ function fillingTheSlaveConfigTable() {
                 if (serialNumber == masterSerialNumber) {
                     loadmanagementUpdatedlmgroupButton = document.getElementById('loadmanagement_updatedlmgroup_button');
                     if ($("#textconnectionStatus").val() == "Connected") {
-                        loadmanagementUpdatedlmgroupButton.className = 'interfacesButtonUpdateSlave';
+                        loadmanagementUpdatedlmgroupButton.classList.remove("disable");
                         loadmanagementUpdatedlmgroupButton.setAttribute("onclick", "updateDLMGroup()");
 
                     } else {
-                        loadmanagementUpdatedlmgroupButton.className = 'interfacesButtonUpdateSlaveDisabled';
+                        loadmanagementUpdatedlmgroupButton.classList.add("disable");
                         loadmanagementUpdatedlmgroupButton.removeAttribute("onclick");
                     }
                 }
@@ -5013,12 +5102,12 @@ function deviceLogSettings(buttonId) {
     var logError = 1;
     if (startDateSelection.value < formattedDateBefore) {
         downloadLogDateErr.innerHTML = logsDateError;
-        startDateSelection.className = "focusedTextarea";
-        endDateSelection.className = "focusedTextarea";
+        startDateSelection.className = "form-control focusedTextarea";
+        endDateSelection.className = "form-control focusedTextarea";
     } else {
         downloadLogDateErr.innerHTML = "";
-        startDateSelection.className = "textarea1";
-        endDateSelection.className = "textarea1";
+        startDateSelection.className = "form-control";
+        endDateSelection.className = "form-control";
         logError--;
         const hiddenInput = document.getElementById(buttonId);
         if (logError == 0) {
@@ -5081,11 +5170,6 @@ function displayBacklightSettingsFunction() {
     var languageSelection = document.getElementById("lang");
     var backLightLevelSelection = document.getElementById("backLightLevelSelection");
     var displayBacklightSettingsLanguage = ["pl", "es", "fr", "ro", "sk", "fi"];
-    if (displayBacklightSettingsLanguage.includes(languageSelection.options[languageSelection.selectedIndex].value) && backLightLevelSelection.options[backLightLevelSelection.selectedIndex].value == "userInteraction") {
-        backLightLevelSelection.style.fontSize = 0.65 + "vw";
-    } else {
-        backLightLevelSelection.style.fontSize = 0.8 + "vw";
-    }
 
     if (backLightLevelSelection.value == "timeBased") {
         sunset.disabled = false;
@@ -5106,7 +5190,7 @@ function currentLimiterSettings() {
     var currentLimiterValue = document.getElementById('currentLimiterValue');
     var currentLimiterValueError = document.getElementById('currentLimiterValueErr');
     var currentLimiterPhaseSelection = document.getElementById('currentLimiterPhaseSelection');
-    currentLimiterValue.className = "textareaForLocalLoadGroup";
+    currentLimiterValue.className = "form-control";
     currentLimiterValueError.innerHTML = "";
 
 }
@@ -5161,6 +5245,7 @@ function loadManagementOptionFunction() {
     loadManagementSelectionPart = document.getElementById('loadManagementSelection');
     CPRolePart = document.getElementById('CPRolePart');
     loadManagementGroupPart = document.getElementById('loadManagementGroupButton');
+    loadManagementGroupPartS = document.getElementById('loadManagementGroupButtonS');
     DLMSettingsPart = document.getElementById('DLMSettingsPart');
     failSafeCurrentPart = document.getElementById("failSafeCurrentItem");
     failsafeCurrentItem = document.getElementById('failsafeCurrentItem');
@@ -5180,6 +5265,9 @@ function loadManagementOptionFunction() {
     if (loadManagementSelectionPart.value == "Enabled") {
         CPRolePart.style.visibility = "visible";
         loadManagementGroupPart.style.visibility = "visible";
+        loadManagementGroupPart.style.display= "";
+        loadManagementGroupPartS.style.visibility = "visible";
+        loadManagementGroupPartS.style.display= "";
         DLMSettingsPart.style.visibility = "visible";
         load_management_button.style.visibility = "visible";
         failSafeCurrentPart.style.display = "none";
@@ -5189,6 +5277,9 @@ function loadManagementOptionFunction() {
     } else if (loadManagementSelectionPart.value == "Modbus") {
         CPRolePart.style.visibility = "hidden";
         loadManagementGroupPart.style.visibility = "hidden";
+        loadManagementGroupPart.style.display= "none";
+        loadManagementGroupPartS.style.visibility = "hidden";
+        loadManagementGroupPartS.style.display= "none"
         DLMSettingsPart.style.visibility = "hidden";
         load_management_button.style.visibility = "hidden";
         failSafeCurrentPart.style.display = "";
@@ -5199,6 +5290,9 @@ function loadManagementOptionFunction() {
     else {
         CPRolePart.style.visibility = "hidden";
         loadManagementGroupPart.style.visibility = "hidden";
+        loadManagementGroupPart.style.display= "none";
+        loadManagementGroupPartS.style.visibility = "hidden";
+        loadManagementGroupPartS.style.display= "none";
         DLMSettingsPart.style.visibility = "hidden";
         load_management_button.style.visibility = "hidden";
         failSafeCurrentPart.style.display = "none";
@@ -5227,7 +5321,7 @@ function loadManagementOptionFunction() {
         pairingEnergyManagerItem.style.display = "none";
         refreshButton.style.display = "none";
         load_management_button.style.visibility = "visible";
-        DLMInterfacePart.style.display = "block";
+        DLMInterfacePart.style.display = "flex";
         clusterMaxCurrentPart.style.visibility = "`block";
         clusterFailSafeModePart.style.visibility = "block";
     }
@@ -5328,16 +5422,6 @@ function operationModeFunction() {
         powerOptimizerExternalMeterSelection.options[i].style.display = "";
     }
 
-    if (selectedOption.value == 4){
-        operationMode.style.fontSize = '13px';
-        operationMode.options[0].style.fontSize = '16px';
-        operationMode.options[1].style.fontSize = '16px';
-        operationMode.options[2].style.fontSize = '16px';
-    }
-    else {
-        operationMode.style.fontSize = '16px';
-    }
-
     if (followTheSun.value == 0 || followTheSunDisplay == "none") {
         followTheSunModePart.style.display = "none";
         autoPhaseSwitchingPart.style.display = "none";
@@ -5393,18 +5477,6 @@ function operationModeFunction() {
         } else {
             powerOptimizerExternalMeter.style.visibility = "visible";
             powerOptimizerPart.style.visibility = "visible";
-            if (languageSelectionValue == "de" || languageSelectionValue == "fr"
-                || languageSelectionValue == "hu" || languageSelectionValue == "nl"
-                || languageSelectionValue == "pl") {
-                powerOptimizerExternalMeterSelection.style.fontSize = 0.7 + "vw";
-
-            }
-            else if (languageSelectionValue == "es" || languageSelectionValue == "it") {
-                powerOptimizerExternalMeterSelection.style.fontSize = 0.575 + "vw";
-            }
-            else {
-                powerOptimizerExternalMeterSelection.style.fontSize = 0.8 + "vw";
-            }
             powerOptimizerExternalMeterFunction();
         }
     }
@@ -5457,7 +5529,7 @@ function changeLanguageClass() {
                 document.getElementById("password_authorization_button_div").lang = "tr";
             }
         }
-        document.getElementById('backup_file_button').className = "log_button";
+        document.getElementById('backup_file_button').className = "btn btn-primary fw-bold px-4 py-2 fs-5";
         logoutPosition.classList.remove("greekLogoutPosition");
         logoutText.classList.remove("greeklogoutText");
     }
@@ -5465,57 +5537,10 @@ function changeLanguageClass() {
 function changeLanguageForIpSetting(value, selectionBox) {
     var languageSelection = document.getElementById("lang");
     var languageSelectionValue = languageSelection.options[languageSelection.selectedIndex].value;
-    if ((languageSelectionValue == "de" || languageSelectionValue == "es") && value == 0) {
-        selectionBox.style.fontSize = 0.5 + "vw";
-    }
-    else if ((languageSelectionValue == "cz" || languageSelectionValue == "fr" || languageSelectionValue == "it"
-        || languageSelectionValue == "sk" || languageSelectionValue == "sv" || languageSelectionValue == "tr" || languageSelectionValue == "nl")
-        && value == 0) {
-        selectionBox.style.fontSize = 0.6 + "vw";
-    }
-    else {
-        selectionBox.style.fontSize = 0.8 + "vw";
-    }
 }
 function changeLanguageForQRDelimiterErrorText(errorTextBox) {
     var languageSelection = document.getElementById("lang");
     var languageSelectionValue = languageSelection.options[languageSelection.selectedIndex].value;
-    if (languageSelectionValue == "da") {
-        errorTextBox.style.fontSize = 0.85 + "vw";
-    }
-    else if (languageSelectionValue == "de" || languageSelectionValue == "no" || languageSelectionValue == "cz") {
-        errorTextBox.style.fontSize = 0.83 + "vw";
-    }
-    else if (languageSelectionValue == "tr" || languageSelectionValue == "me" || languageSelectionValue == "hr") {
-        errorTextBox.style.fontSize = 0.8 + "vw";
-    }
-    else if (languageSelectionValue == "fi") {
-        errorTextBox.style.fontSize = 0.79 + "vw";
-    }
-    else if (languageSelectionValue == "sk" || languageSelectionValue == "ba") {
-        errorTextBox.style.fontSize = 0.72 + "vw";
-    }
-    else if (languageSelectionValue == "nl") {
-        errorTextBox.style.fontSize = 0.75 + "vw";
-    }
-    else if (languageSelectionValue == "hu" || languageSelectionValue == "rs") {
-        errorTextBox.style.fontSize = 0.67 + "vw";
-    }
-    else if (languageSelectionValue == "fr" || languageSelectionValue == "pl") {
-        errorTextBox.style.fontSize = 0.65 + "vw";
-    }
-    else if (languageSelectionValue == "ro" || languageSelectionValue == "bg") {
-        errorTextBox.style.fontSize = 0.6 + "vw";
-    }
-    else if (languageSelectionValue == "gr" || languageSelectionValue == "es") {
-        errorTextBox.style.fontSize = 0.59 + "vw";
-    }
-    else if (languageSelectionValue == "it") {
-        errorTextBox.style.fontSize = 0.58 + "vw";
-    }
-    else {
-        errorTextBox.style.fontSize = 0.9 + "vw";
-    }
 }
 function checkScheduledCharging() {
     var randomisedDelayMaximumDuration = document.getElementById('textRandomisedDelayMaximumDuration');
@@ -5540,60 +5565,60 @@ function checkScheduledCharging() {
 
             if (offPeakChargingPeriodsStart.value == "" && offPeakChargingPeriodsEnd.value == "") {
                 offPeakChargingPeriodsError.innerHTML = off_peak_charging_periods_error;
-                offPeakChargingPeriodsEnd.className = "focusedTextareaForLocalLoadGroup";
-                offPeakChargingPeriodsStart.className = "focusedTextareaForLocalLoadGroup";
+                offPeakChargingPeriodsEnd.className = "form-control focusedTextarea";
+                offPeakChargingPeriodsStart.className = "form-control focusedTextarea";
             } else if (offPeakChargingPeriodsStart.value == "" && offPeakChargingPeriodsEnd.value != "") {
                 offPeakChargingPeriodsError.innerHTML = off_peak_charging_periods_error;
-                offPeakChargingPeriodsEnd.className = "textareaForLocalLoadGroup";
-                offPeakChargingPeriodsStart.className = "focusedTextareaForLocalLoadGroup";
+                offPeakChargingPeriodsEnd.className = "form-control";
+                offPeakChargingPeriodsStart.className = "form-control focusedTextarea";
 
             } else if (offPeakChargingPeriodsStart.value != "" && offPeakChargingPeriodsEnd.value == "") {
                 offPeakChargingPeriodsError.innerHTML = off_peak_charging_periods_error;
-                offPeakChargingPeriodsEnd.className = "focusedTextareaForLocalLoadGroup";
-                offPeakChargingPeriodsStart.className = "textareaForLocalLoadGroup";
+                offPeakChargingPeriodsEnd.className = "form-control focusedTextarea";
+                offPeakChargingPeriodsStart.className = "form-control";
 
             } else if ((offPeakChargingPeriodsStart.value != "" && offPeakChargingPeriodsEnd.value != "") && (offPeakChargingPeriodsStart.value == offPeakChargingPeriodsEnd.value)) {
                 offPeakChargingPeriodsError.innerHTML = off_peak_charging_periods_same_time_error;
-                offPeakChargingPeriodsEnd.className = "focusedTextareaForLocalLoadGroup";
-                offPeakChargingPeriodsStart.className = "focusedTextareaForLocalLoadGroup";
+                offPeakChargingPeriodsEnd.className = "form-control focusedTextarea";
+                offPeakChargingPeriodsStart.className = "form-control focusedTextarea";
 
             } else {
                 offPeakChargingPeriodsError.innerHTML = "";
-                offPeakChargingPeriodsStart.className = "textareaForLocalLoadGroup";
+                offPeakChargingPeriodsStart.className = "form-control";
                 offPeakChargingPeriodsError.innerHTML = "";
-                offPeakChargingPeriodsEnd.className = "textareaForLocalLoadGroup";
+                offPeakChargingPeriodsEnd.className = "form-control";
                 errorCheck--;
             }
             if (secondTimeIntervalEnablePart.value == 1) {
                 if (offPeakChargingPeriodsOptionalStart.value == "" && offPeakChargingPeriodsOptionalEnd.value == "") {
                     offPeakChargingPeriodsOptionalError.innerHTML = off_peak_charging_periods_error;
-                    offPeakChargingPeriodsOptionalEnd.className = "focusedTextareaForLocalLoadGroup";
-                    offPeakChargingPeriodsOptionalStart.className = "focusedTextareaForLocalLoadGroup";
+                    offPeakChargingPeriodsOptionalEnd.className = "form-control focusedTextarea";
+                    offPeakChargingPeriodsOptionalStart.className = "form-control focusedTextarea";
                 } else if (offPeakChargingPeriodsOptionalStart.value == "" && offPeakChargingPeriodsOptionalEnd.value != "") {
                     offPeakChargingPeriodsOptionalError.innerHTML = off_peak_charging_periods_error;
-                    offPeakChargingPeriodsOptionalEnd.className = "textareaForLocalLoadGroup";
-                    offPeakChargingPeriodsOptionalStart.className = "focusedTextareaForLocalLoadGroup";
+                    offPeakChargingPeriodsOptionalEnd.className = "form-control";
+                    offPeakChargingPeriodsOptionalStart.className = "form-control focusedTextarea";
 
                 } else if (offPeakChargingPeriodsOptionalStart.value != "" && offPeakChargingPeriodsOptionalEnd.value == "") {
                     offPeakChargingPeriodsOptionalError.innerHTML = off_peak_charging_periods_error;
-                    offPeakChargingPeriodsOptionalEnd.className = "focusedTextareaForLocalLoadGroup";
-                    offPeakChargingPeriodsOptionalStart.className = "textareaForLocalLoadGroup";
+                    offPeakChargingPeriodsOptionalEnd.className = "form-control focusedTextarea";
+                    offPeakChargingPeriodsOptionalStart.className = "form-control";
 
                 } else if ((offPeakChargingPeriodsOptionalStart.value != "" && offPeakChargingPeriodsOptionalEnd.value != "") && (offPeakChargingPeriodsOptionalStart.value == offPeakChargingPeriodsOptionalEnd.value)) {
                     offPeakChargingPeriodsOptionalError.innerHTML = off_peak_charging_periods_same_time_error;
-                    offPeakChargingPeriodsOptionalEnd.className = "focusedTextareaForLocalLoadGroup";
-                    offPeakChargingPeriodsOptionalStart.className = "focusedTextareaForLocalLoadGroup";
+                    offPeakChargingPeriodsOptionalEnd.className = "form-control focusedTextarea";
+                    offPeakChargingPeriodsOptionalStart.className = "form-control focusedTextarea";
 
                 } else {
                     offPeakChargingPeriodsOptionalError.innerHTML = "";
-                    offPeakChargingPeriodsOptionalStart.className = "textareaForLocalLoadGroup";
-                    offPeakChargingPeriodsOptionalEnd.className = "textareaForLocalLoadGroup";
+                    offPeakChargingPeriodsOptionalStart.className = "form-control";
+                    offPeakChargingPeriodsOptionalEnd.className = "form-control";
                     errorCheck--;
                 }
             } else {
                 offPeakChargingPeriodsOptionalError.innerHTML = "";
-                offPeakChargingPeriodsOptionalStart.className = "textareaForLocalLoadGroup";
-                offPeakChargingPeriodsOptionalEnd.className = "textareaForLocalLoadGroup";
+                offPeakChargingPeriodsOptionalStart.className = "form-control";
+                offPeakChargingPeriodsOptionalEnd.className = "form-control";
                 errorCheck -= 1;
             }
         } else {
@@ -5604,23 +5629,19 @@ function checkScheduledCharging() {
         errorCheck += 1;
         if (randomisedDelayMaximumDuration.value == "") {
             randomisedDelayMaximumDurationError.innerHTML = randomised_delay_maximum_duration_required;
-            randomisedDelayMaximumDuration.className = "focusedTextareaForLocalLoadGroup";
-            randomisedDelayMaximumDuration.style.fontSize = "18px";
+            randomisedDelayMaximumDuration.className = "form-control focusedTextarea";
         } else if (isNaN(randomisedDelayMaximumDuration.value) || !isInt(randomisedDelayMaximumDuration.value)) {
             randomisedDelayMaximumDurationError.innerHTML = randomised_delay_maximum_duration_numeric;
-            randomisedDelayMaximumDuration.className = "focusedTextareaForLocalLoadGroup";
-            randomisedDelayMaximumDuration.style.fontSize = "18px";
+            randomisedDelayMaximumDuration.className = "form-control focusedTextarea";
         } else if (randomisedDelayMaximumDuration.value < 0) {
             randomisedDelayMaximumDurationError.innerHTML = randomised_delay_maximum_duration_limit;
-            randomisedDelayMaximumDuration.className = "focusedTextareaForLocalLoadGroup";
-            randomisedDelayMaximumDuration.style.fontSize = "18px";
+            randomisedDelayMaximumDuration.className = "form-control focusedTextarea";
         } else if (randomisedDelayMaximumDuration.value > 1800) {
             randomisedDelayMaximumDurationError.innerHTML = randomised_delay_maximum_duration_limit;
-            randomisedDelayMaximumDuration.className = "focusedTextareaForLocalLoadGroup";
-            randomisedDelayMaximumDuration.style.fontSize = "18px";
+            randomisedDelayMaximumDuration.className = "form-control focusedTextarea";
         } else {
             randomisedDelayMaximumDurationError.innerHTML = "";
-            randomisedDelayMaximumDuration.className = "textareaForLocalLoadGroup";
+            randomisedDelayMaximumDuration.className = "form-control";
 
             errorCheck--;
         }
@@ -5645,10 +5666,10 @@ function scheduledChargingFunction() {
     var offPeakChargingPeriodsErr = document.getElementById("offPeakChargingPeriodsErr");
     var continueChargingWithoutReAuthenticationSelection = document.getElementById("continueChargingWithoutReAuthenticationSelection");
 
-    textOffPeakChargingPeriodsStart.className = "textareaForLocalLoadGroup";
-    textOffPeakChargingPeriodsEnd.className = "textareaForLocalLoadGroup";
+    textOffPeakChargingPeriodsStart.className = "form-control";
+    textOffPeakChargingPeriodsEnd.className = "form-control";
     offPeakChargingPeriodsErr.innerHTML = "";
-    randomisedDelayMaximumDuration.className = "textareaForLocalLoadGroup";
+    randomisedDelayMaximumDuration.className = "form-control";
     randomisedDelayMaximumDurationErr.innerHTML = "";
 
     if (offPeakChargingPeriodsOptionalStart.value == "" && offPeakChargingPeriodsOptionalEnd.value == "") {
@@ -5745,8 +5766,8 @@ function secondTimeEnability() {
     var offPeakChargingPeriodsOptionalError = document.getElementById("offPeakChargingPeriodsOptionalErr");
     var marginOfsecondTimePeriodError = document.getElementById("scheduledChargingDiv14");
     var offPeakChargingSecondPeriodsOptionalError = document.getElementById("offPeakChargingPeriodsOptionalError");
-    offPeakChargingPeriodsOptionalStart.className = "textareaForLocalLoadGroup";
-    offPeakChargingPeriodsOptionalEnd.className = "textareaForLocalLoadGroup";
+    offPeakChargingPeriodsOptionalStart.className = "form-control";
+    offPeakChargingPeriodsOptionalEnd.className = "form-control";
     offPeakChargingPeriodsOptionalError.innerHTML = "";
     offPeakChargingSecondPeriodsOptionalError.innerHTML = "";
 
@@ -5756,8 +5777,8 @@ function secondTimeEnability() {
         offPeakChargingPeriodsOptionalStart.value = "";
         offPeakChargingPeriodsOptionalEnd.value = "";
         offPeakChargingPeriodsOptionalError.innerHTML = "";
-        offPeakChargingPeriodsOptionalStart.className = "textareaForLocalLoadGroup";
-        offPeakChargingPeriodsOptionalEnd.className = "textareaForLocalLoadGroup";
+        offPeakChargingPeriodsOptionalStart.className = "form-control";
+        offPeakChargingPeriodsOptionalEnd.className = "form-control";
         marginOfsecondTimePeriodError.style.marginRight = "4.5%";
         offPeakChargingSecondPeriodsOptionalError.style.display = "none";
 
@@ -6168,7 +6189,7 @@ function loadManagementOptionSelection() {
                         somethingChanged = false;
                         somethingChangedForLocalLoadManagementGroup = false;
 
-                        document.getElementById("installationSettingsNav").click();
+                        document.getElementById("InstallationSettingsNav").click();
                         document.getElementById("powerOptimizerCurrentLimitBar").click();
 
                         $(this).dialog("close");
@@ -6195,7 +6216,7 @@ function loadManagementOptionSelection() {
                         somethingChanged = false;
                         somethingChangedForLocalLoadManagementGroup = false;
 
-                        document.getElementById("installationSettingsNav").click();
+                        document.getElementById("InstallationSettingsNav").click();
                         document.getElementById("powerOptimizerCurrentLimitBar").click();
 
                         $(this).dialog("close");
@@ -6218,7 +6239,7 @@ function loadManagementOptionSelection() {
                         somethingChanged = false;
                         somethingChangedForLocalLoadManagementGroup = false;
 
-                        document.getElementById("installationSettingsNav").click();
+                        document.getElementById("InstallationSettingsNav").click();
                         document.getElementById("powerOptimizerCurrentLimitBar").click();
 
                         $(this).dialog("close");
@@ -6247,7 +6268,7 @@ function powerOptimizerTotalCurrentSelection() {
                     class: "okButton",
                     click: function () {
                         somethingChanged = false;
-                        document.getElementById("localNav").click();
+                        document.getElementById("LocalLoadManagementNav").click();
                         $(this).dialog("close");
                     }
                 }]
@@ -6270,7 +6291,7 @@ function powerOptimizerTotalCurrentSelection() {
                     class: "okButton",
                     click: function () {
                         somethingChanged = false;
-                        document.getElementById("localNav").click();
+                        document.getElementById("LocalLoadManagementNav").click();
                         $(this).dialog("close");
                     }
                 }]
@@ -6289,7 +6310,7 @@ function powerOptimizerTotalCurrentSelection() {
                     class: "okButton",
                     click: function () {
                         somethingChanged = false;
-                        document.getElementById("localNav").click();
+                        document.getElementById("LocalLoadManagementNav").click();
                         $(this).dialog("close");
                     }
                 }]
@@ -6358,7 +6379,7 @@ function earthingSystemCheck() {
                         click: function () {
                             somethingChanged = false;
                             earhingSystemError += 1;
-                            document.getElementById("ocppNav").click();
+                            document.getElementById("OCPPSettingsNav").click();
                             $(this).dialog("close");
                         }
                     }]
@@ -6510,7 +6531,7 @@ function saveEebusSettingsDb(state) {
     var div = document.createElement("div");
     div.className += "overlay";
     document.body.appendChild(div);
-    $('.animationBar').show();
+    $('.animationBar').css('display', 'flex');
 
     $.ajax({
         type: 'POST',
@@ -6519,12 +6540,14 @@ function saveEebusSettingsDb(state) {
         dataType: 'json',
         success: function (data) {
             console.log(data);
-            $('.animationBar').hide();
+            $('.animationBar').css('display', 'none');
+
             document.body.removeChild(div);
             $('#pageContent').html(data);
         },
         error: function (xhr) {
-            $('.animationBar').hide();
+            $('.animationBar').css('display', 'none');
+
             alert('Error: ' + xhr.responseText);
         }
     });
@@ -6691,11 +6714,11 @@ document.addEventListener("DOMContentLoaded", function () {
     var loadmanagementUpdatedlmgroupButton = document.getElementById('loadmanagement_updatedlmgroup_button');
     if (masterConnectionStatus == "Connected") {
         console.log("master Connection status :",masterConnectionStatus);
-        loadmanagementUpdatedlmgroupButton.className = 'interfacesButtonUpdateSlave';
+        loadmanagementUpdatedlmgroupButton.classList.remove("disable");
         loadmanagementUpdatedlmgroupButton.setAttribute("onclick", "updateDLMGroup()");
 
     } else {
-        loadmanagementUpdatedlmgroupButton.className = 'interfacesButtonUpdateSlaveDisabled';
+        loadmanagementUpdatedlmgroupButton.classList.add("disable");
         loadmanagementUpdatedlmgroupButton.removeAttribute("onclick");
     }
 });
@@ -6710,7 +6733,7 @@ function toggleClusterFailsafeMode() {
     var clusterFailSafeCurrent = document.getElementById("clusterFailSafeCurrent");
     //var selectCpRoleValue = document.getElementById("cpRoleSelection").value;
     if (clusterFailSafeModeValue === "Enabled") {
-      clusterFailSafeCurrentPart.style.display = "block";
+      clusterFailSafeCurrentPart.style.display = "";
     } else {
       clusterFailSafeCurrentPart.style.display = "none";
       clusterFailSafeCurrent.value = 0;

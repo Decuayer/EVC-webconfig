@@ -1,96 +1,152 @@
 <?php
     include_once "access_control.php";
 ?>
-<div style="left:28%;width:60vw;position:absolute; z-index: 1;" id="networkLanPage">
-    <div>
-        <p class="star" style="display: inline;"><b>*</b> </p>
-        <p class="explanation" style="display: inline;"><?= _EXPLANATION ?></p>
+<div class="container my-4" id="networkLanPage">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+             <!-- Açıklama -->
+            <div class="mb-3 d-flex align-items-center">
+                <span class="star"><b>*</b></span>
+                <span class="explanation ms-2"><?= _EXPLANATION ?></span>
+            </div>
+
+            <!-- LAN Başlık -->
+            <h5 class="interfaceTitle mb-3">LAN</h5>
+
+            <!-- MAC Address -->
+            <div class="row mb-3" id="macAddressItem">
+                <label class="col-12 col-md-6 textInSettings"><?= _MACADDRESS ?>:</label>
+                <div class="col-12 col-md-6">
+                    <input type="text" id="macAddress" class="form-control" readonly disabled value="<?= htmlspecialchars($rowLanSettings["macAddress"]) ?>">
+                </div>
+            </div>
+
+            <!-- IP Ayarı -->
+            <div class="row mb-3 align-items-center" id="ipSettingItem">
+                <label class="col-12 col-md-6 textInSettings"><?= _IPSETTING ?></label>
+                <div class="col-12 col-md-6">
+                    <select name="selectEthernetIPSetting" id="ethernetIpSetting" class="form-select" onchange="ethernetFunction()">
+                        <option value="0"><?= _SELECTIPSETTING ?></option>
+                        <option id="static" value="1" <?= $rowLanSettings["IPSetting"] == "Static" ? ' selected="selected"' : '' ?>><?= _STATIC ?></option>
+                        <option id="dhcpServer" value="2" <?= $rowLanSettings["IPSetting"] == "DHCPServer" ? ' selected="selected"' : '' ?>><?= _DHCPSERVER ?></option>
+                        <option id="dhcpClient" value="3" <?= $rowLanSettings["IPSetting"] == "DHCP" ? ' selected="selected"' : '' ?>><?= _DHCPCLIENT ?></option>
+                    </select>
+                    <span class="error text-danger" id="ethernetIpSettingError">*</span>
+                </div>
+                <div style="col-md-6">
+                    <span class="alert text-danger"  id="ethernetIpSettingErr"></span>
+                </div>        
+            </div>
+
+            <!-- Ethernet Bilgileri -->
+            <div id="ethernetInfo">
+
+                <!-- DHCP Aralığı -->
+                <div id="DHCPServerInfo">
+                    <div class="row mb-3" id="minDHCPAddrRangeItem">
+                        <label class="col-12 col-md-6 textInSettings"><?= _MINDHCPADDRRANGE ?>:</label>
+                        <div class="col-12 col-md-6">
+                            <input type="text" class="form-control" id="minDHCPAddrRange" name="minDHCPAddrRange" value="<?= htmlspecialchars($rowLanSettings["dhcpRangeStart"]) ?>">
+                            <span class="error text-danger" id="minDHCPAddrRangeError">*</span>
+                            <div class="errorText">
+                                <span class="alert text-danger" id="minDHCPAddrRangeErr"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="row mb-3" id="maxDHCPAddrRangeItem">
+                    <label class="col-12 col-md-6 textInSettings"><?= _MAXDHCPADDRRANGE ?>:</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="maxDHCPAddrRange" name="maxDHCPAddrRange" value="<?= htmlspecialchars($rowLanSettings["dhcpRangeEnd"]) ?>">
+                        <span class="error text-danger" id="maxDHCPAddrRangeError">*</span>
+                        <div class="errorText">
+                            <span class="alert text-danger" id="maxDHCPAddrRangeErr"></span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- IP Adresi -->
+                <div class="row mb-3" id="IPadressItem">
+                    <label class="col-12 col-md-6 textInSettings"><?= _IPADDRESS ?>:</label>
+                    <div class="col-12 col-md-6">
+                        <input type="text" class="form-control" id="IPadress" name="IPadress" value="<?= htmlspecialchars($rowLanSettings["IPAddress"]) ?>">
+                        <span class="error text-danger" id="IPadressError">*</span>
+                        <div class="errorText">
+                            <span class="alert text-danger" id="IPadressErr"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ağ Maskesi -->
+                <div class="row mb-3" id="networkMaskItem">
+                    <label class="col-12 col-md-6 textInSettings"><?= _NETWORKMASK ?>:</label>
+                    <div class="col-12 col-md-6">
+                        <input type="text" class="form-control" id="networkMask" name="networkMask" value="<?= htmlspecialchars($rowLanSettings["networkMask"]) ?>">
+                        <span class="error text-danger" id="networkMaskError">*</span>
+                        <div class="errorText">
+                            <span class="alert text-danger" id="networkMaskErr"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Varsayılan Ağ Geçidi -->
+                <div class="row mb-3" id="defaultGatewayItem">
+                    <label class="col-12 col-md-6 textInSettings"><?= _DEFAULTGATEWAY ?>:</label>
+                    <div class="col-12 col-md-6">
+                        <input type="text" class="form-control" id="defaultGateway" name="defaultGateway" value="<?= htmlspecialchars($rowLanSettings["gateway"]) ?>">
+                        <span class="error text-danger" id="defaultGatewayError"></span>
+                        <div class="errorText">
+                            <span class="alert text-danger" id="defaultGatewayErr"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Birincil DNS -->
+                <div class="row mb-3" id="primaryDnsItem">
+                    <label class="col-12 col-md-6 textInSettings"><?= _PRIMARYDNS ?>:</label>
+                    <div class="col-12 col-md-6">
+                        <input type="text" class="form-control" id="primaryDns" name="primaryDns" value="<?= htmlspecialchars($rowLanSettings["primaryDNS"]) ?>">
+                        <span class="error text-danger" id="primaryDnsError"></span>
+                        <div class="errorText">
+                            <span class="alert text-danger" id="primaryDnsErr"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- İkincil DNS -->
+                <div class="row mb-3" id="secondaryDnsItem">
+                    <label class="col-12 col-md-6 textInSettings"><?= _SECONDARYDNS ?>:</label>
+                    <div class="col-12 col-md-6">
+                        <input type="text" class="form-control" id="secondaryDns" name="secondaryDns" value="<?= htmlspecialchars($rowLanSettings["secondaryDNS"]) ?>">
+                        <span class="error text-danger" id="secondaryDnsError"></span>
+                        <span class="alert text-danger" id="secondaryDnsErr"></span>
+                        <div class="errorText">
+                            <span class="alert text-danger" id="secondaryDnsErr"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kaydet Butonu -->
+            <div class="text-center my-4">
+                <button type="button" id="interfaces_lan_button" name="interfaces_lan_button" class="btn btn-primary px-4" onclick="checkLANNetworkForm()">
+                <?= _SAVE ?>
+                </button>
+                <input type="submit" id="button_lan_interfaces" name="button_lan_interfaces" hidden>
+            </div>
+        </div>
     </div>
-    <br></br>
-    <span class="interfaceTitle">LAN</span>
-    <br></br>
-    <div>
-        <!--macAddress-->
-        <div id="macAddressItem">
-            <label><?= _MACADDRESS ?>:</label>
-            <div>
-                <input type="text" id="macAddress" class="textarea1" style="margin-bottom: 1%;" readonly disabled value=<?php echo htmlspecialchars($rowLanSettings["macAddress"]); ?>>
-            </div>
-        </div>
-        <!--MAcaddress-->
-        <div style="height:35px;" id="ipSettingItem">
-            <!-- the ip setting -->
-            <label id ="ipSettingLabel" style="width: 12vw;margin-top:1%;"><?= _IPSETTING ?></label>
-            <div id = "ipSettingDiv"  style="height:30px; margin-left:12vw;" class="selectbox">
-                <select name="selectEthernetIPSetting" id="ethernetIpSetting" style= "width:12vw;" onchange="ethernetFunction()">
-                    <option value="0"><?= _SELECTIPSETTING ?></option>
-                    <option id="static" value="1" <?= $rowLanSettings["IPSetting"] == "Static" ? ' selected="selected"' : ''; ?>><?= _STATIC ?></option>
-                    <option id="dhcpServer" value="2" <?= $rowLanSettings["IPSetting"] == "DHCPServer" ? ' selected="selected"' : ''; ?>><?= _DHCPSERVER ?></option>
-                    <option id="dhcpClient" value="3" <?= $rowLanSettings["IPSetting"] == "DHCP" ? ' selected="selected"' : ''; ?>><?= _DHCPCLIENT ?></option>
-                </select>
-            </div>
-            <span class="error" id="ethernetIpSettingError" style="height: 60px; padding-top:16px; display: inline-block;">*</span>
-        </div><!-- ip setting -->
-        <div style="width: 38vw;"><span class="alert" style="margin-left:28vw;height: 60px; padding-top:16px; display: inline-block;float:right;" id="ethernetIpSettingErr"></span></div>
-    </div>
-    <!--ethernetInfo-->
-    <div id="ethernetInfo">
-        <div id="DHCPServerInfo">
-            <div id="minDHCPAddrRangeItem">
-                <label><?= _MINDHCPADDRRANGE ?>:</label>
-                <input type="text" class="textarea1" style="margin-bottom: 1%;" id="minDHCPAddrRange" name="minDHCPAddrRange" value=<?php echo htmlspecialchars($rowLanSettings["dhcpRangeStart"]); ?>>
-                <span class="error" id="minDHCPAddrRangeError">*</span>
-                <div class="errorText"><span class="alert" style="float:right; margin:0 0;" id="minDHCPAddrRangeErr"></span></div>
-            </div>
-            <div id="maxDHCPAddrRangeItem">
-                <label><?= _MAXDHCPADDRRANGE ?>:</label>
-                <input type="text" class="textarea1" style="margin-bottom: 1%;" id="maxDHCPAddrRange" name="maxDHCPAddrRange" value=<?php echo htmlspecialchars($rowLanSettings["dhcpRangeEnd"]); ?>>
-                <span class="error" id="maxDHCPAddrRangeError">*</span>
-                <div class="errorText"><span class="alert" style="float:right; margin:0 0;" id="maxDHCPAddrRangeErr"></span></div>
-            </div>
-        </div>
-        <div id="IPadressItem">
-            <label><?= _IPADDRESS ?>:</label>
-            <input type="text" class="textarea1" style="margin-bottom: 1%;" id="IPadress" name="IPadress" value=<?php echo htmlspecialchars($rowLanSettings["IPAddress"]); ?>>
-            <span class="error" id="IPadressError">*</span>
-            <div class="errorText"><span class="alert" style="float:right; margin:0 0;" id="IPadressErr"></span></div>
-        </div>
-        <div id="networkMaskItem">
-            <label><?= _NETWORKMASK ?></label>
-            <input type="text" class="textarea1" style="margin-bottom: 1%;" id="networkMask" name="networkMask" value=<?php echo htmlspecialchars($rowLanSettings["networkMask"]); ?>>
-            <span class="error" id="networkMaskError">*</span>
-            <div class="errorText"><span class="alert" style="float:right; margin:0 0;" id="networkMaskErr"></span></div>
-        </div>
-        <div id="defaultGatewayItem">
-            <label><?= _DEFAULTGATEWAY ?></label>
-            <input type="text" class="textarea1" style="margin-bottom: 1%;" id="defaultGateway" name="defaultGateway" value=<?php echo htmlspecialchars($rowLanSettings["gateway"]); ?>>
-            <span class="error" id="defaultGatewayError"></span>
-            <div class="errorText"><span class="alert" style="float:right; margin:0 0;" id="defaultGatewayErr"></span></div>
-        </div>
-        <div id="primaryDnsItem">
-            <label><?= _PRIMARYDNS ?></label>
-            <input type="text" class="textarea1" style="margin-bottom: 1%;" id="primaryDns" name="primaryDns" value=<?php echo htmlspecialchars($rowLanSettings["primaryDNS"]); ?>>
-            <span class="error" id="primaryDnsError"></span>
-            <div class="errorText"><span class="alert" style="float:right; margin:0 0;" id="primaryDnsErr"></span></div>
-        </div>
-        <div id="secondaryDnsItem">
-            <label><?= _SECONDARYDNS ?></label>
-            <input type="text" class="textarea1" style="margin-bottom: 1%;" id="secondaryDns" name="secondaryDns" value=<?php echo htmlspecialchars($rowLanSettings["secondaryDNS"]); ?>>
-            <span class="error" id="secondaryDnsError"></span>
-            <div class="errorText"><span class="alert" style="float:right; margin:0 0;" id="secondaryDnsErr"></span></div>
-        </div>
-    </div>
-    <!--ethernetInfo -->
-    <br></br>
-    <button type="button" id="interfaces_lan_button" name="interfaces_lan_button" value="Save" class="interfacesButton" onclick="checkLANNetworkForm()"> <?= _SAVE ?> </button>
-    <input type="submit" id="button_lan_interfaces" name="button_lan_interfaces" hidden>
 </div>
 
-<div id="networkInterfaceAlertMessageCellularGateway" style="display:none">
-    <p class="dialogText" id="forCellularGateway" style="text-align:center;"><?= _CELLULARGATEWAYCONFIRM ?></p>
-    <p class="dialogTextBold"><?= _ACCEPTQUESTION ?></p>
+<!-- Uyarılar -->
+<div  class="container mt-4" id="networkInterfaceAlertMessageCellularGateway" style="display:none">
+  <p class="dialogText" id="forCellularGateway"><?= _CELLULARGATEWAYCONFIRM ?></p>
+  <p class="dialogTextBold"><?= _ACCEPTQUESTION ?></p>
 </div>
-<div id="alertMessageDhcpServer" style="display:none">
-    <p class="dialogText" id="forDhcpServer" style="text-align:center;"><?= _DHCPSERVERCONNECTIONCONFIRM ?></p>
+
+<div class="container text-center mt-4" id="alertMessageDhcpServer" style="display:none">
+  <p class="dialogText" id="forDhcpServer"><?= _DHCPSERVERCONNECTIONCONFIRM ?></p>
 </div>
+
 <!--general div -->

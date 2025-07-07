@@ -6,22 +6,21 @@
   <div class="row" style="margin-top: 100px;">
     <nav class="col-12 col-md-3 col-lg-2 d-none d-md-block bg-dark text-white position-fixed h-100" style="top: 70px;">
       <div class="position-sticky">
-        <ul class="nav-flex-dolumn mt-5 gap-2" style="padding-top: 30px;">
-          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'LanguageSettings')" id="languageSettingsBar"><?= _DISPLAYLANGUAGE ?></a></li>
-          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'DisplayBacklightSettings')" id="displayBacklightSettingsBar"><?= _DISPLAYBACKLIGHTSETTINGS ?></a></li>
-          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'LedDimmingSettings')" id="ledDimmingSettingsBar"><?= _LEDDIMMINGSETTINGS ?></a></li>
-          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'StandbyLedBehaviour')" id="standbyLedBehaviourBar"><?= _STANDBYLEDBEHAVIOUR ?></a></li>
-          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'ThemeSettings')" id="themeSettingsBar"><?= _SCREENTHEME ?></a></li>
-          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'ServiceContactSettings')" id="contactInfoBar"><?= _SERVICECONTACTINFO ?></a></li>
-          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'LogoSettings')" id="logoSettingsBar"><?= _LOGOSETTINGS ?></a></li>
-          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" style="display:<?php echo $displayQRCode; ?>" nclick="openBar(event, 'QRCodeSettings')" id="qrCodeBar"><?= _QRCODE ?></a></li>
-          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'ScheduledCharging')" id="scheduledChargingBar"><?= _SCHEDULEDCHARGING ?></a></li>
+        <ul class="nav flex-column mt-5 gap-2" style="padding-top: 30px;">
+          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'LanguageSettings')" id="languageSettingsBar"><?= _DISPLAYLANGUAGE ?></a></li>
+          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'DisplayBacklightSettings')" id="displayBacklightSettingsBar"><?= _DISPLAYBACKLIGHTSETTINGS ?></a></li>
+          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'LedDimmingSettings')" id="ledDimmingSettingsBar"><?= _LEDDIMMINGSETTINGS ?></a></li>
+          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'StandbyLedBehaviour')" id="standbyLedBehaviourBar"><?= _STANDBYLEDBEHAVIOUR ?></a></li>
+          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'ThemeSettings')" id="themeSettingsBar"><?= _SCREENTHEME ?></a></li>
+          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'ServiceContactSettings')" id="contactInfoBar"><?= _SERVICECONTACTINFO ?></a></li>
+          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'LogoSettings')" id="logoSettingsBar"><?= _LOGOSETTINGS ?></a></li>
+          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" style="display:<?php echo $displayQRCode; ?>" onclick="openBar(event, 'QRCodeSettings')" id="qrCodeBar"><?= _QRCODE ?></a></li>
+          <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'ScheduledCharging')" id="scheduledChargingBar"><?= _SCHEDULEDCHARGING ?></a></li>
         </ul>
       </div>
     </nav>
     <main class="col-md-9 offset-md-3 col-lg-10 offset-lg-2" style="height: calc(100vh - 56px); margin-top: 20px;">
       <div class="container pt-5">
-        <input type="hidden" id="active_bar" name="active_bar" value="LanguageSettings" />
         <!-- !! -->
         <form method="post" autocomplete="off">
           <input type="hidden" name="token" value="<?= $_SESSION["token"] ?>">

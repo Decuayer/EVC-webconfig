@@ -8865,10 +8865,6 @@
 
 /* ------------------------------------ */
 
-.text-white {
-    color: white;
-}
-
 .text-black {
     color: black;
 }
@@ -9883,14 +9879,6 @@
     background-image: linear-gradient(to right, #00E5FA, #00549C);
 }
 
-#changePasswordText {
-    margin-left: 20%;
-    margin-top: 0.50%;
-    height: 29px;
-    font-family: OpenSans-Regular;
-    font-size: 20px;
-    color: #0080c0;
-}
 
 .alertValidation {
     width: 370px;
@@ -10060,15 +10048,6 @@
     color: #0080c0;
 }
 
-#backToLoginText {
-    margin-top: 0.50%;
-    height: 29px;
-    font-family: OpenSans-Regular;
-    font-size: 20px;
-    color: #0080c0;
-    text-decoration: none;
-}
-
 .titleForSystemMaintanencePassword {
     font-family: OpenSans-Regular;
     font-size: 24px;
@@ -10078,21 +10057,6 @@
     line-height: normal;
     letter-spacing: normal;
     color: #0f1a2a;
-}
-
-.explanationSystemMaintanence {
-    width: 30vw;
-    font-family: OpenSans-Regular;
-    font-size: 18px;
-    color: #4a4a4a;
-    float: left;
-    font-size: 18px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #4a4a4a;
 }
 
 .changeButton {

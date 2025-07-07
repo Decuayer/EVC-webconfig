@@ -158,163 +158,151 @@ if (isset($_POST["changeLangButtonLogin"])) {
 	<link rel="stylesheet" type="text/css" href="css/util.css?<?php echo time(); ?>">
 	<link rel="stylesheet" type="text/css" href="css/main.css?<?php echo time(); ?>">
 	<link rel="stylesheet" type="text/css" href="css/webconfig.css?<?php echo time(); ?>">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css?<?php echo time(); ?>">
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css?<?php echo time(); ?>">
 	<!--===============================================================================================-->
 </head>
 
 <body>
-	<div class="flexColumn">
-		<div class="containerMainTextArea">
-			<li>
-				<div class="titleBar" style="height:100px;">
+	<nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-3 mb-4" aria-label="Offcanvas navbar large">
+		<div class="container container-fluid d-flex justify-content-between align-items-center flex-wrap">
+			<a href="#" class="navbar-brand d-flex align-items-center flex-shrink-1">
 				<?php
-                $imagePath = '/usr/share/webconfig/css/weblogo.png';
-                $logoStyle = "margin-top:0.4%;width:80px;height:20px;";
-                if(file_exists($imagePath)){
-                    $imageInfo = getimagesize($imagePath);
-                    $width = $imageInfo[0];
-                    $height = $imageInfo[1];
-                    if (($width > 0) && (($height / $width) == 1)) { //for the square
-                        if ($height > 50) {
-                            $logoStyle = "margin-top:0.4%;margin-left:15px;height:50px;width:50px;";
-                        } else {
-                            $margin = ((80 - $width) / 2);
-                            $logoStyle = "margin-left:{$margin} px; margin-top:0.4%;height:{$height} px;width:{$width} px;";
-                        }
-                    } else if (($width > 0) && (($height / $width) > 1)) { // for the rectangle 
-                        if ($height > 50) {
-                            $width = ($width * 50) / $height;
-                            $left = ((50 - $width) / 2);
-                            $logoStyle = "left:{$left} px; margin-top:0.4%;height:50px;width:{$width} px;";
-                        } else {
-                            $logoStyle = "margin-top:0.4%;height:50px;width:80px;";
-                        }
-                    } else { // for the rectangle
-                        $logoStyle = "margin-top:0.4%;height:20px;width:80px;";
-                    }
-            }
+					$imagePath = '/usr/share/webconfig/css/weblogo.png';
+					$logoStyle = "margin-top:0.4%;width:80px;height:20px;";
+					if(file_exists($imagePath)){
+						$imageInfo = getimagesize($imagePath);
+						$width = $imageInfo[0];
+						$height = $imageInfo[1];
+						if (($width > 0) && (($height / $width) == 1)) { //for the square
+							if ($height > 50) {
+								$logoStyle = "margin-top:0.4%;margin-left:15px;height:50px;width:50px;";
+							} else {
+								$margin = ((80 - $width) / 2);
+								$logoStyle = "margin-left:{$margin} px; margin-top:0.4%;height:{$height} px;width:{$width} px;";
+							}
+						} else if (($width > 0) && (($height / $width) > 1)) { // for the rectangle 
+							if ($height > 50) {
+								$width = ($width * 50) / $height;
+								$left = ((50 - $width) / 2);
+								$logoStyle = "left:{$left} px; margin-top:0.4%;height:50px;width:{$width} px;";
+							} else {
+								$logoStyle = "margin-top:0.4%;height:50px;width:80px;";
+							}
+						} else { // for the rectangle
+							$logoStyle = "margin-top:0.4%;height:20px;width:80px;";
+						}
+					}
+				?>
+				<img src="/css/weblogo.png" alt="weblogo" class="img-fluid logo-img" style="<?php echo $logoStyle."display:".$logoDisplay; ?>">
+				<span class="m-2 text-nonwrap fs-6"><?php echo $deviceModel;?></span>
+			</a>
+			<div class="d-flex ms-auto">
+				<form method="post">
+				<select name="lang" id="lang" onchange="changeLanguageForLoginPage()" class="form-select form-select-sm bg-light text-dark w-auto">
+					<?php foreach (language_list() as $t) { ?>
+					<option value="<?php print $t['value'] ?>" <?= $lang["webconfigLanguage"] == $t['value'] ? ' selected="selected"' : ''; ?>>
+						<?php print $t['lang'] ?>
+					</option>
+					<?php } ?>
+				</select>
+				<input id="changeLangButtonLogin" type="submit" hidden />
+				</form>
+			</div>
+		</div>
+	</nav>
+	<main>
+		<div class="animationBar">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<div class="container vh-100 d-flex justify-content-center align-items-center mb-5 mt-5">
+			<div class="row w-100">
+				<div class="col-md-5 offset-md-3">
+					<form role="form" method="post" autocomplete="off">
+						<h2 class="h1-responsive text-center font-weight-bold my-4">
+							<?= _CHANGEPASSWORD ?>
+						</h2>
+						<div class="text-center mb-4 px-3">
+							<?php
+							$password =  _PASSWORDTYPEEXPLANATIONLEVEL;
+							if($rowLevel['passwordLevel'] == 2){
+								$password =  _PASSWORDTYPEEXPLANATIONLEVEL2;
+							} else {
+								$password =  _PASSWORDTYPEEXPLANATIONLEVEL3;
+							}		
+							echo "<p>$password</p>"
+							?>
+						</div>
+						<hr class="featurette-divider">
+						<div class="mb-3" data-validate="<?= _USERNAMEREQUIRED ?>">
+							<label for="username" class="form-label"><?= _USERNAME ?></label>
+							<input type="text" class="form-control" name="username" id="username">
+							<span class="error" id="star">*</span>
+						</div>
+						<div class="mb-3" data-validate="<?= _CURRENTPASSWORDREQUIRED ?>">
+							<label for="currentPass" class="form-label"><?= _CURRENTPASSWORD ?></label>
+							<div class="input-group">
+								<input type="password" class="form-control" name="currentPass" id="currentPass">
+								<button class="btn btn-outline-primary btn-show-pass" type="button">
+									<i class="fa fa-eye"></i>
+								</button>
+							</div>
+							<span class="error" id="star">*</span>
+						</div>
+						<div class="mb-3" data-validate="<?= _PASSWORDREQUIRED ?>">
+							<label for="pass" class="form-label"><?= _NEWPASSWORD ?></label>
+							<div class="input-group">
+								<input type="password" class="form-control" name="pass" id="pass">
+								<button class="btn btn-outline-primary btn-show-pass" type="button">
+									<i class="fa fa-eye"></i>
+								</button>
+							</div>
+							<span class="error" id="star">*</span>
+						</div>
+						<div class="mb-3" data-validate="<?= _CONFIRMNEWPASSWORD ?>">
+							<label for="repass" class="form-label"><?= _CONFIRMNEWPASSWORD ?></label>
+							<div class="input-group">
+								<input type="password" class="form-control" name="repass" id="repass">
+								<button class="btn btn-outline-primary btn-show-pass" type="button">
+									<i class="fa fa-eye"></i>
+								</button>
+							</div>
+							<span class="error" id="star">*</span>
+						</div>
+						
+						<?php
+							if (isset($_SESSION["error"])) {
+								$error = $_SESSION["error"];
+								unset($_SESSION["error"]);
+							}
+						?>
+						<div id='passwordError' name='passwordError' class="alert alert-danger" style="display:none;">
+							<?php echo defined($error) ? constant($error) : $error; ?>
+						</div>
 
-            ?>
-            <div style=<?php echo $logoStyle ?>><img id="logo" style="<?php echo $logoStyle."display:".$logoDisplay; ?>" src="/css/weblogo.png" /></div>
-            <div style="margin-top:0.3%;margin-left:0.3%;"><?php echo $deviceModel;?></div>
-        </div>
-				<div class="languagePosition">
-					<form method="post">
-						<div class="selectbox" style="min-width: 140px;">
-							<select name="lang" id="lang" onchange="changeLanguageForLoginPage()">
-								<?php foreach (language_list() as $t) { ?>
-									<option value="<?php print $t['value'] ?>" <?= $lang["webconfigLanguage"] == $t['value'] ? ' selected="selected"' : ''; ?>>
-										<?php print $t['lang'] ?>
-									</option>
-								<?php } ?>
-							</select>
-							<input id="changeLangButtonLogin" name="changeLangButtonLogin" type="submit" hidden />
+						<div class="d-grid">
+							<button type="button" class="btn btn-primary fs-4" name="change_password_button" onclick="checkPassword(<?php echo $rowLevel['passwordLevel'];?>)"> <?= _SUBMIT ?> </button>
+						</div>
+						<div class="mt-3 text-center">
+							<a href="" id="backToLoginText" class="btn btn-link"><?= _BACKTOLOGIN ?></a>
 						</div>
 					</form>
-
 				</div>
-			</li>
+			</div>
 		</div>
+	</main>
 
-		<form class="login100-form validate-form flex-sb flex-w" role="form" method="post" autocomplete="off">
-
-			<div class="animationBar">
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-			</div>
-
-
-			<div class="containerMainTextArea wrap" style="margin-left:42.06%; margin-right:29.06%; margin-top:4%; display:flex; text-transform: uppercase ; ">
-				<p class="generalTitle"><?= _CHANGEPASSWORD ?></p>
-			</div>
-			<div class="containerMainTextArea wrap" style="margin-left:29.5%;margin-right:25.06%;margin-bottom:1%; display:flex;">
-			<?php
-				$password =  _PASSWORDTYPEEXPLANATIONLEVEL;
-				if($rowLevel['passwordLevel'] == 2){
-					$password =  _PASSWORDTYPEEXPLANATIONLEVEL2;
-				}else {
-					$password =  _PASSWORDTYPEEXPLANATIONLEVEL3;
-				}		
-				echo"<p class='generalExplanationText'>$password</p>"
-			?>
-			</div>
-			<div class="containerMainTextArea wrap" style="margin-left:32.30%;margin-right:32%;margin-top:1%; margin-bottom:1%;display:<?php echo $forcedToLogin; ?>;">
-				<p class="generalSubTitle"><?= _USERNAME ?></p>
-			</div>
-            <div class="wrap-input100 validate-input m-b-36" data-validate="<?= _USERNAMEREQUIRED ?>">
-				<div id="userNameArea" class="containerMainTextArea" style="margin-left:30.5%; display:<?php echo $forcedToLogin; ?>;">
-					<input class="textAreaChangePassword" type="text" name="username" id="username">
-					<p id="star">*</p>
-				</div> <!-- wrap input -->
-			<div class="containerMainTextArea wrap" style="margin-left:32.30%;margin-right:32%;margin-top:1%; margin-bottom:1%;display:flex;">
-				<p class="generalSubTitle"><?= _CURRENTPASSWORD ?></p>
-			</div>
-			<div class="wrap-input100 validate-input m-b-36" data-validate="<?= _CURRENTPASSWORDREQUIRED ?>">
-				<div class="containerMainTextArea" style="margin-left:30.5%">
-					<span class="btn-show-pass">
-						<i class="fa fa-eye"></i>
-					</span>
-					<input class="textAreaChangePassword" type="password" name="currentPass" id="currentPass">
-					<p id="star">*</p>
-
-				</div> <!-- wrap input -->
-				<!-- ******************************************************************************************** -->
-				<div class="containerMainTextArea wrap" style="margin-left:32.30%;margin-right:32%;margin-top:1%; margin-bottom:1%;display:flex;">
-					<p class="generalSubTitle"><?= _NEWPASSWORD ?></p>
-				</div>
-				<div class="wrap-input100 validate-input m-b-36" data-validate="<?= _PASSWORDREQUIRED ?>">
-					<div class="containerMainTextArea" style="margin-left:30.5%">
-						<span class="btn-show-pass">
-							<i class="fa fa-eye"></i>
-						</span>
-						<input class="textAreaChangePassword" type="password" name="pass" id="pass">
-						<p id="star">*</p>
-
-					</div> <!-- wrap input -->
-
-					<div class="containerMainTextArea wrap" style="margin-left:32.30%;margin-bottom:1%;margin-top:1%;margin-right:32%;display:flex;">
-						<p class="generalSubTitle"><?= _CONFIRMNEWPASSWORD ?></p>
-					</div>
-					<div class="wrap-input100 validate-input m-b-36" data-validate="<?= _CONFIRMNEWPASSWORD ?>">
-						<div class="containerMainTextArea" style="margin-left:30.5%">
-							<span class="btn-show-pass">
-								<i class="fa fa-eye"></i>
-							</span>
-							<input class="textAreaChangePassword" type="password" name="repass" id="repass">
-							<p id="star">*</p>
-
-						</div> <!-- wrap input -->
-
-						<div class="flex-sb-m w-full"></div>
-
-						<?php
-						if (isset($_SESSION["error"])) {
-							$error = $_SESSION["error"];
-							unset($_SESSION["error"]);
-						}
-						?>
-						<div id='passwordErrorDiv' class='containerMainTextArea wrap' style='margin-left:53.4%;margin-right:27.1%;margin-bottom:1%;'><b class='alertValidation' id='passwordError' name='passwordError' style='color:#FF0000;'><?php echo defined($error) ? constant($error) : $error; ?></b></div>
-						<div class="flex-sb-m w-full"></div>
-
-						<div style="width:12vw;margin-left:42%;">
-							<button type="button" class="generalButton" name="change_password_button" onclick="checkPassword(<?php echo $rowLevel['passwordLevel'];?>)"> <?= _SUBMIT ?> </button>
-							<div style="display: table;margin: 0 auto;">
-								<a href="" id="backToLoginText" style="text-decoration:none;display: table-cell;vertical-align: middle;text-align:center"><?= _BACKTOLOGIN ?></a>
-							</div>
-						</div>
-						<!-- *********************************************** -->
-		</form>
-
-		<!-- ******************************************************************************************** -->
-	</div><!-- flex column -->
+	<!-- ******************************************************************************************** -->
 	<!--===============================================================================================-->
 	<!-- php echo time(); function should be added at the end of css and js files -->
 	<script src="js/jquery-3.7.1.min.js?<?php echo time(); ?>"></script>
 	<script src="js/main.js?<?php echo time(); ?>"></script>
+	<script src="js/bootstrap.min.js?<?php echo time(); ?>"></script>
 	<script>
-		$('.animationBar').hide();
+		$('.animationBar').css('display', 'none');
 		const passwordErrors = {
 				_USERNAMEORCURRENTPASSWORDWRONG : "<?= _USERNAMEORCURRENTPASSWORDWRONG ?>",
 				_SAMEPASSWORDERROR : "<?= _SAMEPASSWORDERROR ?>",
@@ -398,7 +386,7 @@ if (isset($_POST["changeLangButtonLogin"])) {
 			var div = document.createElement("div");
 			div.className += "overlay";
 			document.body.appendChild(div);
-			$('.animationBar').show();
+			$('.animationBar').css('display', 'flex');
 		}
 	</script>
 </body>

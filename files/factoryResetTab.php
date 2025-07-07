@@ -1,28 +1,47 @@
 <?php
     include_once "access_control.php";
 ?>
-<div style="left:28%;position:absolute;z-index: 1;right:1%;" id="factoryResetPage">
-  <div style="margin-left:35%;margin-right:20%;margin-top:10%;">
-    <div class="center_system_maintanence" style="float:left">
-      <div style="text-align: center;">
-        <img id="hmiLogIcon" src="css/factory-reset-icon.png">
-      </div>
-      <div id="factory_reset_saved_message" style="display:none;margin-top:10%;"><?= _PROCESSING ?>
-        <br></br><br></br><br></br>
-        <div id="progress">
-          <div id="bar"></div>
+<div class="container justify-content-center align-items-center my-5 py-5" id="factoryResetPage" style="min-height: 50vh;">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8">
+      <div class="text-center">
+
+        <!-- Reset Icon -->
+        <div class="mb-4">
+          <img id="hmiLogIcon" src="css/factory-reset-icon.png" class="img-fluid" style="max-height: 180px;" alt="Factory Reset">
         </div>
-        <br></br>
-        <p id="factory_reset_setup_message" style="display:none"><?= _NEWSETUP ?></p>
-      </div>
-      <div style="margin-top:1%;margin-left:12%;">
-        <button type="button" id="factory_default_button" name="factory_default_button" class="factory_default_button" onclick="factoryReset('<?php echo $_SESSION['token']?>')"> <?= _FACTORYRESETBUTTON ?> </button>
-        <input type="submit" id="button_factory_default" name="button_factory_default" hidden>
+
+        <!-- Progress / İşlem -->
+        <div id="factory_reset_saved_message" style="display:none;">
+          <div class="fw-bold mb-4"><?= _PROCESSING ?></div>
+
+          <!-- Bar -->
+          <div class="my-3">
+            <div id="progress" class="progress" style="height: 20px;">
+              <div id="bar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <p id="factory_reset_setup_message" class="mt-3" style="display:none">
+            <?= _NEWSETUP ?>
+          </p>
+        </div>
+
+        <!-- Reset Butonu -->
+        <div class="mt-4">
+          <button type="button" id="factory_default_button" name="factory_default_button" class="btn btn-danger fw-bold px-4 py-2 fs-5"
+            onclick="factoryReset('<?php echo $_SESSION['token']?>')">
+            <?= _FACTORYRESETBUTTON ?>
+          </button>
+          <input type="submit" id="button_factory_default" name="button_factory_default" hidden>
+        </div>
+
       </div>
     </div>
   </div>
-
 </div>
-<div id="savedAlertMessage" style="display:none">
-  <p class="dialogText" id="factoryResetText"><?= _FACTORYDEFAULTCONFIRM ?></p>
+
+<!-- Uyarı Mesajı -->
+<div class="container text-center mt-4" id="savedAlertMessage" style="display:none">
+  <p class="dialogText text-warning" id="factoryResetText"><?= _FACTORYDEFAULTCONFIRM ?></p>
 </div>

@@ -1,8 +1,4 @@
 <?php
-
-error_reporting(0);
-
-
 session_start();
 include 'languageController.php';
 include 'optionsAndControls.php';
@@ -132,7 +128,7 @@ if (file_exists("/var/lib/vestel/webconfig.db")) {
   $rowLang = $stmt->execute();
   $lang = $rowLang->fetchArray();
   //Visibility
-  $hideChangePassword = "table-cell";
+  $hideChangePassword = "block";
   $stmt = $webconfigDB->prepare("SELECT hiddenPageItems FROM visibility");
   $resVisibility = $stmt->execute(); // Execute the prepared statement
   while ($item = $resVisibility->fetchArray()) {
@@ -325,6 +321,7 @@ if (file_exists($deviceDetailPath)) {
   <link rel="stylesheet" type="text/css" href="css/util.css?<?php echo time(); ?>">
   <link rel="stylesheet" type="text/css" href="css/main.css?<?php echo time(); ?>">
   <link rel="stylesheet" type="text/css" href="css/webconfig.css?<?php echo time(); ?>">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css?<?php echo time(); ?>">
   <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css?<?php echo time(); ?>">
   <!--===============================================================================================-->
 </head>
@@ -384,61 +381,70 @@ if (file_exists($deviceDetailPath)) {
       <div></div>
       <div></div>
     </div>
-    <div class="container vh-100 d-flex justify-content-center align-items-center mb-6">
+    <div class="container vh-100 d-flex justify-content-center align-items-center mb-5">
       <div class="row w-100">
         <div class="col-md-4 offset-md-4">
           <form role="form" method="post" autocomplete="off">
             <h2 class="h1-responsive text-center font-weight-bold my-4">
               <?= _LOGIN ?>
             </h2>
+
             <hr class="featurette-divider">
+
             <div class="mb-3" data-validate="<?= _USERNAMEREQUIRED ?>">
               <label for="username" class="form-label"><?= _USERNAME ?></label>
               <input class="form-control" type="text" id="username" name="username">
               <span class="error">*</span>
             </div>
+
             <div class="mb-3" data-validate="<?= _PASSWORDREQUIRED ?>">
               <label for="pass" class="form-label"><?= _PASSWORD ?></label>
-              <span class="btn btn-primary" style="left:85%;top:20%;">
-                <i class="fa fa-eye"></i>
-              </span>
-              <input class="form-control" type="password" id="pass" name="pass">
+              <div class="input-group">
+                <input class="form-control" type="password" id="pass" name="pass">
+                <button class="btn btn-outline-primary btn-show-pass" type="button">
+                  <i class="fa fa-eye"></i>
+                </button>
+              </div>
               <span class="error">*</span>
             </div>
+            
             <div id="loginErrorMessage" class="alert alert-danger" style="display:none;">
               Test Alert
             </div>
             <div class="mt-3">
               <?php
                 if ($dbFirstLogin == "true" && strtolower($customer) != "webasto") { ?>
-                  <div>
-                    <span class="alert alert-info"><?= _CHANGEPASSWORDSUGGESTION ?></span>
+                  <div class="alert alert-info">
+                    <?= _CHANGEPASSWORDSUGGESTION ?>
                   </div>
               <?php } ?>
             </div>
             <div class="d-grid">
               <input type="submit" id="login_button" class="btn btn-primary fs-4" name="login_button" onclick="checkRequirements(event);" value="<?= _LOGIN ?>">
               <input type="submit" id="button_login" name="button_login" hidden>
-            </div>
+            </div> 
             <div class="mt-3 text-center">
-              <a href="#" id="changePasswordText" onclick="changeLocation();" id = "changePasswordItem" style="display:<?php echo $hideChangePassword ?>" class="btn btn-link"><?= _CHANGEPASSWORD ?></a>
+              <a id="changePasswordText" onclick="changeLocation();" id = "changePasswordItem" style="display:<?php echo $hideChangePassword ?>" class="btn btn-link"><?= _CHANGEPASSWORD ?></a>
             </div>
           </form>
         </div>
       </div>
     </div>
   </main>
+
   <!-- Popup Modal -->
-  <div id="documentModal" class="modal">
+  <div id="documentModal" class="modal px-5">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
+      <span class="position-absolute top-0 end-0 m-3 fs-4 fw-bold text-muted" style="cursor:pointer;" onclick="closeModal()">&times;</span>
       <p class="generalTitle" id="documentTitle" style="font-size: 16px;"></p>
       <p id="documentText"></p>
       <div class="checkbox-container">
         <input type="checkbox" id="readCheckbox" />
         <label for="readCheckbox" style="margin-left:20px; font-size: clamp(14px, 1vw, 16px);"><?= _READUNDERSTAND ?></label>
       </div>
-      <button class="Button "id="confirmButton" onclick="loadNextDocument()" disabled><?= _CONFIRM ?></button>
+      <div class="row justify-content-center">
+        <button class="btn btn-primary w-50" id="confirmButton" onclick="loadNextDocument()" disabled><?= _CONFIRM ?></button>
+      </div>
     </div>
   </div>
 </body>
@@ -451,9 +457,11 @@ if (file_exists($deviceDetailPath)) {
   <script src="js/jquery-ui.js?<?php echo time(); ?>"></script>
   <script src="js/jquery.cookie.js?<?php echo time(); ?>"></script>
   <script src="js/jquery.js?<?php echo time(); ?>"></script>
+  <script src="js/bootstrap.min.js?<?php echo time(); ?>"></script>
   <script type="text/javascript">
     
-    $('.animationBar').hide();
+    $('.animationBar').css('display', 'none');
+
     var div = document.createElement("div");
     div.className += "overlay";
 
@@ -470,7 +478,7 @@ if (file_exists($deviceDetailPath)) {
     window.checkRequirements = function(event) {
       event.preventDefault();
       document.body.appendChild(div);
-      $('.animationBar').show();
+      $('.animationBar').css('display', 'flex');
       passwordInput.readOnly = true;
       usernameInput.readOnly = true;
 
@@ -494,7 +502,8 @@ if (file_exists($deviceDetailPath)) {
               window.location.href = response.location.trim();
             }else{
               document.body.removeChild(div);
-              $('.animationBar').hide();
+              $('.animationBar').css('display', 'none');
+
               $('#loginErrorMessage').text(loginProcessErrors[response.error.trim()]).show();
               usernameInput.readOnly = false;
               passwordInput.readOnly = false;
@@ -522,7 +531,7 @@ if (file_exists($deviceDetailPath)) {
               showDocumentPopup(data.documents);
             }else{
               document.body.appendChild(div);
-              $('.animationBar').show();
+              $('.animationBar').css('display', 'flex');
               document.getElementById("button_login").click();
             }
           
@@ -535,7 +544,8 @@ if (file_exists($deviceDetailPath)) {
       documents = docs; // coming documentations
       currentDocIndex = 0;
       loadDocument();
-      $('.animationBar').hide();
+      $('.animationBar').css('display', 'none');
+
       usernameInput.readOnly = false;
       passwordInput.readOnly = false;
       document.body.removeChild(div);
@@ -597,7 +607,7 @@ if (file_exists($deviceDetailPath)) {
       var div = document.createElement("div");
       div.className += "overlay";
       document.body.appendChild(div);
-      $('.animationBar').show();
+      $('.animationBar').css('display', 'flex');
     }
 
     function changeLocation() {

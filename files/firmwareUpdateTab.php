@@ -1,45 +1,46 @@
 <?php
     include_once "access_control.php";
 ?>
-<html>
-<body>
-   <div style="left:28%;position:absolute;z-index: 1;right:1%;" id="uploadPart">
-      <div style="margin-top:10%;"> 
-         <div style="text-align: center">
-            <div>
-               <img style="text-align: center" id="hmiLogIcon" src="css/upload-icon.png">
-            </div>
-            <div style="margin-top:3%" class="system_maintanence_text"><?= _SELECTFIRMWARE ?></div>
-            <div style="margin-top: 3%;text-align: center">
-               <label for="zipFile" style="float:none;display: inline-block;padding: 1.25em 0;text-align: center;font-size: 18px;" class="log_button"><?= _UPLOAD ?></label>
-            </div>
-         </div>
-      </div>
-   </div>
-   <!-- ****************************************************************************************** -->
-   <div style="left:28%;position:absolute;z-index: 1;right:1%;display:none" id="updatePart">
-      <div style="margin-top:10%">
-         <div style="text-align: center">
-            <div>
-               <img style="text-align: center" id="hmiLogIcon" src="css/upload-icon.png">
-            </div>
-            <div style="margin-top:3%;text-align: center" class="system_maintanence_text" id="fileName"> <?= _FILENAME ?></div>
-            <div style="margin-top:3%;text-align: center">
-               <button type="button" class="log_button" onclick="firmwareUpdate()"> <?= _UPDATE ?> </button>
-            </div>
-         </div>
-      </div>
-   </div>
-   <div id="firmwareUpdateAlertMessage" style="display:none">
-      <p class="dialogText" id="firmwareUpdateForSize" style="display:none"><?= _FIRMWAREFILESIZE ?></p>
-      <p class="dialogText" id="firmwareUpdateForType" style="display:none"><?= _FIRMWAREFILETYPE ?></p>
-   </div>
 
-   <div id="firmware_update_saved_message" style="display:none"><?= _PROCESSING ?></div>
-   <form action="" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="token" value="<?= $_SESSION["token"] ?>">
-      <input type="file" name="zipFile" id="zipFile" style="visibility: hidden;" />
-      <input type="submit" id="fileUpload" style="visibility: hidden;" />
-   </form>
-</body>
-</html>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+   <div class="row justify-content-center">
+      <div class="col-12 col-md-8">
+         <div id="uploadPart" class="text-center w-100" style="max-width: 500px;">
+            <div class="mb-4">
+               <img id="hmiLogIcon" src="css/upload-icon.png" class="img-fluid" alt="Upload Icon">
+            </div>
+            <div class="mb-3 h5 system_maintanence_text"><?= _SELECTFIRMWARE ?></div>
+            <div class="mb-3">
+               <label for="zipFile" class="btn btn-primary fw-bold px-4 py-2 fs-5"><?= _UPLOAD ?></label>
+            </div>
+         </div>
+
+         <div id="updatePart" class="text-center w-100 d-none" style="max-width: 500px;">
+            <div class="mb-4">
+               <img id="hmiLogIcon" src="css/upload-icon.png" class="img-fluid" alt="Upload Icon">
+            </div>
+            <div class="mb-3 h5 system_maintanence_text" id="fileName"><?= _FILENAME ?></div>
+            <div class="mb-3">
+               <button type="button" class="btn btn-success fw-bold px-4 py-2" onclick="firmwareUpdate()"><?= _UPDATE ?></button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Alert Messages -->
+<div id="firmwareUpdateAlertMessage" class="container mt-4" style="display:none">
+  <p class="dialogText text-danger" id="firmwareUpdateForSize" style="display:none"><?= _FIRMWAREFILESIZE ?></p>
+  <p class="dialogText text-danger" id="firmwareUpdateForType" style="display:none"><?= _FIRMWAREFILETYPE ?></p>
+</div>
+
+<div id="firmware_update_saved_message" class="container text-center text-success mt-3" style="display:none">
+  <?= _PROCESSING ?>
+</div>
+
+<!-- Form -->
+<form method="POST" enctype="multipart/form-data" class="d-none">
+  <input type="hidden" name="token" value="<?= $_SESSION["token"] ?>">
+  <input type="file" name="zipFile" id="zipFile" style="visibility: hidden;" />
+  <input type="submit" id="fileUpload" style="visibility: hidden;" />
+</form>

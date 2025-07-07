@@ -8,24 +8,23 @@
         <nav class="col-12 col-md-3 col-lg-2 d-none d-md-block bg-dark text-white position-fixed h-100" style="top: 70px;">
             <div class="position-sticky">
                 <ul class="nav flex-column mt-5 gap-2 " style="padding-top: 30px;">
-                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'LogFiles')" id="logFilesBar"><?= _LOGFILES ?></a></li>
-                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'FirmwareUpdate')" id="firmwareUpdatesBar"><?= _FIRMWAREUPDATE ?></a></li>
-                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'BackupRestore')" id="backupRestoreBar"><?= _BACKUPRESTORE ?></a></li>
-                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'SystemReset')" id="systemResetBar"><?= _SYSTEMRESET ?></a></li>
-                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'Password')" id="administrationPasswordBar"><?= $change_administration_password ?></a></li>
-                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'FactoryDefault')" id="factoryDefaultBar"><?= _FACTORYDEFAULTCONFIGURATION ?></a></li>
-                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white" onclick="openBar(event, 'LocalChargeSession')" id="localChargeSessionBar"><?= _LOCALCHARGESESSION ?></a></li>
+                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'LogFiles')" id="logFilesBar"><?= _LOGFILES ?></a></li>
+                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'FirmwareUpdate')" id="firmwareUpdatesBar"><?= _FIRMWAREUPDATE ?></a></li>
+                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'BackupRestore')" id="backupRestoreBar"><?= _BACKUPRESTORE ?></a></li>
+                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'SystemReset')" id="systemResetBar"><?= _SYSTEMRESET ?></a></li>
+                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'Password')" id="administrationPasswordBar"><?= $change_administration_password ?></a></li>
+                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'FactoryDefault')" id="factoryDefaultBar"><?= _FACTORYDEFAULTCONFIGURATION ?></a></li>
+                    <li class="nav-item"><a class="btn btn-dark w-100 text-start text-white barlinks" onclick="openBar(event, 'LocalChargeSession')" id="localChargeSessionBar"><?= _LOCALCHARGESESSION ?></a></li>
                 </ul> 
             </div>
         </nav>
         <!-- MAIN CONTENT -->
         <main class="col-md-9 offset-md-3 col-lg-10 offset-lg-2" style="height: calc(100vh - 56px); margin-top: 20px;">
             <div class="container pt-5">
-                <input type="hidden" id="active_bar" name="active_bar" value="LogFiles" />
 
                 <form method="post" autocomplete="off">
                     <input type="hidden" name="token" value="<?= $_SESSION["token"] ?>">
-                    <div id="LogFiles" class="barcontent" style="margin-left:30vw">
+                    <div id="LogFiles" class="barcontent">
                         <?php include("logFilesTab.php"); ?>
                     </div>
                 </form>

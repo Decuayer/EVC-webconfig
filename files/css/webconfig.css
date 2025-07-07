@@ -28,6 +28,9 @@
     src: url('../fonts/opensans/OpenSans-Semibold.ttf');
 }
 
+* {
+    box-sizing: border-box
+}
 
 body {
     font-family: "Lato", sans-serif;
@@ -35,51 +38,8 @@ body {
 
 
 /* Style the tab */
-
-.tab {
-    float: left;
-    background-color: #f1f1f1;
-}
-
-
 /* Style the buttons inside the tab */
 
-.tab button {
-    display: block;
-    background-color: #2b3648;
-    color: white;
-    width: 24vw;
-    height: 6vh;
-    border: 0;
-    outline: none;
-    text-align: left;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 18px;
-    padding: 0;
-}
-
-.tab button::-moz-focus-inner {
-    border: 0;
-}
-
-.tab button:hover {
-    background-color: #6587ba;
-}
-
-.tab button.active {
-    background-color: #496081;
-    background-image: linear-gradient(to right, #ffae12, white);
-}
-
-.tabcontent {
-    float: left;
-    padding: 0px 12px;
-    width: 70%;
-    height: 40%;
-    border-left: none;
-    margin-top: 115px;
-}
 
 .topnav {
     overflow: hidden;
@@ -108,67 +68,6 @@ body {
 }
 
 
-
-.topnav a:hover {
-    background-color: #171F2E;
-    color: white;
-}
-
-#defaultOpen.active {
-    background-color: #3cd7b4;
-    color: white;
-}
-
-#generalNav.active {
-    background-color: #18b8ce;
-    color: white;
-}
-
-#ocppNav.active {
-    background-color: #058183;
-    color: white;
-}
-
-#networkNav.active {
-    background-color: #86cf1f;
-    color: white;
-}
-
-#standaloneNav.active {
-    background-color: #f7ca0a;
-    color: white;
-}
-
-#localNav.active {
-    background-color: #ed553b;
-    color: white;
-}
-
-#systemNav.active {
-    background-color: #ffa200;
-    color: white;
-}
-
-#installationSettingsNav.active {
-    background-color: #d6dbaa;
-    color: white;
-}
-
-label {
-    float: left;
-    display: block;
-    color: #0f1a2a;
-    text-align: left;
-    width: 100%;
-    font-family: OpenSans-Regular;
-    font-size: 18px;
-    font-weight: 600;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-}
-
 .group {
     display: flex;
     margin-bottom: 30px;
@@ -183,9 +82,6 @@ label {
     width: 250px;
 }
 
-.infotext {
-    display: inline-block;
-}
 
 .title {
     margin-top: 25px;
@@ -205,23 +101,6 @@ label {
     width: 250px;
 }
 
-.textarea1 {
-    width: 36vw;
-    height: 60px;
-    margin-top: 1%;
-    margin-bottom: 2.5%;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
-    border: 2px solid #ccc;
-    background-color: #ececec;
-    padding: 0 25px 0 25px;
-    border-radius: 4px;
-    color: #0080c0;
-    font-size: 18px;
-}
-
-.textarea1:disabled {
-    background-color: #d6d2d1;
-}
 
 .textarea2 {
     margin: 0px 30px 15px;
@@ -230,17 +109,11 @@ label {
 }
 
 .focusedTextarea {
-    box-shadow: 0 0 5px rgba(255, 0, 0, 1);
-    background-color: #ececec;
-    padding: 0 25px 0 25px;
-    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 1);  
+    background-color: #ececec;                 
+    border-color: rgba(255, 0, 0, 1);         
     color: #0080c0;
-    font-size: 18px;
-    width: 36vw;
-    height: 60px;
-    margin-top: 1%;
-    margin-bottom: 2.5%;
-    border: 1px solid rgba(255, 0, 0, 1);
+    outline: none; 
 }
 
 .focusedTextarea2 {
@@ -309,6 +182,11 @@ label {
     color: #0080c0;
 }
 
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
 .dialog-no-close .ui-dialog-titlebar {
     display: none;
 }
@@ -348,6 +226,7 @@ label {
 .tab_button::-moz-focus-inner {
     border: 0;
 }
+
 
 .languagePosition {
     position: absolute;
@@ -453,7 +332,6 @@ label {
     border-radius: 10px;
 }
 
-
 .titleBar {
     background: #171F2E;
     width: 100%;
@@ -468,50 +346,16 @@ label {
 
 #lang {
     font-family: OpenSans-Regular;
+    background: transparent;
+    color: #839cbe;
+    border: #171F2E;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 16px 12px !important;
 }
 
-.bar {
-    float: left;
-    background-color: #2b3648;
-    width: 24.5vw;
-    height: 100%;
-    position: fixed;
-    left: 0;
-    padding-top: 4.5vh;
-}
 
-.bar button {
-    display: block;
-    background-color: #2b3648;
-    color: white;
-    padding: 2vh 1vh;
-    width: 100%;
-    border: none;
-    outline: none;
-    text-align: left;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 1em;
-    font-family: OpenSans-Semibold;
-}
-
-.bar button::-moz-focus-inner {
-    border: 0;
-}
-
-.bar button:hover {
-    background-color: #314159;
-}
-
-.bar button.active {
-    background-color: #496081;
-}
-
-.barcontent {
-    float: left;
-    width: 100%;
-    margin: 50px 0 0 500px;
-}
 
 .standalone_button {
     font-family: OpenSans-Semibold;
@@ -540,31 +384,6 @@ label {
     border: 0;
 }
 
-.log_button {
-    font-family: OpenSans-Regular;
-    font-size: 20px;
-    color: #0080c0;
-    justify-content: center;
-    align-items: center;
-    width: 240px;
-    height: 74px;
-    background-color: #e0dfdf;
-    border-radius: 5.3px;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
-    background-color: #ececec;
-    border: 2px solid #ccc;
-    overflow: hidden;
-}
-
-.log_button:hover {
-    color: white;
-    background-color: #34b9ef;
-    background-image: linear-gradient(to right, #34b9ef, #1f50a3);
-}
-
-.log_button::-moz-focus-inner {
-    border: 0;
-}
 
 .centerElement {
     position: absolute;
@@ -626,18 +445,8 @@ label {
     color: #0080c0;
 }
 
-.textInSettings {
-    width: 260px;
-    height: 33px;
-    font-family: OpenSans-Regular;
-    font-size: 20px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #0f1a2a;
-}
+
+
 
 #wifiPasswordErr{
     margin:0 0; 
@@ -685,21 +494,6 @@ label {
 .textarea3 {
     margin: 0px 30px 0px;
     height: 30px;
-}
-
-.interfacesButton {
-    width: 12.5vw;
-    height: 75px;
-    position: fixed;
-    right: 5%;
-    top: 50%;
-    object-fit: contain;
-    background-image: linear-gradient(to right, #32BAEE, #00549C);
-    color: white;
-    border-radius: 12px;
-    font-size: 24px;
-    font-family: OpenSans-Regular;
-    text-transform: uppercase;
 }
 
 .interfacesRefreshButton {
@@ -762,9 +556,6 @@ label {
     text-transform: uppercase;
 }
 
-.interfacesButton:hover {
-    background-image: linear-gradient(to right, #00E5FA, #00549C);
-}
 
 .interfacesRefreshButton:hover {
     background-image: linear-gradient(to right, #00E5FA, #00549C);
@@ -778,9 +569,6 @@ label {
     background-image: linear-gradient(to right, #00E5FA, #00549C);
 }
 
-.interfacesButton::-moz-focus-inner {
-    border: 0;
-}
 
 .selectdivLogin {
     position: relative;
@@ -803,9 +591,6 @@ label {
     height: 10.7px;
 }
 
-select::-ms-expand {
-    display: none;
-}
 
 .selectdivLogin select {
     -webkit-appearance: none;
@@ -824,12 +609,14 @@ select::-ms-expand {
     background-color: transparent;
 }
 
+
 .center_system_maintanence {
     width: 240px;
     height: 300px;
     left: 50%;
     top: 50%;
 }
+
 
 .standaloneModeButton {
     width: 260px;
@@ -903,9 +690,6 @@ select::-ms-expand {
     pointer-events: none;
 }
 
-select::-ms-expand {
-    display: none;
-}
 
 .selectbox select {
     -webkit-appearance: none;
@@ -938,98 +722,6 @@ select::-ms-expand {
     background-color: #d6d6d6;
 }
 
-.dialogText {
-    font-family: OpenSans-Regular;
-    font-size: 18px;
-    text-align: center;
-    color: black;
-    padding: 65px 5px 0px 5px;
-    color: #4a4a4a;
-}
-
-.dialogTextBold {
-    font-family: OpenSans-Semibold;
-    font-size: 18px;
-    text-align: center;
-    color: black;
-    padding: 0px 5px 0px 5px;
-    color: #4a4a4a;
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton {
-    font-family: OpenSans-Semibold;
-    font-size: 20px;
-    color: white;
-    justify-content: center;
-    align-items: center;
-    width: 180px;
-    height: 60px;
-    background-image: linear-gradient(to right, #32BAEE, #00549C);
-    border-radius: 5.3px;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
-    border: 2px solid #ccc;
-    overflow: hidden;
-    margin-top: 0;
-    margin-left: 12px;
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton:hover {
-    color: white;
-    background-image: linear-gradient(to right, #00E5FA, #00549C);
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton::-moz-focus-inner {
-    border: 0;
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton {
-    font-family: OpenSans-Semibold;
-    font-size: 20px;
-    color: #0080c0;
-    justify-content: center;
-    align-items: center;
-    width: 180px;
-    height: 60px;
-    border-radius: 5.3px;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
-    background-color: #ececec;
-    border: 2px solid #ccc;
-    overflow: hidden;
-    margin-top: 0;
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton:hover {
-    color: white;
-    background-color: #34b9ef;
-    background-image: linear-gradient(to right, #34b9ef, #1f50a3);
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton::-moz-focus-inner {
-    border: 0;
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
-    text-align: center;
-    float: none !important;
-}
-
-.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
-    border: none;
-}
-
-.textForOccpSetting {
-    float: left;
-    width: 20vw;
-    font-family: OpenSans-Regular;
-    font-size: 20px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    letter-spacing: normal;
-    color: #0f1a2a;
-    margin-top: 1%;
-}
-
 .ocppButton {
     width: 240px;
     height: 74px;
@@ -1047,8 +739,6 @@ select::-ms-expand {
 }
 
 .errorText {
-    width: 36vw;
-    height: 30px;
     margin-bottom: 10px;
 }
 
@@ -1356,91 +1046,8 @@ html:lang(de) .log_button{
     background-image: linear-gradient(to right, #32BAEE, #00549C);
 }
 
-.animationBar {
-    display: none;
-    position: absolute;
-    width: 300px;
-    height: 400px;
-    z-index: 15;
-    top: 50%;
-    left: 50%;
-}
-
-.animationBar div {
-    display: inline-block;
-    position: absolute;
-    left: 8px;
-    width: 20px;
-    background-image: linear-gradient(to right, #32BAEE, #00549C);
-    animation: animationBar 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
-}
-
-.animationBar div:nth-child(1) {
-    left: 8px;
-    animation-delay: -0.24s;
-}
-
-.animationBar div:nth-child(2) {
-    left: 32px;
-    animation-delay: -0.12s;
-}
-
-.animationBar div:nth-child(3) {
-    left: 56px;
-    animation-delay: 0;
-}
-
-.animationBar div:nth-child(4) {
-    left: 80px;
-    animation-delay: 0;
-}
-
-@keyframes animationBar {
-    0% {
-        top: 8px;
-        height: 96px;
-    }
-    50%,
-    100% {
-        top: 24px;
-        height: 48px;
-    }
-}
-
 .slaveConfigItems {
     display: none;
-}
-
-.textareaForLocalLoadGroup {
-    height: 60px;
-    margin-top: 1%;
-    margin-left: 1%;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
-    border: 2px solid #ccc;
-    background-color: #ececec;
-    border-radius: 4px;
-    color: #0080c0;
-    font-size: 18px;
-    width: 220px;
-    padding: 0px 10px;
-}
-
-.focusedTextareaForLocalLoadGroup {
-    box-shadow: 0 0 5px rgba(255, 0, 0, 1);
-    background-color: #ececec;
-    padding: 0px 10px;
-    border-radius: 4px;
-    color: #0080c0;
-    font-size: 11px;
-    width: 220px;
-    height: 60px;
-    margin-top: 1%;
-    margin-left: 1%;
-    border: 1px solid rgba(255, 0, 0, 1);
-}
-
-.textareaForLocalLoadGroup:disabled {
-    background-color: #d6d2d1;
 }
 
 .alertForLoadManagementGroup {
@@ -1512,7 +1119,6 @@ html:lang(de) .log_button{
         margin-bottom: 8vh;
     }
 }
-
 .log_button_suomi{
     font-family: OpenSans-Regular;
     font-size: 20px;
@@ -1527,13 +1133,11 @@ html:lang(de) .log_button{
     border: 2px solid #ccc;
     overflow: hidden;
 }
-
 .log_button_suomi:hover {
     color: white;
     background-color: #34b9ef;
     background-image: linear-gradient(to right, #34b9ef, #1f50a3);
 }
-
 .log_button_suomi::-moz-focus-inner {
     border: 0;
 }
@@ -1594,47 +1198,6 @@ html:lang(de) .log_button{
     }
 }
 
-
-.info {
-    width: 30px;
-    margin-left: 10px;
-    cursor: default;
-}
-
-.info .contactInformation {
-    display: none;
-    position: relative;
-    z-index: 1;
-    width: auto;
-    background-color: #2b3648;
-    color: #fff;
-    text-align: center;
-    left: 5px;
-    top: -6px;
-    padding: 10px;
-    border: 1px solid #000;
-    border-radius: 15px;
-}
-
-.info .contactInformation:after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 0;
-    height: 0;
-    border: 15px solid transparent;
-    border-bottom-color: #2b3648;
-    border-top: 0;
-    border-right: 0;
-    margin-left: -10.5px;
-    margin-top: -10px;
-}
-
-.info:hover .contactInformation {
-    display: inline-block;
-}
-
 .fa-info-circle {
     color: #2b3648 !important;
 }
@@ -1684,9 +1247,6 @@ html:lang(de) .log_button{
         height:145px;
         width:550px;
     }
-    #selectStandaloneMode{
-        height:30px;
-    }
     #selectdiv:after{
         height:30px;
         padding: 0 0 0 0;
@@ -1701,22 +1261,9 @@ html:lang(de) .log_button{
     #bottomOfLogin{
         margin-top:0em;
     }
-    .textArea1{
-        margin-bottom: 0%;
-    }
     #wifiPasswordErr {
         margin-bottom: 8vh;
     }
-}
-
-#password_reset_authorization_button{
-    position: relative;
-    left:25%;
-    font-size:1.20vw;
-    min-height:75px;
-    height:auto;
-    min-width:12.5vw;
-    width:auto;
 }
 
 .behind-input {
@@ -1820,18 +1367,6 @@ html:lang(de) .log_button{
         height: 50px;
         font-size: 14px;
     }
-    #connectorSwitch3to1PhaseSupportedVal {
-        width: 15vw !important;
-    }
-    #bootNotificationAfterConnectionLossVal {
-        width: 15vw !important;
-    }
-    #centralSmartChargingWithNoTrippingVal {
-        width: 15vw !important;
-    }
-    #continueChargingAfterPowerLossVal {
-        width: 15vw !important;
-    }
 }
 
 
@@ -1865,10 +1400,6 @@ html:lang(de) .log_button{
     #administrationPasswordPage {
         width: 80vw;
         left: 10%;
-    }
-
-    .textarea1 {
-        width: 80%;
     }
 
     #changePasswordInputArea {
@@ -2004,9 +1535,9 @@ html:lang(de) .log_button{
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
+  }
+  
+  .modal-content {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -2017,46 +1548,38 @@ html:lang(de) .log_button{
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-}
-.close {
+  }
+  .close {
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
     font-size: 18px;
-}
+  }
 
-.checkbox-container {
+  .checkbox-container {
     margin-top: 20px; 
     display:flex; 
     align-items:center;
     gap: 10px;
-}
+  }
 
-#documentTitle{
+  #documentTitle{
     color: #2F5496;
-}
+  }
 
-#documentText{
+  #documentText{
     max-height: 400px;
     overflow-y: auto;
     text-align: left;
-}
+  }
 
-#confirmButton{
-    width:10vw;
-    height:8vh;
-    font-size:1.50em;
-    margin-top: 20px;
-}
-
-
-.loginError{
+  .loginError{
     float:right;
     margin-right:10%;
     color: #d0021b;
     font-weight: bold;
-}
+  }
 
 .modal-content ol,
 .modal-content ul {
@@ -2111,7 +1634,6 @@ html:lang(de) .log_button{
     letter-spacing: 1px;
     transition: opacity 0.3s ease;
 }
-
 .noNetworkPopUp {
     display: none;
     position: fixed;
@@ -2131,26 +1653,355 @@ html:lang(de) .log_button{
     padding: 20px;
 }
 
-/* DECU ADDED */
 
-nav.navbar {
-    position: fixed;
-    top: 56px; 
-    width: 100%;
-    z-index: 1020;
+
+/*//////////////////////////////////////////////////////////////////
+[ Decu ]*/
+
+body {
+    overflow-y: scroll;
+    scrollbar-width: none; 
 }
+  
+body::-webkit-scrollbar {
+    width: 0;
+}
+
+#headerTitle {
+    color: #fff !important;
+}
+
+.tablinks {
+    cursor: pointer;
+}
+
+.barlinks {
+    cursor: pointer;
+}
+
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+  
+.tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #2b3648;
+    color: #fff;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    position: absolute;
+    z-index: 1000;
+    top: 125%; /* Yukarıda göster */
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: normal;
+    word-break: break-word;
+    max-width: 90vw;
+}
+  
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    bottom: 100%; /* Ok aşağıda */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: #2b3648 transparent transparent transparent;
+}
+  
+.tooltip-wrapper:hover .tooltip-text,
+.tooltip-wrapper:focus .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+ 
+#mainpage-navbar {
+    top: 56px;
+}
+
+#mainPageContainer {
+    margin-top: 180px;
+}
+
+div[name="standaloneModeContainer"] {
+    margin-top: 180px;
+}
+
 
 .logo-img {
     max-height: 50px;
     height: auto;
 }
 
-@media (max-width: 768px) {
-    nav.navbar {
-        top: 96px
-    }
+.textInSettings {
+    font-family: OpenSans-Regular;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0f1a2a;
+    white-space: normal;
+    word-wrap: break-word;
+}
 
+.dropdown-menu .dropdown-item {
+    white-space: normal !important;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+@media (max-width: 530px) {
+    #mainpage-navbar {
+        top: 80px;
+    }
+}
+
+@media (max-width: 768px) {
     .logo-img {
         max-height: 35px;
     }
+
+    .textInSettings {
+        font-size: 16px;
+    }
 }
+
+.animationBar {
+    position: fixed;
+    inset: 0; 
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    backdrop-filter: blur(4px);
+    background-color: rgba(255, 255, 255, 0.3);
+}
+  
+  /* Çubuklar */
+.animationBar div {
+    display: inline-block;
+    width: 16px;
+    height: 96px;
+    margin: 0 4px;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    border-radius: 4px;
+    animation: animationBar 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+  
+.animationBar div:nth-child(1) { animation-delay: -0.24s; }
+.animationBar div:nth-child(2) { animation-delay: -0.12s; }
+.animationBar div:nth-child(3) { animation-delay: 0s; }
+.animationBar div:nth-child(4) { animation-delay: 0.12s; }
+  
+@keyframes animationBar {
+    0% {
+        height: 96px;
+    }
+    50%, 100% {
+        height: 48px;
+    }
+}
+
+.dialogText {
+    font-family: OpenSans-Regular;
+    font-size: 18px;
+    text-align: center;
+    color: black;
+    padding: 30px 5px 0px 5px;
+    color: #4a4a4a;
+}
+
+.dialogTextBold {
+    font-family: OpenSans-Semibold;
+    font-size: 18px;
+    text-align: center;
+    color: black;
+    padding: 0px 5px 0px 5px;
+    color: #4a4a4a;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+    text-align: center;
+    float: none !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton {
+    font-family: OpenSans-Semibold, sans-serif;
+    font-size: 18px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    background-color: #0d6efd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: none;
+    padding: 12px 24px;
+    width: 100%;
+    max-width: 180px;
+    overflow: hidden;
+    transition: background 0.3s ease;
+    margin-top: 0;
+    margin-left: 12px;
+    text-transform: uppercase !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton:hover {
+    background-color: #0b5ed7;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton::-moz-focus-inner {
+    border: 0;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton {
+    font-family: OpenSans-Semibold, sans-serif;
+    font-size: 18px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    background-color:  #0d6efd;
+    border-radius: 8px;
+    border: none;
+    padding: 12px 24px;
+    width: 100%;
+    max-width: 180px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
+    margin-top: 0;
+    margin-left: 12px;
+    text-transform: uppercase !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton:hover {
+    background-color: #0b5ed7;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton::-moz-focus-inner {
+    border: 0;
+}
+
+.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
+    border: none;
+}
+
+
+.ui-dialog {
+    position: fixed !important; /* absolute yerine fixed, ekrana göre ortalanabilir */
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    width: 90vw !important;         /* Mobilde ekranın %90'ı */
+    max-width: 600px !important;    /* Masaüstünde en fazla 600px */
+    height: auto !important;
+    z-index: 1050 !important;       /* Bootstrap modal gibi üstte kalsın */
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* İçerik padding ayarı */
+.ui-dialog-content {
+    padding: 20px;
+}
+
+/* Düğme paneli responsive hizalama */
+.ui-dialog-buttonpane {
+    padding: 20px;
+}
+
+.ui-dialog-buttonset {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+@media (min-width: 576px) {
+    .ui-dialog-buttonset {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+
+/*
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton {
+    font-family: OpenSans-Semibold;
+    font-size: 20px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 60px;
+    background-image: linear-gradient(to right, #32BAEE, #00549C);
+    border-radius: 5.3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    border: 2px solid #ccc;
+    overflow: hidden;
+    margin-top: 0;
+    margin-left: 12px;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton:hover {
+    color: white;
+    background-image: linear-gradient(to right, #00E5FA, #00549C);
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton::-moz-focus-inner {
+    border: 0;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton {
+    font-family: OpenSans-Semibold;
+    font-size: 20px;
+    color: #0080c0;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 60px;
+    border-radius: 5.3px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+    background-color: #ececec;
+    border: 2px solid #ccc;
+    overflow: hidden;
+    margin-top: 0;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton:hover {
+    color: white;
+    background-color: #34b9ef;
+    background-image: linear-gradient(to right, #34b9ef, #1f50a3);
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton::-moz-focus-inner {
+    border: 0;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+    text-align: center;
+    float: none !important;
+}
+
+.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
+    border: none;
+}
+
+*/
+
+/* ----------- */
+
+

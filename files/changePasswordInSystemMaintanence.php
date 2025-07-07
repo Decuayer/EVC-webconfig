@@ -1,67 +1,85 @@
 <?php
     include_once "access_control.php";
 ?>
-<div style="left:30%; width: 60vw; margin-top:50px; position:absolute; z-index: 1;" id="administrationPasswordPage">
-    <form class="login100-form validate-form flex-sb flex-w" role="form" method="post" autocomplete="off">
+<div class="container mt-5" id="administrationPasswordPage" style="min-height: 50vh;">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+            <form class="needs-validation" role="form" method="post" autocomplete="off" novalidate>
 
-        <label class="titleForSystemMaintanencePassword">
-            <?php
-                if($rowAccount["type"] != "administrator"){
-                    echo _CHANGEPASSWORD;
-                }
-                else{
-                    echo _CHANGEADMINPASSWORD;
-                }
-            ?>:
-            </label>
-            <div style="margin-top:1%;margin-bottom:1%;">
-                    <?php
-                            $password =  _PASSWORDTYPEEXPLANATIONLEVEL;
-                            if($rowAccount['passwordLevel'] == 2){
-                                $password =  _PASSWORDTYPEEXPLANATIONLEVEL2;
-                            }else{
-                                $password =  _PASSWORDTYPEEXPLANATIONLEVEL3;
-                            }
-                            echo"<p class='explanationSystemMaintanence'>$password</p>"
-                    ?>
-            </div>
+                <!-- Başlık -->
+                <label class="textInSettings fw-bold fs-5">
+                <?php
+                    if ($rowAccount["type"] != "administrator") {
+                        echo _CHANGEPASSWORD;
+                    } else {
+                        echo _CHANGEADMINPASSWORD;
+                    }
+                ?>:
+                </label>
 
-        
-        
-        <div id="changePasswordInputArea">
-            <label class="generalSubTitle"><?= _CURRENTPASSWORD ?></label>
-            <br></br>
-            <div class="wrap-input100 validate-input" data-validate="<?= _CURRENTPASSWORDREQUIRED ?>">
-                <span class="btn-show-pass" id="administrationPasswordShowPass">
-                    <i class="fa fa-eye"></i>
-                </span>
-                <input class="textarea1" style="width: 36vw;" type="password" name="currentPassSys" id="currentPassSys">
-                <span class="error">*</span>
-            </div>
+                <!-- Açıklama -->
+                <div class="mb-3">
+                <?php
+                    $password = _PASSWORDTYPEEXPLANATIONLEVEL;
+                    if ($rowAccount['passwordLevel'] == 2) {
+                        $password = _PASSWORDTYPEEXPLANATIONLEVEL2;
+                    } else {
+                        $password = _PASSWORDTYPEEXPLANATIONLEVEL3;
+                    }
+                    echo "<p class='explanationSystemMaintanence'>$password</p>";
+                ?>
+                </div>
 
-            <label class="generalSubTitle"><?= _NEWPASSWORD ?></label>
-            <br></br>
-            <div class="wrap-input100 validate-input" data-validate="<?= _CURRENTPASSWORDREQUIRED ?>">
-                <span class="btn-show-pass" id="administrationPasswordShowPass">
-                    <i class="fa fa-eye"></i>
-                </span>
-                <input class="textarea1" style="width: 36vw;" type="password" name="passSys" id="passSys">
-                <span class="error">*</span>
-            </div>
+                <!-- Mevcut Şifre -->
+                <div class="mb-4">
+                <label class="textInSettings"><?= _CURRENTPASSWORD ?></label>
+                <div class="input-group">
+                    <input type="password" name="currentPassSys" id="currentPassSys" class="form-control" data-validate="<?= _CURRENTPASSWORDREQUIRED ?>">
+                    <button class="btn btn-outline-primary btn-show-pass" type="button">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                </div>
+                <span class="error text-danger">*</span>
+                </div>
 
-            <label class="generalSubTitle"><?= _CONFIRMNEWPASSWORD ?></label>
-            <br></br>
-            <div class="wrap-input100 validate-input" data-validate="<?= _CURRENTPASSWORDREQUIRED ?>">
-                <span class="btn-show-pass" id="administrationPasswordShowPass">
-                    <i class="fa fa-eye"></i>
-                </span>
-                <input class="textarea1" type="password" style="width: 36vw;" name="repassSys" id="repassSys">
-                <span class="error">*</span>
-            </div>
-            <div style='width:36vw; height:30px; margin-bottom:1%;'><span class="alert" style="float:right; margin:0 0;font-size:0.8vw;" id='passwordErrorSys' name='passwordErrorSys' style='float:right;'></span></div>
+                <!-- Yeni Şifre -->
+                <div class="mb-4">
+                <label class="textInSettings"><?= _NEWPASSWORD ?></label>
+                <div class="input-group">
+                    <input type="password" name="passSys" id="passSys" class="form-control" data-validate="<?= _CURRENTPASSWORDREQUIRED ?>">
+                    <button class="btn btn-outline-primary btn-show-pass" type="button">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                </div>
+                <span class="error text-danger">*</span>
+                </div>
+
+                <!-- Şifre Onay -->
+                <div class="mb-4">
+                <label class="textInSettings"><?= _CONFIRMNEWPASSWORD ?></label>
+                <div class="input-group">
+                    <input type="password" name="repassSys" id="repassSys" class="form-control" data-validate="<?= _CURRENTPASSWORDREQUIRED ?>">
+                    <button class="btn btn-outline-primary btn-show-pass" type="button">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                </div>
+                <span class="error text-danger">*</span>
+                </div>
+
+                <!-- Hata Mesajı -->
+                <div class="mb-3">
+                <span class="alert d-block text-end small text-danger" id="passwordErrorSys" name="passwordErrorSys"></span>
+                </div>
+
+                <!-- Buton -->
+                <div class="text-center mt-4">
+                <button type="button" class="btn btn-primary px-4 py-2" id="change_password_button" name="change_password_button" onclick="check_db_password()">
+                    <?= _CHANGE ?>
+                </button>
+                </div>
+
+                <input type="submit" id="button_change_passwordSys" name="button_change_passwordSys" hidden>
+            </form>
         </div>
-
-        <button type="button" class="changeButton" name="change_password_button" id="change_password_button" style="margin-left:17%;margin-top:3%; text-transform: uppercase;" onclick="check_db_password()"> <?= _CHANGE ?> </button>
-        <input type="submit" id="button_change_passwordSys" name="button_change_passwordSys" hidden>
-    </form>
+    </div>
 </div>

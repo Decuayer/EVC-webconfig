@@ -25,42 +25,15 @@
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
 
+
 body,
 html {
     font-family: Raleway-Regular, sans-serif;
 }
 
 
-/*---------------------------------------------*/
-
-a {
-    font-family: Raleway-Regular;
-}
 
 /*---------------------------------------------*/
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin: 0px;
-}
-
-p {
-    font-family: Raleway-Regular;
-}
-
-.errorMain {
-    color: #FF0000;
-}
-
-/*---------------------------------------------*/
-
-iframe {
-    border: none !important;
-}
 
 
 /*//////////////////////////////////////////////////////////////////
@@ -218,25 +191,6 @@ iframe {
 
 /*---------------------------------------------*/
 
-.btn-show-pass {
-    font-size: 15px;
-    color: #999999;
-    font-size: 15px;
-    color: #999999;
-    display: flex;
-    align-items: center;
-    position: absolute;
-    left: 65%;
-    margin-top: 1.5%;
-}
-
-.btn-show-pass:hover {
-    color: #57b846;
-}
-
-.btn-show-pass.active {
-    color: #57b846;
-}
 
 
 /*==================================================================

@@ -1,19 +1,29 @@
 <?php
     include_once "access_control.php";
 ?>
-<div style="left:28%; position:absolute; width: 37.5vw;" id="generalSettingsPage">
-    <span style="padding-top:15px;" class="textInSettings"><?= _STANDBYLEDBEHAVIOUR ?></span>
-    <div style="float:right; ">
-        <div style="height:60px; " class="selectbox">
-            <select id="standByLedBehaviourSelection" name="standByLedBehaviourSelection">
-                <option id="standByLedOff" value=0 <?= $rowGeneral["standbyLedBehaviour"] == 0 ? ' selected="selected"' : ''; ?>><?= _OFF ?></option>
-                <option id="standByLedOn" value=1 <?= $rowGeneral["standbyLedBehaviour"] == 1 ? ' selected="selected"' : ''; ?>><?= _ON ?></option> 
-            </select>
+<div class="container my-5" id="generalSettingsPage">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8">
+      <div class="row mb-4 align-items-center">
+        <div class="col-12 col-sm-6">
+          <span class="textInSettings"><?= _STANDBYLEDBEHAVIOUR ?></span>
         </div>
-    </div>
-</div>
+        <div class="col-12 col-sm-6">
+          <select id="standByLedBehaviourSelection" name="standByLedBehaviourSelection" class="form-select w-100">
+            <option id="standByLedOff" value="0" <?= $rowGeneral["standbyLedBehaviour"] == 0 ? ' selected="selected"' : ''; ?>><?= _OFF ?></option>
+            <option id="standByLedOn" value="1" <?= $rowGeneral["standbyLedBehaviour"] == 1 ? ' selected="selected"' : ''; ?>><?= _ON ?></option>
+          </select>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-auto">
+          <button type="button" name="standby_led_behaviour_button" id="standby_led_behaviour_button" class="btn btn-primary px-4" onclick="checkStandByLedBehaviourForm()">
+            <?= _SAVE ?>
+          </button>
+          <input type="submit" id="button_standby_led_behaviour" name="button_standby_led_behaviour" hidden>
+        </div>
+      </div>
 
-<div style="display:flex;margin-top:34%;margin-left:35%;">
-    <button type="button" name="standby_led_behaviour_button" id="standby_led_behaviour_button" class="interfacesButton" onclick="checkStandByLedBehaviourForm()"> <?= _SAVE ?> </button>
-    <input type="submit" id="button_standby_led_behaviour" name="button_standby_led_behaviour" hidden>
+    </div>
+  </div>
 </div>
