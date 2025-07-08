@@ -91,18 +91,16 @@
         </div>
       </div>
 
-      <!-- SAVE BUTTON -->
+      <!-- Save Button -->
       <div class="d-flex justify-content-center my-4">
         <button type="button" name="power_optimizer_button" id="power_optimizer_button" class="btn btn-primary px-4" onclick="checkPowerOptimizerForm()"><?= _SAVE ?></button>
         <input type="submit" id="button_power_optimizer" name="button_power_optimizer" hidden>
       </div>
     </div>
   </div>
-  <!-- Her form satırı -->
-
 </div>
 
-<!-- ALERT DIALOGS -->
+<!-- Alert Dialogs -->
 <div id="offPeakChargingAlertMessage" style="display:none">
   <p class="dialogText text-center" id="offPeakChargingAlert"><?= _OFFPEAKDISABLEDCONFIRM ?></p>
 </div>

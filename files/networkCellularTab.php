@@ -4,13 +4,13 @@
 <div class="container my-4" id="networkCellularPage">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8">
-            <!-- Açıklama -->
+            <!-- Desc -->
             <div class="mb-3">
                 <span class="star"><b>*</b></span>
                 <span class="explanation"><?= _EXPLANATION ?></span>
             </div>
 
-            <!-- Cellular Aç/Kapa -->
+            <!-- Cellular On/Off -->
             <div class="row mb-3 align-items-center">
                 <span class="col-12 col-md-6  textInSettings"><?= _CELLULAR ?></span>
                 <div class="col-12 col-md-6">
@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <!-- Cellular Ayarları -->
+            <!-- Cellular Settings -->
             <div id="cellularSettingsPart">
             <!-- LTE Gateway -->
                 <div class="row mb-3 align-items-center" id="selectLTEGatewayItem">

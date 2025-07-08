@@ -9,7 +9,7 @@
                 <span class="explanation ms-2"><?= _EXPLANATION ?></span>
             </div>
 
-            <!-- Wi-Fi Ayarları -->
+            <!-- Wi-Fi Settings -->
             <div class="row mb-3 align-items-center">
                 <label class="col-12 col-md-6 textInSettings"><?= _WIFI ?></label>
                 <div class="col-12 col-md-6">

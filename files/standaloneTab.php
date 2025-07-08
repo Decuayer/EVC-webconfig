@@ -7,13 +7,13 @@
   <div class="row justify-content-center">
     <div class="col-12 col-md-6">
 
-      <!-- Açıklama -->
+      <!-- Desc -->
       <div class="d-flex align-items-center gap-2 mb-3">
         <p class="star mb-0"><b>*</b></p>
         <p class="explanation mb-0"><?= _EXPLANATION ?></p>
       </div>
 
-      <!-- Başlık ve Seçim -->
+      <!-- Title And  Mode -->
       <div class="row mb-4 align-items-center">
         <div class="col-md-6">
           <span class="standaloneTitle"><?= _STANDALONEMODETITLE ?></span>
@@ -29,17 +29,17 @@
         </div>
       </div>
 
-      <!-- Kayıt başarılı mesajı -->
+      <!-- Save Successful Msg -->
       <div id="standalone_saved_message" class="alert alert-success py-2 px-3 mb-4" style="display:none">
         <?= _SAVESUCCESSFUL ?>
       </div>
 
-      <!-- Hata mesajı -->
+      <!-- Alert Msg -->
       <div class="mb-3">
         <span class="alert" id="standaloneModeErr"></span>
       </div>
 
-      <!-- RFID Yönetim Alanı -->
+      <!-- RFID Manage List -->
       <div id="mode" style="visibility: hidden;">
         <label id="manageLebel" class="textInSettings"><?= _MANAGERFIDLOCALLIST ?></label>
         <input type="text" name="from" id="from" class="form-control w-100 mb-3">
@@ -65,20 +65,20 @@
         </div>
       </div>
 
-      <!-- KAYDET Butonu -->
+      <!-- Svae Button -->
       <div class="text-center mb-4">
         <button type="button" id="rfid_list_button" name="rfid_list_button" onclick="sendMode()" class="btn btn-primary px-4"><?= _SAVE ?></button>
         <input type="submit" id="button_standalone" name="button_standalone" hidden>
       </div>
 
-      <!-- Hidden input -->
+      <!-- Hidden Input -->
       <input type="text" class="form-control" id="demo" name="demo" hidden>
 
     </div>
   </div>
 </div>
 
-<!-- Uyarı Mesajları -->
+<!-- Alert Msg -->
 <div id="alertMessage" style="display:none">
     <p class="dialogText"><?= _OCPPENABLEALERT ?></p>
 </div>

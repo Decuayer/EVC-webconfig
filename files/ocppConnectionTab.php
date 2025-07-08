@@ -5,7 +5,7 @@
   <div class="row justify-content-center">
     <div class="col-12 col-md-8">
       <div class="row mb-3">
-        <div class="col-12 col-md-12">s
+        <div class="col-12 col-md-12">
           <div class="d-flex align-items-center mb-2">
             <span class="text-danger fw-bold me-1">*</span>
             <p class="mb-0" id="OCPPConnectionPart"><?= _EXPLANATION ?></p>

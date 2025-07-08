@@ -1656,7 +1656,7 @@ html:lang(de) .log_button{
 
 
 /*//////////////////////////////////////////////////////////////////
-[ Decu ]*/
+[ Demir Cucu ]*/
 
 body {
     overflow-y: scroll;
@@ -1695,7 +1695,7 @@ body::-webkit-scrollbar {
     border-radius: 8px;
     position: absolute;
     z-index: 1000;
-    top: 125%; /* Yukarıda göster */
+    top: 125%;
     left: 50%;
     transform: translateX(-50%);
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
@@ -1709,7 +1709,7 @@ body::-webkit-scrollbar {
 .tooltip-text::after {
     content: "";
     position: absolute;
-    bottom: 100%; /* Ok aşağıda */
+    bottom: 100%; 
     left: 50%;
     transform: translateX(-50%);
     border-width: 8px;
@@ -1788,7 +1788,6 @@ div[name="standaloneModeContainer"] {
     background-color: rgba(255, 255, 255, 0.3);
 }
   
-  /* Çubuklar */
 .animationBar div {
     display: inline-block;
     width: 16px;
@@ -1898,26 +1897,24 @@ div[name="standaloneModeContainer"] {
 
 
 .ui-dialog {
-    position: fixed !important; /* absolute yerine fixed, ekrana göre ortalanabilir */
+    position: fixed !important; 
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%);
-    width: 90vw !important;         /* Mobilde ekranın %90'ı */
-    max-width: 600px !important;    /* Masaüstünde en fazla 600px */
+    width: 90vw !important;         
+    max-width: 600px !important;    
     height: auto !important;
-    z-index: 1050 !important;       /* Bootstrap modal gibi üstte kalsın */
+    z-index: 1050 !important;    
     box-shadow: 0 0 20px rgba(0,0,0,0.3);
     border-radius: 10px;
     padding: 0;
     overflow: hidden;
 }
 
-/* İçerik padding ayarı */
 .ui-dialog-content {
     padding: 20px;
 }
 
-/* Düğme paneli responsive hizalama */
 .ui-dialog-buttonpane {
     padding: 20px;
 }
@@ -1936,72 +1933,5 @@ div[name="standaloneModeContainer"] {
     }
 }
 
-
-/*
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton {
-    font-family: OpenSans-Semibold;
-    font-size: 20px;
-    color: white;
-    justify-content: center;
-    align-items: center;
-    width: 180px;
-    height: 60px;
-    background-image: linear-gradient(to right, #32BAEE, #00549C);
-    border-radius: 5.3px;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
-    border: 2px solid #ccc;
-    overflow: hidden;
-    margin-top: 0;
-    margin-left: 12px;
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton:hover {
-    color: white;
-    background-image: linear-gradient(to right, #00E5FA, #00549C);
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .saveButton::-moz-focus-inner {
-    border: 0;
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton {
-    font-family: OpenSans-Semibold;
-    font-size: 20px;
-    color: #0080c0;
-    justify-content: center;
-    align-items: center;
-    width: 180px;
-    height: 60px;
-    border-radius: 5.3px;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
-    background-color: #ececec;
-    border: 2px solid #ccc;
-    overflow: hidden;
-    margin-top: 0;
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton:hover {
-    color: white;
-    background-color: #34b9ef;
-    background-image: linear-gradient(to right, #34b9ef, #1f50a3);
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .okButton::-moz-focus-inner {
-    border: 0;
-}
-
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
-    text-align: center;
-    float: none !important;
-}
-
-.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
-    border: none;
-}
-
-*/
-
-/* ----------- */
 
 

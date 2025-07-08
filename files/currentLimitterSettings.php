@@ -66,7 +66,7 @@
   
 </div>
 
-<!-- Alert Mesajları -->
+<!-- Alert Msg -->
 <div class="container mt-4" id="notSavedAlertMessageForCurrentLimiterSettingsTab" style="display:none">
   <p class="dialogText"><?= _NOTSAVEDALERT ?></p>
   <p class="dialogTextBold"><?= _SAVEQUESTION ?></p>

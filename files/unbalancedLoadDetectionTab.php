@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <!-- Kaydet Butonu -->
+      <!-- Save Button -->
       <div class="d-flex justify-content-center mt-4">
         <button
           type="button"

@@ -30,12 +30,12 @@
   </div>
 </div>
 
-<!-- İşlem bildirimi -->
+<!-- Processing Notifications -->
 <div class="container text-center text-success mt-3" id="system_reset_message" style="display:none">
   <?= _PROCESSING ?>
 </div>
 
-<!-- Uyarılar -->
+<!-- Alerts -->
 <div class="container mt-3" id="systemResetWarningAlert" style="display:none">
   <p class="dialogText text-danger" id="hardResetWarningText"><?= _HARDRESETCONFIRM ?></p>
   <p class="dialogText text-warning" id="softResetWarningText"><?= _SOFTRESETCONFIRM ?></p>

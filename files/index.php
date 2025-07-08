@@ -357,7 +357,12 @@ if (file_exists($deviceDetailPath)) {
             }
           }
         ?>
-        <img src="/css/weblogo.png" alt="weblogo" class="img-fluid logo-img" style="<?php echo $logoStyle."display:".$logoDisplay; ?>">
+        <?php
+          $logoPath = $_SERVER['DOCUMENT_ROOT'] . '/css/weblogo.png';
+          if (file_exists($logoPath)) {
+            echo '<img src="/css/weblogo.png" alt="logo" height="40" class="me-2" style="' . $logoStyle . 'display:' . $logoDisplay . ';">';
+          }
+        ?>
         <span class="m-2 text-nonwrap fs-6"><?php echo $deviceModel;?></span>
       </a>
       <div class="d-flex ms-auto">

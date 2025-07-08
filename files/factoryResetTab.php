@@ -11,7 +11,7 @@
           <img id="hmiLogIcon" src="css/factory-reset-icon.png" class="img-fluid" style="max-height: 180px;" alt="Factory Reset">
         </div>
 
-        <!-- Progress / İşlem -->
+        <!-- Progress -->
         <div id="factory_reset_saved_message" style="display:none;">
           <div class="fw-bold mb-4"><?= _PROCESSING ?></div>
 
@@ -27,7 +27,7 @@
           </p>
         </div>
 
-        <!-- Reset Butonu -->
+        <!-- Reset Button -->
         <div class="mt-4">
           <button type="button" id="factory_default_button" name="factory_default_button" class="btn btn-danger fw-bold px-4 py-2 fs-5"
             onclick="factoryReset('<?php echo $_SESSION['token']?>')">
@@ -41,7 +41,7 @@
   </div>
 </div>
 
-<!-- Uyarı Mesajı -->
+<!-- Alert Msg -->
 <div class="container text-center mt-4" id="savedAlertMessage" style="display:none">
   <p class="dialogText text-warning" id="factoryResetText"><?= _FACTORYDEFAULTCONFIRM ?></p>
 </div>

@@ -6,7 +6,7 @@
         <div class="col-12 col-md-8">
             <form class="needs-validation" role="form" method="post" autocomplete="off" novalidate>
 
-                <!-- Başlık -->
+                <!-- Title -->
                 <label class="textInSettings fw-bold fs-5">
                 <?php
                     if ($rowAccount["type"] != "administrator") {
@@ -17,7 +17,7 @@
                 ?>:
                 </label>
 
-                <!-- Açıklama -->
+                <!-- Desc -->
                 <div class="mb-3">
                 <?php
                     $password = _PASSWORDTYPEEXPLANATIONLEVEL;
@@ -30,7 +30,7 @@
                 ?>
                 </div>
 
-                <!-- Mevcut Şifre -->
+                <!-- Current Pass -->
                 <div class="mb-4">
                 <label class="textInSettings"><?= _CURRENTPASSWORD ?></label>
                 <div class="input-group">
@@ -42,7 +42,7 @@
                 <span class="error text-danger">*</span>
                 </div>
 
-                <!-- Yeni Şifre -->
+                <!-- New Pass -->
                 <div class="mb-4">
                 <label class="textInSettings"><?= _NEWPASSWORD ?></label>
                 <div class="input-group">
@@ -54,7 +54,7 @@
                 <span class="error text-danger">*</span>
                 </div>
 
-                <!-- Şifre Onay -->
+                <!-- Confirm Pass -->
                 <div class="mb-4">
                 <label class="textInSettings"><?= _CONFIRMNEWPASSWORD ?></label>
                 <div class="input-group">
@@ -66,12 +66,12 @@
                 <span class="error text-danger">*</span>
                 </div>
 
-                <!-- Hata Mesajı -->
+                <!-- Alert Msg -->
                 <div class="mb-3">
                 <span class="alert d-block text-end small text-danger" id="passwordErrorSys" name="passwordErrorSys"></span>
                 </div>
 
-                <!-- Buton -->
+                <!-- Button -->
                 <div class="text-center mt-4">
                 <button type="button" class="btn btn-primary px-4 py-2" id="change_password_button" name="change_password_button" onclick="check_db_password()">
                     <?= _CHANGE ?>

@@ -154,6 +154,7 @@ include_once 'languageController.php';
                 $row = $result->fetchArray();
                 $data = array();
                 static $i = 0;
+
                 while ($row = $result->fetchArray()) {
                       $data[$i] = array(
                       'sessionUuid' => $row['sessionUuid'],
@@ -567,11 +568,6 @@ include_once 'languageController.php';
             if(strpos($value,'none') !== false){
                 $display_none_count = $display_none_count + 1;
             }
-        }
-        $size = 92 / (sizeof($tabs_display) - $display_none_count);
-        $size = "width: " . strval($size) . "vw";
-        foreach ($tabs_display as $key => $value) {
-            $tabs_display[$key] = $tabs_display[$key];
         }
 
         //Installation Settings
@@ -1194,7 +1190,7 @@ include_once 'languageController.php';
         var logsDateError = '<?php echo $logsDateError ?>';
         var currentLimiterPhase = '<?php echo $current_limiter_phase ?>';
     </script>
-    <!-- ----------------HTML START------------------------------------------------------------------------------------------- -->
+    <!-- ---------------- HTML START --------------------- -->
     <header class="bg-dark text-white py-2 fixed-top w-100" style="z-index:1030;">
         <div class="container container-fluid d-flex justify-content-between align-items-center flex-wrap">
             <div class="navbar-brand d-flex align-items-center flex-shrink-1">
@@ -1225,7 +1221,12 @@ include_once 'languageController.php';
                         }
                     }
                 ?>
-                <img src="/css/weblogo.png" alt="logo" height="40" class="me-2" style="<?php echo $logoStyle."display:".$logoDisplay; ?>">
+                <?php
+                    $logoPath = $_SERVER['DOCUMENT_ROOT'] . '/css/weblogo.png';
+                    if (file_exists($logoPath)) {
+                        echo '<img src="/css/weblogo.png" alt="logo" height="40" class="me-2" style="' . $logoStyle . 'display:' . $logoDisplay . ';">';
+                    }
+                ?>
                 <span id="headerTitle" class="fw-bold text-nowrap"><?php echo $deviceModel;?></span>
             </div>
             <div class="d-flex align-items-center ms-auto">

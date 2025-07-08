@@ -4,13 +4,13 @@
 <div class="container my-4" id="networkLanPage">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8">
-             <!-- Açıklama -->
+             <!-- Desc -->
             <div class="mb-3 d-flex align-items-center">
                 <span class="star"><b>*</b></span>
                 <span class="explanation ms-2"><?= _EXPLANATION ?></span>
             </div>
 
-            <!-- LAN Başlık -->
+            <!-- LAN Title -->
             <h5 class="interfaceTitle mb-3">LAN</h5>
 
             <!-- MAC Address -->
@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <!-- IP Ayarı -->
+            <!-- IP Settings -->
             <div class="row mb-3 align-items-center" id="ipSettingItem">
                 <label class="col-12 col-md-6 textInSettings"><?= _IPSETTING ?></label>
                 <div class="col-12 col-md-6">
@@ -38,10 +38,10 @@
                 </div>        
             </div>
 
-            <!-- Ethernet Bilgileri -->
+            <!-- Ethernet Info -->
             <div id="ethernetInfo">
 
-                <!-- DHCP Aralığı -->
+                <!-- DHCP Interval -->
                 <div id="DHCPServerInfo">
                     <div class="row mb-3" id="minDHCPAddrRangeItem">
                         <label class="col-12 col-md-6 textInSettings"><?= _MINDHCPADDRRANGE ?>:</label>
@@ -66,7 +66,7 @@
                 </div>
                 </div>
 
-                <!-- IP Adresi -->
+                <!-- IP Address -->
                 <div class="row mb-3" id="IPadressItem">
                     <label class="col-12 col-md-6 textInSettings"><?= _IPADDRESS ?>:</label>
                     <div class="col-12 col-md-6">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <!-- Ağ Maskesi -->
+                <!-- Network Mask -->
                 <div class="row mb-3" id="networkMaskItem">
                     <label class="col-12 col-md-6 textInSettings"><?= _NETWORKMASK ?>:</label>
                     <div class="col-12 col-md-6">
@@ -90,7 +90,7 @@
                     </div>
                 </div>
 
-                <!-- Varsayılan Ağ Geçidi -->
+                <!-- Default Gateway -->
                 <div class="row mb-3" id="defaultGatewayItem">
                     <label class="col-12 col-md-6 textInSettings"><?= _DEFAULTGATEWAY ?>:</label>
                     <div class="col-12 col-md-6">
@@ -102,7 +102,7 @@
                     </div>
                 </div>
 
-                <!-- Birincil DNS -->
+                <!-- Primary DNS -->
                 <div class="row mb-3" id="primaryDnsItem">
                     <label class="col-12 col-md-6 textInSettings"><?= _PRIMARYDNS ?>:</label>
                     <div class="col-12 col-md-6">
@@ -114,7 +114,7 @@
                     </div>
                 </div>
 
-                <!-- İkincil DNS -->
+                <!-- Secondary DNS -->
                 <div class="row mb-3" id="secondaryDnsItem">
                     <label class="col-12 col-md-6 textInSettings"><?= _SECONDARYDNS ?>:</label>
                     <div class="col-12 col-md-6">
@@ -128,7 +128,7 @@
                 </div>
             </div>
 
-            <!-- Kaydet Butonu -->
+            <!-- Save Button -->
             <div class="text-center my-4">
                 <button type="button" id="interfaces_lan_button" name="interfaces_lan_button" class="btn btn-primary px-4" onclick="checkLANNetworkForm()">
                 <?= _SAVE ?>

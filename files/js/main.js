@@ -67,7 +67,7 @@
 
 })(jQuery);
 
-// Decu Added
+// ----------- Demir Cucu ------------------- //
 
 function toggleDropdownClass() {
     const dropdownLinks = document.querySelectorAll('.nav-item.dropdown > .nav-link');
@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let barId of barList) {
             const barElement = document.getElementById(barId);
             if (barElement && window.getComputedStyle(barElement).display !== 'none') {
-                activeInput.value = barIdToValue[barId] || ""; // eşleşme yoksa boş geç
+                activeInput.value = barIdToValue[barId] || "";
                 break;
             }
         }

@@ -11,7 +11,7 @@ $paginated_data = array_slice($data, $start_record, $records_per_page);
 <div class="container my-4">
     <div class="row justify-content-center">
         <div class="col-12 col-md-10">
-            <!-- Filtreler -->
+            <!-- Filters -->
             <div class="row g-3 mb-4">
                 <div class="col-md-3 col-sm-6">
                     <input type="text" id="startdate-filter" class="form-control" placeholder="<?= _STARTDATE ?>">
@@ -27,7 +27,7 @@ $paginated_data = array_slice($data, $start_record, $records_per_page);
                 </div>
             </div>
 
-            <!-- Tablo -->
+            <!-- Table -->
             <div class="table-responsive">
                 <table class="table table-striped table-bordered align-middle text-center">
                     <thead class="table-primary">
@@ -197,7 +197,7 @@ $paginated_data = array_slice($data, $start_record, $records_per_page);
                 </table>
             </div>
 
-            <!-- Sayfalama -->
+            <!-- Pages -->
             <div class="d-flex flex-wrap justify-content-center gap-2 my-4">
             <?php if ($page > 1): ?>
                 <a href="?page=<?= $page - 1 ?>" class="btn btn-outline-secondary btn-sm">‹ <?= _PREV ?></a>
@@ -210,7 +210,7 @@ $paginated_data = array_slice($data, $start_record, $records_per_page);
             <?php endif; ?>
             </div>
 
-            <!-- Butonlar -->
+            <!-- Buttons -->
             <div class="row justify-content-center my-5 g-4">
             <div class="col-12 col-md-4 text-center">
                 <img src="css/download-icon.png" alt="Local" class="img-fluid" style="max-height: 100px;">

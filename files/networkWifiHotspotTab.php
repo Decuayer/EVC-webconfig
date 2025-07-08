@@ -9,7 +9,7 @@
                 <p class="star mb-0"><b>*</b></p>
                 <p class="explanation mb-0"><?= _EXPLANATION ?></p>
             </div>
-            <!-- Açılışta Aktif Et -->
+            <!-- Turn On During Boot -->
             <div class="row mb-4 align-items-center">
                 <label class="col-12 col-md-6 textInSettings"><?= _TURNONDURINGBOOT ?></label>
                 <div class="col-12 col-md-6">
@@ -66,7 +66,7 @@
     </div>
 </div>
 
-<!-- Alert Messages (Popup'lar) -->
+<!-- Alert Messages -->
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-12 col-md-8">
